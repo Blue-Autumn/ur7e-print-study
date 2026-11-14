@@ -1,0 +1,3049 @@
+{
+  "scope": "Local IK and sampled CAD geometry; no new RoboDK, cable or physical verification. Fixed 0-degree roll. Five outlines, four lifts, fill at bottom/middle/top. Table 140 mm larger than workpiece in each direction.",
+  "trials": [
+    {
+      "w": 405,
+      "b": 405,
+      "x": 5,
+      "y": 550,
+      "h": 80,
+      "d": 300,
+      "mount": "floor",
+      "roll": 0,
+      "passed": true,
+      "attempts": [
+        {
+          "branch": 4,
+          "motion": "kinematic_pass",
+          "print_geometry": "passed",
+          "entry": "joint_linear"
+        }
+      ],
+      "reachable_cells": 41006,
+      "cells": 41006,
+      "length_mm": 20376.428571428572,
+      "knots": 4087,
+      "anchor_deg": [
+        16.113519113712258,
+        -104.11317205858388,
+        117.70833695584766,
+        -13.63348093151794,
+        15.964890501125256,
+        179.763116956514
+      ],
+      "branch": 4,
+      "motion": {
+        "branch": 4,
+        "motion_passed": true,
+        "collision": "not_checked",
+        "reason": "kinematic_pass",
+        "max_joint_gain_deg_per_mm": 0.8218564733966345,
+        "min_scaled_sigma": 0.024996860771723153,
+        "min_joint_margin_deg": 16.565150986821614,
+        "joint_travel_deg_per_mm": 0.4161754387204455,
+        "max_joint_step_deg": 4.109282366983172,
+        "max_tracking_mm": 0.1625687330277538,
+        "max_tracking_deg": 0.005996443567462239,
+        "min_sampled_scaled_sigma": 0.07542772832425505,
+        "certificate_subdivisions_max": 8
+      },
+      "print_geometry": {
+        "state": "sampled_pass",
+        "arm_vs_arm_and_cell": "sampled_clear",
+        "head_vs_cell": "sampled_separated",
+        "head_vs_links_0_to_5": "separated",
+        "physical_head_registration": "unknown",
+        "scheduled_frames": 8178,
+        "arm_checked_frames": 8178,
+        "head_min_gap": {
+          "lower_bound_mm": 0.7473068081632404,
+          "pair": [
+            "cad_component_08",
+            "printed_envelope"
+          ],
+          "at": {
+            "phase": "print",
+            "frame": 4156,
+            "edge": 2076,
+            "edge_fraction": 1.0,
+            "segment": 35,
+            "kind": "infill",
+            "direction": "+Y",
+            "layer_mm": 150.0,
+            "printed_height_mm": 150.0,
+            "infill_row": 2,
+            "xyz_mm": [
+              -52.85714285714286,
+              752.5,
+              230.0
+            ],
+            "q_deg": [
+              -95.88245789388712,
+              -57.40038410265099,
+              61.06300769006635,
+              -3.6628351606584326,
+              84.11754210615273,
+              180.00002168371583
+            ],
+            "fk_world_xyz_mm": [
+              -52.85714285714354,
+              752.4999999999999,
+              229.99999999999864
+            ]
+          }
+        },
+        "reason": "passed"
+      },
+      "entry": {
+        "method": "joint_linear",
+        "passed": true,
+        "via_q_rad": [
+          [
+            0.2812339626173175,
+            -1.8171176471176513,
+            2.054398036926461,
+            -0.23794913076285162,
+            0.2786399039650032,
+            3.1374582645388176
+          ],
+          [
+            -1.2561521323103175,
+            -1.6380756022124805,
+            2.2999634718213953,
+            -0.6618917324544187,
+            1.88544052127728,
+            3.141591458123502
+          ]
+        ],
+        "via_q_deg": [
+          [
+            16.113519113712258,
+            -104.11317205858388,
+            117.70833695584766,
+            -13.63348093151794,
+            15.964890501125257,
+            179.763116956514
+          ],
+          [
+            -71.97221560774017,
+            -93.85481853012583,
+            131.778199969622,
+            -37.92360276424045,
+            108.02778439213404,
+            179.99993150482695
+          ]
+        ],
+        "knots": 1415,
+        "min_scaled_sigma": 0.17975136350847098,
+        "min_sampled_scaled_sigma": 0.1817289054744551,
+        "min_joint_margin_deg": 28.221800030378006,
+        "peak_angle_from_anchor_deg": 92.06289389100878,
+        "total_joint_travel_deg": 229.00378153572905,
+        "max_joint_step_deg": 0.06510812863579431,
+        "material": "empty platform and static fixtures",
+        "collision": {
+          "state": "sampled_pass",
+          "arm_vs_arm_and_cell": "sampled_clear",
+          "head_vs_cell": "sampled_separated",
+          "head_vs_links_0_to_5": "separated",
+          "physical_head_registration": "unknown",
+          "scheduled_frames": 1415,
+          "arm_checked_frames": 1415,
+          "head_min_gap": {
+            "lower_bound_mm": 0.7473068081646086,
+            "pair": [
+              "cad_component_08",
+              "platform"
+            ],
+            "at": {
+              "phase": "entry",
+              "frame": 1414,
+              "edge": 1413,
+              "edge_fraction": 1.0,
+              "xyz_mm": [
+                -197.5000000000001,
+                347.5000000000001,
+                80.00000000000001
+              ],
+              "q_deg": [
+                -71.97221560774017,
+                -93.85481853012583,
+                131.778199969622,
+                -37.92360276424045,
+                108.02778439213404,
+                179.99993150482695
+              ],
+              "kind": "entry",
+              "printed_height_mm": 0.0
+            }
+          },
+          "reason": "passed"
+        },
+        "reason": "passed",
+        "first_failure": null,
+        "entry_q_sha256": "db62f6e678b564874ec73c552afcdd8bd02981269d947f23f16361780903478b",
+        "previous_attempts": []
+      }
+    },
+    {
+      "w": 450,
+      "b": 380,
+      "x": 5,
+      "y": 550,
+      "h": 80,
+      "d": 300,
+      "mount": "floor",
+      "roll": 0,
+      "passed": true,
+      "attempts": [
+        {
+          "branch": 4,
+          "motion": "kinematic_pass",
+          "print_geometry": "passed",
+          "entry": "joint_linear"
+        }
+      ],
+      "reachable_cells": 42750,
+      "cells": 42750,
+      "length_mm": 21108.75,
+      "knots": 4546,
+      "anchor_deg": [
+        16.113519113712258,
+        -104.11317205858388,
+        117.70833695584766,
+        -13.63348093151794,
+        15.964890501125256,
+        179.763116956514
+      ],
+      "branch": 4,
+      "motion": {
+        "branch": 4,
+        "motion_passed": true,
+        "collision": "not_checked",
+        "reason": "kinematic_pass",
+        "max_joint_gain_deg_per_mm": 0.6761410447092594,
+        "min_scaled_sigma": 0.025846158326508856,
+        "min_joint_margin_deg": 18.206956727749574,
+        "joint_travel_deg_per_mm": 0.40290192188097357,
+        "max_joint_step_deg": 2.85481774432795,
+        "max_tracking_mm": 0.1248933775673233,
+        "max_tracking_deg": 0.00463584011583379,
+        "min_sampled_scaled_sigma": 0.09563157666613807,
+        "certificate_subdivisions_max": 4
+      },
+      "print_geometry": {
+        "state": "sampled_pass",
+        "arm_vs_arm_and_cell": "sampled_clear",
+        "head_vs_cell": "sampled_separated",
+        "head_vs_links_0_to_5": "separated",
+        "physical_head_registration": "unknown",
+        "scheduled_frames": 9095,
+        "arm_checked_frames": 9095,
+        "head_min_gap": {
+          "lower_bound_mm": 0.7473068081633959,
+          "pair": [
+            "cad_component_08",
+            "printed_envelope"
+          ],
+          "at": {
+            "phase": "print",
+            "frame": 3844,
+            "edge": 1920,
+            "edge_fraction": 1.0,
+            "segment": 30,
+            "kind": "perimeter",
+            "direction": "-Y",
+            "layer_mm": 150.0,
+            "printed_height_mm": 150.0,
+            "xyz_mm": [
+              -220.0,
+              714.6666666666666,
+              230.0
+            ],
+            "q_deg": [
+              -80.33852401822305,
+              -56.81566477844486,
+              60.13355830958196,
+              -3.318107018274366,
+              99.66147598171115,
+              179.99996417118317
+            ],
+            "fk_world_xyz_mm": [
+              -220.00000000000026,
+              714.6666666666667,
+              229.99999999999875
+            ]
+          }
+        },
+        "reason": "passed"
+      },
+      "entry": {
+        "method": "joint_linear",
+        "passed": true,
+        "via_q_rad": [
+          [
+            0.2812339626173175,
+            -1.8171176471176513,
+            2.054398036926461,
+            -0.23794913076285162,
+            0.2786399039650032,
+            3.1374582645388176
+          ],
+          [
+            -1.1984676386653383,
+            -1.5726184575839692,
+            2.2376157026630974,
+            -0.6650011884749523,
+            1.9431250149218204,
+            3.1415912190393778
+          ]
+        ],
+        "via_q_deg": [
+          [
+            16.113519113712258,
+            -104.11317205858388,
+            117.70833695584766,
+            -13.63348093151794,
+            15.964890501125257,
+            179.763116956514
+          ],
+          [
+            -68.66713757853364,
+            -90.1044004039347,
+            128.2059359347956,
+            -38.101761470798564,
+            111.33286242131543,
+            179.9999178063157
+          ]
+        ],
+        "knots": 1403,
+        "min_scaled_sigma": 0.1797563124471711,
+        "min_sampled_scaled_sigma": 0.1817289054744551,
+        "min_joint_margin_deg": 31.794064065204395,
+        "peak_angle_from_anchor_deg": 95.36797192019017,
+        "total_joint_travel_deg": 229.36008063511548,
+        "max_joint_step_deg": 0.0680228045079853,
+        "material": "empty platform and static fixtures",
+        "collision": {
+          "state": "sampled_pass",
+          "arm_vs_arm_and_cell": "sampled_clear",
+          "head_vs_cell": "sampled_separated",
+          "head_vs_links_0_to_5": "separated",
+          "physical_head_registration": "unknown",
+          "scheduled_frames": 1403,
+          "arm_checked_frames": 1403,
+          "head_min_gap": {
+            "lower_bound_mm": 0.7473068081646121,
+            "pair": [
+              "cad_component_08",
+              "platform"
+            ],
+            "at": {
+              "phase": "entry",
+              "frame": 1402,
+              "edge": 1401,
+              "edge_fraction": 1.0,
+              "xyz_mm": [
+                -220.00000000000017,
+                360.0000000000001,
+                79.99999999999999
+              ],
+              "q_deg": [
+                -68.66713757853364,
+                -90.1044004039347,
+                128.2059359347956,
+                -38.101761470798564,
+                111.33286242131543,
+                179.9999178063157
+              ],
+              "kind": "entry",
+              "printed_height_mm": 0.0
+            }
+          },
+          "reason": "passed"
+        },
+        "reason": "passed",
+        "first_failure": null,
+        "entry_q_sha256": "a90bd34112017473e7b71989839a2664906c0c0b11cbd5fe07c513310eb69894",
+        "previous_attempts": []
+      }
+    },
+    {
+      "w": 480,
+      "b": 360,
+      "x": 5,
+      "y": 550,
+      "h": 80,
+      "d": 300,
+      "mount": "floor",
+      "roll": 0,
+      "passed": false,
+      "attempts": [
+        {
+          "branch": 4,
+          "motion": "kinematic_pass",
+          "print_geometry": "head_robot_proxy",
+          "failure": {
+            "phase": "print",
+            "frame": 0,
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -235.0,
+              370.0,
+              80.0
+            ],
+            "q_deg": [
+              -66.84443857843583,
+              -87.55899463540601,
+              125.58910300889504,
+              -38.030337272614005,
+              113.15556142139883,
+              179.99990999024655
+            ],
+            "fk_world_xyz_mm": [
+              -235.00000000000026,
+              370.00000000000017,
+              79.99999999999984
+            ],
+            "state": "overlap",
+            "pair": [
+              "wrist_1",
+              "cad_component_04"
+            ],
+            "geometric_reason": "triangle_intersection"
+          }
+        },
+        {
+          "branch": 5,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 6,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 7,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 0,
+          "motion": "kinematic_pass",
+          "print_geometry": "collision_self",
+          "failure": {
+            "phase": "print",
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -235.0,
+              370.0,
+              80.0
+            ],
+            "q_deg": [
+              157.5076668482341,
+              -244.08708353927682,
+              132.9689811181497,
+              -68.88134744488592,
+              22.492333152699413,
+              -0.0005082856971903401
+            ],
+            "fk_world_xyz_mm": [
+              -234.9999999999998,
+              370.00000000000017,
+              80.00000000000007
+            ],
+            "frame": 0,
+            "hits": [
+              {
+                "category": "self",
+                "objects": [
+                  "base",
+                  "upper_arm"
+                ]
+              },
+              {
+                "category": "fixture",
+                "objects": [
+                  "upper_arm",
+                  "mount_plate"
+                ]
+              }
+            ],
+            "unresolved_pairs": [],
+            "checked_printed_height_mm": 0.0
+          }
+        },
+        {
+          "branch": 1,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 2,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 3,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        }
+      ],
+      "reachable_cells": 43380,
+      "cells": 43380,
+      "length_mm": 24166.666666666664,
+      "knots": 5416,
+      "anchor_deg": [
+        16.113519113712258,
+        -104.11317205858388,
+        117.70833695584766,
+        -13.63348093151794,
+        15.964890501125256,
+        179.763116956514
+      ]
+    },
+    {
+      "w": 500,
+      "b": 350,
+      "x": 5,
+      "y": 550,
+      "h": 80,
+      "d": 300,
+      "mount": "floor",
+      "roll": 0,
+      "passed": false,
+      "attempts": [
+        {
+          "branch": 4,
+          "motion": "kinematic_pass",
+          "print_geometry": "head_robot_proxy",
+          "failure": {
+            "phase": "print",
+            "frame": 0,
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -245.0,
+              375.0,
+              80.0
+            ],
+            "q_deg": [
+              -65.61566671757355,
+              -86.0752110714285,
+              123.99207228653717,
+              -37.917092286627096,
+              114.38433328225125,
+              179.9999046008756
+            ],
+            "fk_world_xyz_mm": [
+              -245.00000000000017,
+              375.00000000000006,
+              79.99999999999982
+            ],
+            "state": "overlap",
+            "pair": [
+              "wrist_1",
+              "cad_component_04"
+            ],
+            "geometric_reason": "triangle_intersection"
+          }
+        },
+        {
+          "branch": 5,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 6,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 7,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 0,
+          "motion": "kinematic_pass",
+          "print_geometry": "collision_self",
+          "failure": {
+            "phase": "print",
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -245.0,
+              375.0,
+              80.0
+            ],
+            "q_deg": [
+              157.37319904333035,
+              -243.3197319571771,
+              131.20172402929435,
+              -67.88144503725681,
+              22.626800957597013,
+              -0.0005049297821939587
+            ],
+            "fk_world_xyz_mm": [
+              -244.99999999999994,
+              375.0000000000001,
+              79.99999999999993
+            ],
+            "frame": 0,
+            "hits": [
+              {
+                "category": "self",
+                "objects": [
+                  "base",
+                  "upper_arm"
+                ]
+              }
+            ],
+            "unresolved_pairs": [],
+            "checked_printed_height_mm": 0.0
+          }
+        },
+        {
+          "branch": 1,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 2,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 3,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        }
+      ],
+      "reachable_cells": 44176,
+      "cells": 44176,
+      "length_mm": 24566.666666666664,
+      "knots": 5652,
+      "anchor_deg": [
+        16.113519113712258,
+        -104.11317205858388,
+        117.70833695584766,
+        -13.63348093151794,
+        15.964890501125256,
+        179.763116956514
+      ]
+    },
+    {
+      "w": 500,
+      "b": 380,
+      "x": 5,
+      "y": 540,
+      "h": 80,
+      "d": 300,
+      "mount": "floor",
+      "roll": 0,
+      "passed": false,
+      "attempts": [
+        {
+          "branch": 4,
+          "motion": "kinematic_pass",
+          "print_geometry": "head_robot_proxy",
+          "failure": {
+            "phase": "print",
+            "frame": 0,
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -245.0,
+              350.0,
+              80.0
+            ],
+            "q_deg": [
+              -63.75602691274796,
+              -88.45322604623796,
+              126.52614892279205,
+              -38.07315752325963,
+              116.24397308706146,
+              179.99989624055343
+            ],
+            "fk_world_xyz_mm": [
+              -245.00000000000017,
+              349.9999999999997,
+              79.99999999999993
+            ],
+            "state": "overlap",
+            "pair": [
+              "wrist_1",
+              "cad_component_04"
+            ],
+            "geometric_reason": "triangle_intersection"
+          }
+        },
+        {
+          "branch": 5,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 6,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 7,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 0,
+          "motion": "kinematic_pass",
+          "print_geometry": "collision_self",
+          "failure": {
+            "phase": "print",
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -245.0,
+              350.0,
+              80.0
+            ],
+            "q_deg": [
+              161.44524183362157,
+              -244.53685984519996,
+              134.01313486830654,
+              -69.47561364037796,
+              18.554758167529993,
+              -0.000627004035117163
+            ],
+            "fk_world_xyz_mm": [
+              -245.00000000000003,
+              350.00000000000006,
+              79.99999999999987
+            ],
+            "frame": 0,
+            "hits": [
+              {
+                "category": "self",
+                "objects": [
+                  "base",
+                  "upper_arm"
+                ]
+              },
+              {
+                "category": "fixture",
+                "objects": [
+                  "upper_arm",
+                  "mount_plate"
+                ]
+              }
+            ],
+            "unresolved_pairs": [],
+            "checked_printed_height_mm": 0.0
+          }
+        },
+        {
+          "branch": 1,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 2,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 3,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        }
+      ],
+      "reachable_cells": 47690,
+      "cells": 47690,
+      "length_mm": 25280.0,
+      "knots": 5652,
+      "anchor_deg": [
+        16.113519113712258,
+        -104.11317205858388,
+        117.70833695584766,
+        -13.63348093151794,
+        15.964890501125256,
+        179.763116956514
+      ]
+    },
+    {
+      "w": 550,
+      "b": 350,
+      "x": 5,
+      "y": 530,
+      "h": 80,
+      "d": 300,
+      "mount": "floor",
+      "roll": 0,
+      "passed": false,
+      "attempts": [
+        {
+          "branch": 4,
+          "motion": "kinematic_pass",
+          "print_geometry": "head_robot_proxy",
+          "failure": {
+            "phase": "print",
+            "frame": 0,
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -270.0,
+              355.0,
+              80.0
+            ],
+            "q_deg": [
+              -60.351206163215885,
+              -85.33584681072624,
+              123.17669830330588,
+              -37.84109365740992,
+              119.64879383656407,
+              179.99988020537853
+            ],
+            "fk_world_xyz_mm": [
+              -270.0000000000004,
+              354.9999999999998,
+              79.99999999999979
+            ],
+            "state": "overlap",
+            "pair": [
+              "wrist_1",
+              "cad_component_04"
+            ],
+            "geometric_reason": "triangle_intersection"
+          }
+        },
+        {
+          "branch": 5,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 6,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 7,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 0,
+          "motion": "kinematic_pass",
+          "print_geometry": "collision_self",
+          "failure": {
+            "phase": "print",
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -270.0,
+              355.0,
+              80.0
+            ],
+            "q_deg": [
+              161.97935076086245,
+              -242.92765530151843,
+              130.3049914742822,
+              -67.37665586719183,
+              18.02064924032571,
+              -0.0006469332404000325
+            ],
+            "fk_world_xyz_mm": [
+              -270.0000000000001,
+              355.00000000000017,
+              79.99999999999987
+            ],
+            "frame": 0,
+            "hits": [
+              {
+                "category": "self",
+                "objects": [
+                  "base",
+                  "upper_arm"
+                ]
+              },
+              {
+                "category": "fixture",
+                "objects": [
+                  "upper_arm",
+                  "mount_plate"
+                ]
+              }
+            ],
+            "unresolved_pairs": [],
+            "checked_printed_height_mm": 0.0
+          }
+        },
+        {
+          "branch": 1,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 2,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 3,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        }
+      ],
+      "reachable_cells": 48400,
+      "cells": 48400,
+      "length_mm": 26175.0,
+      "knots": 6191,
+      "anchor_deg": [
+        16.113519113712258,
+        -104.11317205858388,
+        117.70833695584766,
+        -13.63348093151794,
+        15.964890501125256,
+        179.763116956514
+      ]
+    },
+    {
+      "w": 600,
+      "b": 320,
+      "x": 5,
+      "y": 525,
+      "h": 80,
+      "d": 300,
+      "mount": "floor",
+      "roll": 0,
+      "passed": false,
+      "attempts": [
+        {
+          "branch": 4,
+          "motion": "kinematic_pass",
+          "print_geometry": "head_robot_proxy",
+          "failure": {
+            "phase": "print",
+            "frame": 0,
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -295.0,
+              365.0,
+              80.0
+            ],
+            "q_deg": [
+              -57.74312817218121,
+              -81.89943058491936,
+              119.21802846939343,
+              -37.318846753050146,
+              122.25687182757483,
+              179.99986717487272
+            ],
+            "fk_world_xyz_mm": [
+              -295.0000000000001,
+              365.0000000000003,
+              79.99999999999987
+            ],
+            "state": "overlap",
+            "pair": [
+              "wrist_1",
+              "cad_component_04"
+            ],
+            "geometric_reason": "triangle_intersection"
+          }
+        },
+        {
+          "branch": 5,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 6,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 7,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 0,
+          "motion": "kinematic_pass",
+          "print_geometry": "collision_self",
+          "failure": {
+            "phase": "print",
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -295.0,
+              365.0,
+              80.0
+            ],
+            "q_deg": [
+              161.7055068490013,
+              -241.02270377167568,
+              125.99873554736696,
+              -64.97536131266703,
+              18.29449315216785,
+              -0.0006365749077727486
+            ],
+            "fk_world_xyz_mm": [
+              -295.00000000000006,
+              365.0,
+              79.99999999999999
+            ],
+            "frame": 0,
+            "hits": [
+              {
+                "category": "self",
+                "objects": [
+                  "base",
+                  "upper_arm"
+                ]
+              }
+            ],
+            "unresolved_pairs": [],
+            "checked_printed_height_mm": 0.0
+          }
+        },
+        {
+          "branch": 1,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 2,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 3,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        }
+      ],
+      "reachable_cells": 48461,
+      "cells": 48461,
+      "length_mm": 30107.272727272728,
+      "knots": 7474,
+      "anchor_deg": [
+        16.113519113712258,
+        -104.11317205858388,
+        117.70833695584766,
+        -13.63348093151794,
+        15.964890501125256,
+        179.763116956514
+      ]
+    },
+    {
+      "w": 600,
+      "b": 350,
+      "x": 5,
+      "y": 520,
+      "h": 80,
+      "d": 300,
+      "mount": "floor",
+      "roll": 0,
+      "passed": false,
+      "attempts": [
+        {
+          "branch": 4,
+          "motion": "kinematic_pass",
+          "print_geometry": "head_robot_proxy",
+          "failure": {
+            "phase": "print",
+            "frame": 0,
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -295.0,
+              345.0,
+              80.0
+            ],
+            "q_deg": [
+              -56.02989201727454,
+              -83.47952805717087,
+              121.07258347721827,
+              -37.59330919038381,
+              123.97010798246501,
+              179.999858203209
+            ],
+            "fk_world_xyz_mm": [
+              -295.00000000000017,
+              344.9999999999999,
+              80.0000000000003
+            ],
+            "state": "overlap",
+            "pair": [
+              "wrist_1",
+              "cad_component_04"
+            ],
+            "geometric_reason": "triangle_intersection"
+          }
+        },
+        {
+          "branch": 5,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 6,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 7,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 0,
+          "motion": "kinematic_pass",
+          "print_geometry": "collision_self",
+          "failure": {
+            "phase": "print",
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -295.0,
+              345.0,
+              80.0
+            ],
+            "q_deg": [
+              164.7080733712051,
+              -241.91532660402285,
+              128.00689188224706,
+              -66.09076728991649,
+              15.291926630208588,
+              -0.000769735204895911
+            ],
+            "fk_world_xyz_mm": [
+              -295.00000000000017,
+              345.00000000000006,
+              79.99999999999993
+            ],
+            "frame": 0,
+            "hits": [
+              {
+                "category": "self",
+                "objects": [
+                  "base",
+                  "upper_arm"
+                ]
+              },
+              {
+                "category": "fixture",
+                "objects": [
+                  "upper_arm",
+                  "mount_plate"
+                ]
+              }
+            ],
+            "unresolved_pairs": [],
+            "checked_printed_height_mm": 0.0
+          }
+        },
+        {
+          "branch": 1,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 2,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 3,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        }
+      ],
+      "reachable_cells": 52976,
+      "cells": 52976,
+      "length_mm": 30881.81818181818,
+      "knots": 7474,
+      "anchor_deg": [
+        16.113519113712258,
+        -104.11317205858388,
+        117.70833695584766,
+        -13.63348093151794,
+        15.964890501125256,
+        179.763116956514
+      ]
+    },
+    {
+      "w": 450,
+      "b": 400,
+      "x": 5,
+      "y": 550,
+      "h": 80,
+      "d": 300,
+      "mount": "floor",
+      "roll": 0,
+      "passed": false,
+      "attempts": [
+        {
+          "branch": 4,
+          "motion": "singularity_bound"
+        },
+        {
+          "branch": 5,
+          "motion": "singularity_bound"
+        },
+        {
+          "branch": 6,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 7,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 0,
+          "motion": "kinematic_pass",
+          "print_geometry": "collision_self",
+          "failure": {
+            "phase": "print",
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -220.0,
+              350.0,
+              80.0
+            ],
+            "q_deg": [
+              159.91759707744353,
+              -245.83374834357673,
+              137.0642861170386,
+              -71.22992485334913,
+              20.082402923613746,
+              -0.0005756544196938135
+            ],
+            "fk_world_xyz_mm": [
+              -220.00000000000014,
+              350.0,
+              79.99999999999996
+            ],
+            "frame": 0,
+            "hits": [
+              {
+                "category": "self",
+                "objects": [
+                  "base",
+                  "upper_arm"
+                ]
+              },
+              {
+                "category": "fixture",
+                "objects": [
+                  "upper_arm",
+                  "mount_plate"
+                ]
+              }
+            ],
+            "unresolved_pairs": [],
+            "checked_printed_height_mm": 0.0
+          }
+        },
+        {
+          "branch": 1,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 2,
+          "motion": "singularity_bound"
+        },
+        {
+          "branch": 3,
+          "motion": "singularity_bound"
+        }
+      ],
+      "reachable_cells": 45000,
+      "cells": 45000,
+      "length_mm": 21543.75,
+      "knots": 4546,
+      "anchor_deg": [
+        16.113519113712258,
+        -104.11317205858388,
+        117.70833695584766,
+        -13.63348093151794,
+        15.964890501125256,
+        179.763116956514
+      ]
+    },
+    {
+      "w": 450,
+      "b": 410,
+      "x": 5,
+      "y": 550,
+      "h": 80,
+      "d": 300,
+      "mount": "floor",
+      "roll": 0,
+      "passed": false,
+      "attempts": [
+        {
+          "branch": 4,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 5,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 6,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 7,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 0,
+          "motion": "kinematic_pass",
+          "print_geometry": "collision_self",
+          "failure": {
+            "phase": "print",
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -220.0,
+              345.0,
+              80.0
+            ],
+            "q_deg": [
+              160.82219166239352,
+              -246.07397234976884,
+              137.6370075941156,
+              -71.56239457887925,
+              19.177808338717863,
+              -0.0006051108886653646
+            ],
+            "fk_world_xyz_mm": [
+              -220.00000000000045,
+              345.0,
+              79.99999999999979
+            ],
+            "frame": 0,
+            "hits": [
+              {
+                "category": "self",
+                "objects": [
+                  "base",
+                  "upper_arm"
+                ]
+              },
+              {
+                "category": "fixture",
+                "objects": [
+                  "upper_arm",
+                  "mount_plate"
+                ]
+              }
+            ],
+            "unresolved_pairs": [],
+            "checked_printed_height_mm": 0.0
+          }
+        },
+        {
+          "branch": 1,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 2,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 3,
+          "motion": "waypoint_ik"
+        }
+      ],
+      "reachable_cells": 46350,
+      "cells": 46350,
+      "length_mm": 21761.25,
+      "knots": 4546,
+      "anchor_deg": [
+        16.113519113712258,
+        -104.11317205858388,
+        117.70833695584766,
+        -13.63348093151794,
+        15.964890501125256,
+        179.763116956514
+      ]
+    },
+    {
+      "w": 450,
+      "b": 420,
+      "x": 5,
+      "y": 550,
+      "h": 80,
+      "d": 300,
+      "mount": "floor",
+      "roll": 0,
+      "passed": false,
+      "attempts": [
+        {
+          "branch": 4,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 5,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 6,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 7,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 0,
+          "motion": "kinematic_pass",
+          "print_geometry": "collision_self",
+          "failure": {
+            "phase": "print",
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -220.0,
+              340.0,
+              80.0
+            ],
+            "q_deg": [
+              161.7434439785132,
+              -246.310352749653,
+              138.20318107788165,
+              -71.89215651960242,
+              18.256556022658582,
+              -0.000637991987881079
+            ],
+            "fk_world_xyz_mm": [
+              -219.99999999999997,
+              339.9999999999999,
+              80.0000000000003
+            ],
+            "frame": 0,
+            "hits": [
+              {
+                "category": "self",
+                "objects": [
+                  "base",
+                  "upper_arm"
+                ]
+              },
+              {
+                "category": "fixture",
+                "objects": [
+                  "upper_arm",
+                  "mount_plate"
+                ]
+              }
+            ],
+            "unresolved_pairs": [],
+            "checked_printed_height_mm": 0.0
+          }
+        },
+        {
+          "branch": 1,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 2,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 3,
+          "motion": "waypoint_ik"
+        }
+      ],
+      "reachable_cells": 47250,
+      "cells": 47250,
+      "length_mm": 21978.75,
+      "knots": 4546,
+      "anchor_deg": [
+        16.113519113712258,
+        -104.11317205858388,
+        117.70833695584766,
+        -13.63348093151794,
+        15.964890501125256,
+        179.763116956514
+      ]
+    },
+    {
+      "w": 460,
+      "b": 400,
+      "x": 5,
+      "y": 550,
+      "h": 80,
+      "d": 300,
+      "mount": "floor",
+      "roll": 0,
+      "passed": false,
+      "attempts": [
+        {
+          "branch": 4,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 5,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 6,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 7,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 0,
+          "motion": "kinematic_pass",
+          "print_geometry": "collision_self",
+          "failure": {
+            "phase": "print",
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -225.0,
+              350.0,
+              80.0
+            ],
+            "q_deg": [
+              160.24064036217348,
+              -245.58143239575708,
+              136.46546866509257,
+              -70.88341373890422,
+              19.759359638902524,
+              -0.0005858763386106983
+            ],
+            "fk_world_xyz_mm": [
+              -224.9999999999997,
+              350.0000000000001,
+              80.00000000000004
+            ],
+            "frame": 0,
+            "hits": [
+              {
+                "category": "self",
+                "objects": [
+                  "base",
+                  "upper_arm"
+                ]
+              },
+              {
+                "category": "fixture",
+                "objects": [
+                  "upper_arm",
+                  "mount_plate"
+                ]
+              }
+            ],
+            "unresolved_pairs": [],
+            "checked_printed_height_mm": 0.0
+          }
+        },
+        {
+          "branch": 1,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 2,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 3,
+          "motion": "waypoint_ik"
+        }
+      ],
+      "reachable_cells": 46200,
+      "cells": 46200,
+      "length_mm": 21822.5,
+      "knots": 4640,
+      "anchor_deg": [
+        16.113519113712258,
+        -104.11317205858388,
+        117.70833695584766,
+        -13.63348093151794,
+        15.964890501125256,
+        179.763116956514
+      ]
+    },
+    {
+      "w": 450,
+      "b": 400,
+      "x": -20,
+      "y": 550,
+      "h": 80,
+      "d": 300,
+      "mount": "floor",
+      "roll": 0,
+      "passed": false,
+      "attempts": [
+        {
+          "branch": 4,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 5,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 6,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 7,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 0,
+          "motion": "kinematic_pass",
+          "print_geometry": "collision_self",
+          "failure": {
+            "phase": "print",
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -245.0,
+              350.0,
+              80.0
+            ],
+            "q_deg": [
+              161.44524183362157,
+              -244.53685984519996,
+              134.01313486830654,
+              -69.47561364037796,
+              18.554758167529993,
+              -0.000627004035117163
+            ],
+            "fk_world_xyz_mm": [
+              -245.00000000000003,
+              350.00000000000006,
+              79.99999999999987
+            ],
+            "frame": 0,
+            "hits": [
+              {
+                "category": "self",
+                "objects": [
+                  "base",
+                  "upper_arm"
+                ]
+              },
+              {
+                "category": "fixture",
+                "objects": [
+                  "upper_arm",
+                  "mount_plate"
+                ]
+              }
+            ],
+            "unresolved_pairs": [],
+            "checked_printed_height_mm": 0.0
+          }
+        },
+        {
+          "branch": 1,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 2,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 3,
+          "motion": "waypoint_ik"
+        }
+      ],
+      "reachable_cells": 45200,
+      "cells": 45200,
+      "length_mm": 21543.75,
+      "knots": 4546,
+      "anchor_deg": [
+        16.113519113712258,
+        -104.11317205858388,
+        117.70833695584766,
+        -13.63348093151794,
+        15.964890501125256,
+        179.763116956514
+      ]
+    },
+    {
+      "w": 460,
+      "b": 400,
+      "x": -20,
+      "y": 550,
+      "h": 80,
+      "d": 300,
+      "mount": "floor",
+      "roll": 0,
+      "passed": false,
+      "attempts": [
+        {
+          "branch": 4,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 5,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 6,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 7,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 0,
+          "motion": "kinematic_pass",
+          "print_geometry": "collision_self",
+          "failure": {
+            "phase": "print",
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -250.0,
+              350.0,
+              80.0
+            ],
+            "q_deg": [
+              161.72604840070807,
+              -244.26719957729878,
+              133.38633998688897,
+              -69.11846921867865,
+              18.273951600462446,
+              -0.0006373414987257377
+            ],
+            "fk_world_xyz_mm": [
+              -250.0000000000001,
+              350.0000000000002,
+              80.0000000000001
+            ],
+            "frame": 0,
+            "hits": [
+              {
+                "category": "self",
+                "objects": [
+                  "base",
+                  "upper_arm"
+                ]
+              },
+              {
+                "category": "fixture",
+                "objects": [
+                  "upper_arm",
+                  "mount_plate"
+                ]
+              }
+            ],
+            "unresolved_pairs": [],
+            "checked_printed_height_mm": 0.0
+          }
+        },
+        {
+          "branch": 1,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 2,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 3,
+          "motion": "waypoint_ik"
+        }
+      ],
+      "reachable_cells": 46000,
+      "cells": 46000,
+      "length_mm": 21822.5,
+      "knots": 4640,
+      "anchor_deg": [
+        16.113519113712258,
+        -104.11317205858388,
+        117.70833695584766,
+        -13.63348093151794,
+        15.964890501125256,
+        179.763116956514
+      ]
+    },
+    {
+      "w": 480,
+      "b": 380,
+      "x": -30,
+      "y": 540,
+      "h": 80,
+      "d": 300,
+      "mount": "floor",
+      "roll": 0,
+      "passed": false,
+      "attempts": [
+        {
+          "branch": 4,
+          "motion": "singularity_bound"
+        },
+        {
+          "branch": 5,
+          "motion": "singularity_bound"
+        },
+        {
+          "branch": 6,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 7,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 0,
+          "motion": "kinematic_pass",
+          "print_geometry": "collision_self",
+          "failure": {
+            "phase": "print",
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -270.0,
+              350.0,
+              80.0
+            ],
+            "q_deg": [
+              162.77630216292758,
+              -243.1561440296004,
+              130.82709069593244,
+              -67.67023590333662,
+              17.22369783831929,
+              -0.0006788895211562423
+            ],
+            "fk_world_xyz_mm": [
+              -270.00000000000017,
+              350.0,
+              80.00000000000016
+            ],
+            "frame": 0,
+            "hits": [
+              {
+                "category": "self",
+                "objects": [
+                  "base",
+                  "upper_arm"
+                ]
+              },
+              {
+                "category": "fixture",
+                "objects": [
+                  "upper_arm",
+                  "mount_plate"
+                ]
+              }
+            ],
+            "unresolved_pairs": [],
+            "checked_printed_height_mm": 0.0
+          }
+        },
+        {
+          "branch": 1,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 2,
+          "motion": "singularity_bound"
+        },
+        {
+          "branch": 3,
+          "motion": "singularity_bound"
+        }
+      ],
+      "reachable_cells": 45600,
+      "cells": 45600,
+      "length_mm": 24642.22222222222,
+      "knots": 5416,
+      "anchor_deg": [
+        16.113519113712258,
+        -104.11317205858388,
+        117.70833695584766,
+        -13.63348093151794,
+        15.964890501125256,
+        179.763116956514
+      ]
+    },
+    {
+      "w": 500,
+      "b": 380,
+      "x": -55,
+      "y": 540,
+      "h": 80,
+      "d": 300,
+      "mount": "floor",
+      "roll": 0,
+      "passed": false,
+      "attempts": [
+        {
+          "branch": 4,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 5,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 6,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 7,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 0,
+          "motion": "kinematic_pass",
+          "print_geometry": "collision_self",
+          "failure": {
+            "phase": "print",
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -305.0,
+              350.0,
+              80.0
+            ],
+            "q_deg": [
+              164.36998168260354,
+              -241.0938243167559,
+              126.15817019157858,
+              -65.06356473121484,
+              15.63001831877808,
+              -0.000752258122186251
+            ],
+            "fk_world_xyz_mm": [
+              -305.0000000000001,
+              350.0,
+              80.00000000000013
+            ],
+            "frame": 0,
+            "hits": [
+              {
+                "category": "self",
+                "objects": [
+                  "base",
+                  "upper_arm"
+                ]
+              },
+              {
+                "category": "fixture",
+                "objects": [
+                  "upper_arm",
+                  "mount_plate"
+                ]
+              }
+            ],
+            "unresolved_pairs": [],
+            "checked_printed_height_mm": 0.0
+          }
+        },
+        {
+          "branch": 1,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 2,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 3,
+          "motion": "waypoint_ik"
+        }
+      ],
+      "reachable_cells": 47690,
+      "cells": 47690,
+      "length_mm": 25280.0,
+      "knots": 5652,
+      "anchor_deg": [
+        16.113519113712258,
+        -104.11317205858388,
+        117.70833695584766,
+        -13.63348093151794,
+        15.964890501125256,
+        179.763116956514
+      ]
+    },
+    {
+      "w": 500,
+      "b": 380,
+      "x": 45,
+      "y": 540,
+      "h": 80,
+      "d": 300,
+      "mount": "floor",
+      "roll": 0,
+      "passed": false,
+      "attempts": [
+        {
+          "branch": 4,
+          "motion": "kinematic_pass",
+          "print_geometry": "collision_part",
+          "failure": {
+            "phase": "print",
+            "edge": 4253,
+            "edge_fraction": 0.5,
+            "segment": 61,
+            "kind": "perimeter",
+            "direction": "+Y",
+            "layer_mm": 300.0,
+            "printed_height_mm": 300.0,
+            "xyz_mm": [
+              295.0,
+              728.1,
+              380.0
+            ],
+            "q_deg": [
+              -126.21668478634327,
+              -41.95730068824552,
+              11.48073927519404,
+              30.476300551813402,
+              53.78331521393977,
+              180.00015412764603
+            ],
+            "fk_world_xyz_mm": [
+              295.0610592040945,
+              728.1785898289727,
+              380.07378906664786
+            ],
+            "frame": 8511,
+            "hits": [
+              {
+                "category": "part",
+                "objects": [
+                  "upper_arm",
+                  "printed_envelope"
+                ]
+              }
+            ],
+            "unresolved_pairs": [],
+            "checked_printed_height_mm": 300.0
+          }
+        },
+        {
+          "branch": 5,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 6,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 7,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 0,
+          "motion": "kinematic_pass",
+          "print_geometry": "collision_self",
+          "failure": {
+            "phase": "print",
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -205.0,
+              350.0,
+              80.0
+            ],
+            "q_deg": [
+              158.89049943449785,
+              -246.5684206767896,
+              138.8244342006024,
+              -72.25542916098614,
+              21.109500566503343,
+              -0.000545148474722128
+            ],
+            "fk_world_xyz_mm": [
+              -204.99999999999991,
+              350.0000000000001,
+              80.00000000000016
+            ],
+            "frame": 0,
+            "hits": [
+              {
+                "category": "self",
+                "objects": [
+                  "base",
+                  "upper_arm"
+                ]
+              },
+              {
+                "category": "fixture",
+                "objects": [
+                  "upper_arm",
+                  "mount_plate"
+                ]
+              }
+            ],
+            "unresolved_pairs": [],
+            "checked_printed_height_mm": 0.0
+          }
+        },
+        {
+          "branch": 1,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 2,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 3,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        }
+      ],
+      "reachable_cells": 47690,
+      "cells": 47690,
+      "length_mm": 25280.0,
+      "knots": 5652,
+      "anchor_deg": [
+        16.113519113712258,
+        -104.11317205858388,
+        117.70833695584766,
+        -13.63348093151794,
+        15.964890501125256,
+        179.763116956514
+      ]
+    },
+    {
+      "w": 480,
+      "b": 400,
+      "x": 35,
+      "y": 540,
+      "h": 80,
+      "d": 300,
+      "mount": "floor",
+      "roll": 0,
+      "passed": false,
+      "attempts": [
+        {
+          "branch": 4,
+          "motion": "kinematic_pass",
+          "print_geometry": "collision_part",
+          "failure": {
+            "phase": "print",
+            "edge": 4076,
+            "edge_fraction": 0.5,
+            "segment": 61,
+            "kind": "perimeter",
+            "direction": "+Y",
+            "layer_mm": 300.0,
+            "printed_height_mm": 300.0,
+            "xyz_mm": [
+              275.0,
+              733.75,
+              380.0
+            ],
+            "q_deg": [
+              -124.4972322991776,
+              -43.5190406220331,
+              14.476927156567347,
+              29.041858100646483,
+              55.502767701088025,
+              180.00014463029765
+            ],
+            "fk_world_xyz_mm": [
+              275.04639735178915,
+              733.8116342184264,
+              380.0579871734875
+            ],
+            "frame": 8157,
+            "hits": [
+              {
+                "category": "part",
+                "objects": [
+                  "upper_arm",
+                  "printed_envelope"
+                ]
+              }
+            ],
+            "unresolved_pairs": [],
+            "checked_printed_height_mm": 300.0
+          }
+        },
+        {
+          "branch": 5,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 6,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 7,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 0,
+          "motion": "kinematic_pass",
+          "print_geometry": "collision_self",
+          "failure": {
+            "phase": "print",
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -205.0,
+              340.0,
+              80.0
+            ],
+            "q_deg": [
+              160.78033931389854,
+              -247.05445824106576,
+              140.00408949414665,
+              -72.94899193016008,
+              19.219660687210215,
+              -0.0006036892771317238
+            ],
+            "fk_world_xyz_mm": [
+              -205.00000000000003,
+              340.0,
+              80.00000000000013
+            ],
+            "frame": 0,
+            "hits": [
+              {
+                "category": "self",
+                "objects": [
+                  "base",
+                  "upper_arm"
+                ]
+              },
+              {
+                "category": "fixture",
+                "objects": [
+                  "upper_arm",
+                  "mount_plate"
+                ]
+              }
+            ],
+            "unresolved_pairs": [],
+            "checked_printed_height_mm": 0.0
+          }
+        },
+        {
+          "branch": 1,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 2,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 3,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        }
+      ],
+      "reachable_cells": 48200,
+      "cells": 48200,
+      "length_mm": 25117.777777777777,
+      "knots": 5416,
+      "anchor_deg": [
+        16.113519113712258,
+        -104.11317205858388,
+        117.70833695584766,
+        -13.63348093151794,
+        15.964890501125256,
+        179.763116956514
+      ]
+    },
+    {
+      "w": 470,
+      "b": 400,
+      "x": 5,
+      "y": 565,
+      "h": 80,
+      "d": 300,
+      "mount": "floor",
+      "roll": 0,
+      "passed": false,
+      "attempts": [
+        {
+          "branch": 4,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 5,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 6,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 7,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 0,
+          "motion": "kinematic_pass",
+          "print_geometry": "collision_self",
+          "failure": {
+            "phase": "print",
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -230.0,
+              365.0,
+              80.0
+            ],
+            "q_deg": [
+              157.9924127084456,
+              -244.59198543170055,
+              134.14156493824234,
+              -69.54901787682687,
+              22.00758729251071,
+              -0.0005207061388067964
+            ],
+            "fk_world_xyz_mm": [
+              -230.00000000000026,
+              365.0,
+              79.99999999999993
+            ],
+            "frame": 0,
+            "hits": [
+              {
+                "category": "self",
+                "objects": [
+                  "base",
+                  "upper_arm"
+                ]
+              },
+              {
+                "category": "fixture",
+                "objects": [
+                  "upper_arm",
+                  "mount_plate"
+                ]
+              }
+            ],
+            "unresolved_pairs": [],
+            "checked_printed_height_mm": 0.0
+          }
+        },
+        {
+          "branch": 1,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 2,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 3,
+          "motion": "waypoint_ik"
+        }
+      ],
+      "reachable_cells": 47235,
+      "cells": 47235,
+      "length_mm": 24798.88888888889,
+      "knots": 5310,
+      "anchor_deg": [
+        16.113519113712258,
+        -104.11317205858388,
+        117.70833695584766,
+        -13.63348093151794,
+        15.964890501125256,
+        179.763116956514
+      ]
+    },
+    {
+      "w": 480,
+      "b": 400,
+      "x": 5,
+      "y": 570,
+      "h": 80,
+      "d": 300,
+      "mount": "floor",
+      "roll": 0,
+      "passed": false,
+      "attempts": [
+        {
+          "branch": 4,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 5,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 6,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 7,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 0,
+          "motion": "kinematic_pass",
+          "print_geometry": "collision_self",
+          "failure": {
+            "phase": "print",
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -235.0,
+              370.0,
+              80.0
+            ],
+            "q_deg": [
+              157.5076668482341,
+              -244.08708353927682,
+              132.9689811181497,
+              -68.88134744488592,
+              22.492333152699413,
+              -0.0005082856971903401
+            ],
+            "fk_world_xyz_mm": [
+              -234.9999999999998,
+              370.00000000000017,
+              80.00000000000007
+            ],
+            "frame": 0,
+            "hits": [
+              {
+                "category": "self",
+                "objects": [
+                  "base",
+                  "upper_arm"
+                ]
+              },
+              {
+                "category": "fixture",
+                "objects": [
+                  "upper_arm",
+                  "mount_plate"
+                ]
+              }
+            ],
+            "unresolved_pairs": [],
+            "checked_printed_height_mm": 0.0
+          }
+        },
+        {
+          "branch": 1,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 2,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 3,
+          "motion": "waypoint_ik"
+        }
+      ],
+      "reachable_cells": 48200,
+      "cells": 48200,
+      "length_mm": 25117.777777777777,
+      "knots": 5416,
+      "anchor_deg": [
+        16.113519113712258,
+        -104.11317205858388,
+        117.70833695584766,
+        -13.63348093151794,
+        15.964890501125256,
+        179.763116956514
+      ]
+    },
+    {
+      "w": 500,
+      "b": 390,
+      "x": 5,
+      "y": 565,
+      "h": 80,
+      "d": 300,
+      "mount": "floor",
+      "roll": 0,
+      "passed": false,
+      "attempts": [
+        {
+          "branch": 4,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 5,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 6,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 7,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 0,
+          "motion": "kinematic_pass",
+          "print_geometry": "collision_self",
+          "failure": {
+            "phase": "print",
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -245.0,
+              370.0,
+              80.0
+            ],
+            "q_deg": [
+              158.16094100085542,
+              -243.57035987281995,
+              131.77708811042768,
+              -68.20616248827827,
+              21.839059000109064,
+              -0.000525146884238485
+            ],
+            "fk_world_xyz_mm": [
+              -244.99999999999977,
+              370.00000000000017,
+              80.00000000000018
+            ],
+            "frame": 0,
+            "hits": [
+              {
+                "category": "self",
+                "objects": [
+                  "base",
+                  "upper_arm"
+                ]
+              },
+              {
+                "category": "fixture",
+                "objects": [
+                  "upper_arm",
+                  "mount_plate"
+                ]
+              }
+            ],
+            "unresolved_pairs": [],
+            "checked_printed_height_mm": 0.0
+          }
+        },
+        {
+          "branch": 1,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 2,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 3,
+          "motion": "waypoint_ik"
+        }
+      ],
+      "reachable_cells": 48945,
+      "cells": 48945,
+      "length_mm": 25517.777777777777,
+      "knots": 5652,
+      "anchor_deg": [
+        16.113519113712258,
+        -104.11317205858388,
+        117.70833695584766,
+        -13.63348093151794,
+        15.964890501125256,
+        179.763116956514
+      ]
+    },
+    {
+      "w": 520,
+      "b": 390,
+      "x": 5,
+      "y": 565,
+      "h": 80,
+      "d": 300,
+      "mount": "floor",
+      "roll": 0,
+      "passed": false,
+      "attempts": [
+        {
+          "branch": 4,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 5,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 6,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 7,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 0,
+          "motion": "kinematic_pass",
+          "print_geometry": "collision_self",
+          "failure": {
+            "phase": "print",
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -255.0,
+              370.0,
+              80.0
+            ],
+            "q_deg": [
+              158.78171408683505,
+              -243.04006740086646,
+              130.56168757496093,
+              -67.5210386700957,
+              21.218285914160564,
+              -0.0005420828782889602
+            ],
+            "fk_world_xyz_mm": [
+              -255.0000000000004,
+              369.99999999999994,
+              80.0000000000001
+            ],
+            "frame": 0,
+            "hits": [
+              {
+                "category": "self",
+                "objects": [
+                  "base",
+                  "upper_arm"
+                ]
+              }
+            ],
+            "unresolved_pairs": [],
+            "checked_printed_height_mm": 0.0
+          }
+        },
+        {
+          "branch": 1,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 2,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 3,
+          "motion": "waypoint_ik"
+        }
+      ],
+      "reachable_cells": 50895,
+      "cells": 50895,
+      "length_mm": 26155.555555555555,
+      "knots": 5864,
+      "anchor_deg": [
+        16.113519113712258,
+        -104.11317205858388,
+        117.70833695584766,
+        -13.63348093151794,
+        15.964890501125256,
+        179.763116956514
+      ]
+    },
+    {
+      "w": 500,
+      "b": 400,
+      "x": 5,
+      "y": 565,
+      "h": 80,
+      "d": 300,
+      "mount": "floor",
+      "roll": 0,
+      "passed": false,
+      "attempts": [
+        {
+          "branch": 4,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 5,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 6,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 7,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 0,
+          "motion": "kinematic_pass",
+          "print_geometry": "collision_self",
+          "failure": {
+            "phase": "print",
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -245.0,
+              365.0,
+              80.0
+            ],
+            "q_deg": [
+              158.9618935088273,
+              -243.81743997975758,
+              132.34603266651303,
+              -68.52800643124613,
+              21.03810649217766,
+              -0.0005471768164746915
+            ],
+            "fk_world_xyz_mm": [
+              -245.0,
+              365.00000000000006,
+              80.00000000000004
+            ],
+            "frame": 0,
+            "hits": [
+              {
+                "category": "self",
+                "objects": [
+                  "base",
+                  "upper_arm"
+                ]
+              },
+              {
+                "category": "fixture",
+                "objects": [
+                  "upper_arm",
+                  "mount_plate"
+                ]
+              }
+            ],
+            "unresolved_pairs": [],
+            "checked_printed_height_mm": 0.0
+          }
+        },
+        {
+          "branch": 1,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 2,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 3,
+          "motion": "waypoint_ik"
+        }
+      ],
+      "reachable_cells": 50451,
+      "cells": 50451,
+      "length_mm": 25755.555555555555,
+      "knots": 5652,
+      "anchor_deg": [
+        16.113519113712258,
+        -104.11317205858388,
+        117.70833695584766,
+        -13.63348093151794,
+        15.964890501125256,
+        179.763116956514
+      ]
+    },
+    {
+      "w": 510,
+      "b": 410,
+      "x": 15,
+      "y": 555,
+      "h": 80,
+      "d": 300,
+      "mount": "floor",
+      "roll": 0,
+      "passed": false,
+      "attempts": [
+        {
+          "branch": 4,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 5,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 6,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 7,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 0,
+          "motion": "kinematic_pass",
+          "print_geometry": "collision_self",
+          "failure": {
+            "phase": "print",
+            "edge": 0,
+            "edge_fraction": 0.0,
+            "segment": 0,
+            "kind": "perimeter",
+            "direction": "+X",
+            "layer_mm": 0.0,
+            "printed_height_mm": 0.0,
+            "xyz_mm": [
+              -240.0,
+              350.0,
+              80.0
+            ],
+            "q_deg": [
+              161.15659516563505,
+              -244.80317252165847,
+              134.63454841210648,
+              -69.83072427932083,
+              18.843404835497566,
+              -0.0006166879335387173
+            ],
+            "fk_world_xyz_mm": [
+              -240.0,
+              350.00000000000006,
+              80.00000000000004
+            ],
+            "frame": 0,
+            "hits": [
+              {
+                "category": "self",
+                "objects": [
+                  "base",
+                  "upper_arm"
+                ]
+              },
+              {
+                "category": "fixture",
+                "objects": [
+                  "upper_arm",
+                  "mount_plate"
+                ]
+              }
+            ],
+            "unresolved_pairs": [],
+            "checked_printed_height_mm": 0.0
+          }
+        },
+        {
+          "branch": 1,
+          "motion": "kinematic_pass",
+          "entry": "singular_wall"
+        },
+        {
+          "branch": 2,
+          "motion": "waypoint_ik"
+        },
+        {
+          "branch": 3,
+          "motion": "waypoint_ik"
+        }
+      ],
+      "reachable_cells": 52275,
+      "cells": 52275,
+      "length_mm": 26312.222222222223,
+      "knots": 5758,
+      "anchor_deg": [
+        16.113519113712258,
+        -104.11317205858388,
+        117.70833695584766,
+        -13.63348093151794,
+        15.964890501125256,
+        179.763116956514
+      ]
+    }
+  ]
+}
