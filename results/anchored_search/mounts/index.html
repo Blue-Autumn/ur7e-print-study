@@ -36,9 +36,9 @@ footer p{margin-top:4px}a{color:var(--accent);text-underline-offset:.18em}
 #joints{font-variant-numeric:tabular-nums}
 .toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:5px 10px;margin:5px 0}.toolbar>span{color:var(--muted);font-size:14px}
 #singleRects button{font-variant-numeric:tabular-nums}
-.surroundTable th,.surroundTable td{text-align:left;vertical-align:top}
-.surroundTable th:first-child{width:16%}.surroundTable th:nth-child(2){width:24%}
-.surroundTable td button{display:block;margin:2px 0;white-space:normal;text-align:left}
+.surroundTable{table-layout:fixed}.surroundTable td,.surroundTable th{vertical-align:top}
+.surroundTable th:first-child{width:22%;text-align:left}
+.surroundTable td button{display:block;margin:2px auto 5px;max-width:100%;white-space:normal;line-height:1.35}
 .panel .reading{background:#f2f7f3;padding:10px 12px;border-left:3px solid #43816c}.reading h2{font-size:19px}
 .secondary{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}.secondary h3{margin:0}
 #auditStatus{font-weight:650;margin:5px 0}#auditStatus[data-bad=true]{color:#9d3522}#shapeTransport .controls{margin:4px 0}#shapeTransport label{font-size:14px}#shapeSeek{min-width:90px}#shapeClock{min-width:30px}
@@ -81,7 +81,7 @@ footer p{margin-top:4px}a{color:var(--accent);text-underline-offset:.18em}
 <section id="otherBeds" class="secondary"><h2 id="choicesTitle">2 · 围绕机械臂布置的打印床</h2>
 <p class="small">整环把基座围在孔内，床面面积等于外圆面积减去内孔面积。分块床分布在基座四周，只累加各块的板面。点选面积与高度可回放同一摆位。</p>
 <p id="surroundEmpty" class="small" hidden>本轮还没有走通完整测试路径的环绕方案。</p>
-<table class="surroundTable" id="surroundTable" hidden><thead><tr><th>安装</th><th>床形</th><th>床面面积与测试工件高度</th></tr></thead><tbody id="surroundRows"></tbody></table>
+<table class="surroundTable" id="surroundTable" aria-label="三种床形与安装方式的回放" hidden><thead><tr><th scope="col">床形</th><th scope="col" class="floor">地装</th><th scope="col" class="side">侧装</th><th scope="col" class="overhead">吊装</th></tr></thead><tbody id="surroundRows"></tbody></table>
 <p id="surroundScope" class="small"></p>
 </section>
 </section></div>
@@ -429,12 +429,13 @@ for(const s of singleShapes.sort(rankPassed)){
 }
 el('singleMore').hidden=!singleShapes.length;singleSelect.onchange=()=>selectShape(shapeIndex.get(singleSelect.value));
 el('surroundEmpty').hidden=surround.length>0;el('surroundTable').hidden=!surround.length;
-for(const [mount,name] of Object.entries(names)){
-    for(const kind of ['ring','tiles200','tiles300']){
+for(const [kind,label] of [['ring','整环'],['tiles200','分块方床'],['tiles300','分块长方床']]){
+    const row=el('surroundRows').insertRow(),heading=document.createElement('th');
+    heading.scope='row';heading.textContent=label;row.append(heading);
+    for(const mount of ['floor','side','overhead']){
         const options=surround.filter(s=>s.mount===mount&&s.kind===kind).sort((a,b)=>b.area-a.area||b.d-a.d);
-        if(!options.length)continue;
-        const row=el('surroundRows').insertRow();row.insertCell().textContent=name;row.insertCell().textContent=shapeNames[kind];
         const cell=row.insertCell();
+        if(!options.length){cell.className='empty';cell.textContent='尚无通过记录';continue}
         for(const s of options){
             const button=placementButton(s,format(s.area,3)+' m² · 高 '+s.d+' mm');
             button.title=shapeDimensions(s)+'，床面相对基座 '+s.h+' mm';cell.append(button);
