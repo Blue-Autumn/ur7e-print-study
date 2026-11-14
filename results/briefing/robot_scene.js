@@ -17,7 +17,7 @@ class RobotScene extends HTMLElement {
 </style><div class="shell" aria-label="机械臂与打印工件三维场景">
 <div class="bar"><label class="solo">安装 <select id="mount"><option value="floor">地装</option><option value="side" selected>侧装</option><option value="overhead">吊装</option></select></label><label class="solo">姿态 <select id="layer"><option value="free">姿态不限</option><option value="down">竖直朝下</option><option value="all25" selected>全部 25 种姿态</option><option value="threshold">至少指定个数</option></select></label><label class="solo" id="thresholdControl" hidden>至少 <input id="minPoses" type="range" min="1" max="25" value="25" style="width:95px"><output id="kOut">25</output> 种</label><label class="solo">点云范围 <select id="cloudScope"><option value="full">看整片空间</option><option value="slab">看当前打印高度</option></select></label><label><input type="checkbox" id="shellOn" checked>点云</label><label><input type="checkbox" id="cutOn" checked>剖面</label><label><input type="checkbox" id="fixtureOn" checked>支架</label><button type="button" id="overview" class="right">全景</button><button type="button" id="focus">放大当前</button><button type="button" id="reset">复位视角</button></div>
 <div class="bar" id="layoutsolo"><label>底面 H / mm <select id="baseHeight"></select></label><label>零件高 / mm <select id="buildHeight"></select></label><label>方形边长 / mm <input id="workWidth" type="number" min="1" max="3000" value="500" style="width:75px"></label></div>
-<div class="scene"><canvas id="view" tabindex="0" aria-label="拖动或用方向键旋转三维场景"></canvas><div class="chips"><span id="scopeChip" class="chip"></span><span id="fitChip" class="chip"></span><span id="routeChip" class="chip" hidden></span></div></div><p id="offscreen" style="display:none;margin:4px 0;color:#874326;font-size:12px" role="status"></p>
+<div class="scene"><canvas id="view" tabindex="0" aria-label="拖动或用方向键旋转三维场景"></canvas><div class="chips"><span id="scopeChip" class="chip"></span><span id="fitChip" class="chip"></span><span id="routeChip" class="chip" hidden></span><span id="noPose" class="chip" hidden>尚无对应关节解，仅显示机械臂基座</span></div></div><p id="offscreen" style="display:none;margin:4px 0;color:#874326;font-size:12px" role="status"></p>
 <div class="grow solo"><label>进度 <input id="grow" type="range" min="0" max="100" step="1" value="100"><output id="growOut"></output></label><button type="button" id="play">播放</button><label>喷嘴目标 <select id="position"><option value="center">当前层中心</option><option value="corner">当前层角点</option><option value="path">工件轮廓路径</option></select></label></div>
 <div class="legend"><span><i style="background:#7994ac"></i>STEP 机械臂</span><span><i style="background:#efbb62"></i><b id="sizeLegend"></b> 方形件</span><span><i id="swatch" style="background:#af592c"></i>可达域</span><span id="bedLegend" hidden><i style="background:#3983a0"></i>参考热床</span><span id="routeLegend" class="pathKey" hidden><i style="background:#165f74"></i>轮廓路径　<i style="background:#c73b2c"></i>碰撞　<i style="background:#ba851d"></i>未决</span></div>
 <details class="detailsRead"><summary>查看当前画面的喷嘴位置和关节角</summary><p id="status" role="status"></p><p id="axisText" class="axis"></p><p id="qRead"></p><p id="method"></p></details>
@@ -162,12 +162,19 @@ function stopPlay(){if(clock!==null){clearInterval(clock);clock=null}E('play').t
 function poseTarget(){if(displayPose)return displayPose.xyz_mm;if(pathActive())return route.xyz_mm[routeIndex];if(!state.center||state.target==='path')return null;const delta=state.target==='corner'?state.side/2:0;return [state.center[0]+delta,state.center[1]+delta,currentZ()]}
 function updatePose(reset=false){
  if(footprint){
-  activeCollision=null;witness=null;articulation=frames(footprint.q_rad,state.mount);
+  const q=footprint.q_rad;
+  activeCollision=footprint.motion?.states?.[footprint.index]??null;
+  witness=null;articulation=q?frames(q,state.mount):[D.poses[state.mount].base];
   E('routeChip').hidden=true;E('routeLegend').hidden=true;
-  canvas.dataset.ik='stored-pose';canvas.dataset.q=JSON.stringify(footprint.q_rad);
+  canvas.dataset.ik=q?'stored-pose':'no-solved-pose';canvas.dataset.q=JSON.stringify(q);
   canvas.dataset.validatedNode='false';canvas.dataset.displayInterpolation='false';
-  canvas.dataset.tcp=JSON.stringify(posXYZ(mult(articulation[6],D.tool)));
-  canvas.dataset.target='null';canvas.dataset.branch='';E('qRead').textContent=footprint.q_rad.map(q=>fmt(q/rad)+'°').join('、');
+  E('noPose').hidden=!!q;
+  const target=footprint.motion?.xyz[footprint.index]??null;
+  const tool=footprint.tool_mm?.flat(),tcp=q&&vecOK(tool,16)?posXYZ(mult(articulation[6],tool)):null;
+  canvas.dataset.tcp=JSON.stringify(tcp);
+  if(tcp&&target)canvas.dataset.footprintFkErrorMm=Math.hypot(...target.map((v,i)=>v-tcp[i]));
+  else delete canvas.dataset.footprintFkErrorMm;
+  canvas.dataset.target=JSON.stringify(target);canvas.dataset.branch='';E('qRead').textContent=q?q.map(v=>fmt(v/rad)+'°').join('、'):'没有已求出的机械臂姿态。';
   publishState();requestDraw();return;
  }
  if(state.target==='path'){setPathPose();return}activeCollision=null;E('routeChip').hidden=true;const p=poseTarget(),candidates=p?downwardIK(p,state.mount):[];let best=-Infinity,select=null;for(const c of candidates){const dx=state.center?state.center[0]:0,dy=state.center?state.center[1]:0;let inside=0;for(const t of c.chain.slice(2,6)){const pt=posXYZ(t);if(Math.abs(pt[0]-dx)<state.side/2+42&&Math.abs(pt[1]-dy)<state.side/2+42&&pt[2]>state.h-25&&pt[2]<currentZ()-30)inside++}
@@ -220,7 +227,15 @@ function setPathPose(){const p=poseTarget(),q=displayPose?displayPose.q_rad:path
  const suffix=route?'。节点 '+(routeIndex+1)+' / '+route.xyz_mm.length+'，整条路径 '+(route.kinematic_passed?'有连续运动学见证':'未通过连续运动学验证')+'。':'';E('status').textContent=message+suffix+(good?'':last?'。机械臂停留在最后一个有效节点。':'。机械臂显示固定参考姿态。');E('qRead').textContent=good?(displayPose?'显示插帧关节角（未新增验证） ':'路径原始关节角 ')+q.map(v=>fmt(v/rad)+'°').join('、')+(route?.batch?'。坐标来自逐节点正解。':'。CAD 判断针对所存样本。'):'此节点没有发布的有效路径关节角。';
  canvas.dataset.displayInterpolation=String(!!displayPose);canvas.dataset.validatedNode=String(!displayPose);canvas.dataset.ik=good?'solved':route?'reference':'path-unavailable';canvas.dataset.q=JSON.stringify(good?q:null);canvas.dataset.tcp=JSON.stringify(posXYZ(mult(articulation[6],route?.anchored?.tool_mm??D.tool)));canvas.dataset.branch=good?route.branch:'reference';canvas.dataset.target=JSON.stringify(p);canvas.dataset.height=currentZ();E('grow').value=state.percent;E('growOut').textContent=route?(routeIndex+1)+' / '+route.xyz_mm.length+' 点':'—';publishState();requestDraw()}
 function publishState(){const c=canvas.dataset,p=poseTarget();canvas.dataset.pathId=route?.id||'';canvas.dataset.pathIndex=pathActive()?routeIndex:-1;canvas.dataset.collision=JSON.stringify(activeCollision);if(!embedded)return;
- const message={type:'ur7e-scene-state',target:state.target,target_xyz_mm:p,tcp_xyz_mm:witness?posXYZ(witness.tcp):null,q_rad:witness?witness.q:null,mode:state.mode,min_poses:state.mode==='threshold'?state.minPoses:state.mode==='all25'?25:null,reference_tcp_xyz_mm:witness?null:posXYZ(mult(articulation[6],D.tool)),ik:c.ik,mount:state.mount,h_mm:state.h,d_mm:state.build,progress_pct:state.percent,path_id:route?.id||null,path_index:pathActive()?routeIndex:null,path_length:route?.xyz_mm.length||0,collision:activeCollision,space_view:state.spaceView};const key=JSON.stringify(message);if(lastAck!==key){lastAck=key;notify(message)}}
+ if(footprint){
+  const data={type:'ur7e-scene-state',target:'footprint',mount:state.mount,h_mm:state.h,d_mm:state.build,
+   ik:c.ik,footprint_id:footprint.id,target_xyz_mm:footprint.motion?.xyz[footprint.index]??null,
+   q_rad:footprint.q_rad,tcp_xyz_mm:JSON.parse(c.tcp),collision:activeCollision,
+   path_id:footprint.motion?footprint.id:null,path_index:footprint.motion?footprint.index:null,
+   path_length:footprint.motion?.q.length??0,reference_tcp_xyz_mm:null};
+  const key=JSON.stringify(data);if(key!==lastAck){lastAck=key;notify(data)}return;
+ }
+ const message={type:'ur7e-scene-state',target:state.target,target_xyz_mm:p,tcp_xyz_mm:witness?posXYZ(witness.tcp):null,q_rad:witness?witness.q:null,mode:state.mode,min_poses:state.mode==='threshold'?state.minPoses:state.mode==='all25'?25:null,reference_tcp_xyz_mm:witness||!articulation?.[6]?null:posXYZ(mult(articulation[6],D.tool)),ik:c.ik,mount:state.mount,h_mm:state.h,d_mm:state.build,progress_pct:state.percent,path_id:route?.id||null,path_index:pathActive()?routeIndex:null,path_length:route?.xyz_mm.length||0,collision:activeCollision,space_view:state.spaceView};const key=JSON.stringify(message);if(lastAck!==key){lastAck=key;notify(message)}}
 function assignRoute(result,index=0){displayPose=null;if(result!==null&&!validateRoute(result))return false;route=result;routeIndex=route?range(0,route.xyz_mm.length-1,Math.round(index)||0):0;if(pathActive())state.percent=route.xyz_mm.length>1?100*routeIndex/(route.xyz_mm.length-1):100;updatePose(true);return true}
 function seek(v){displayPose=null;if(v.path_id&&route&&v.path_id!==route.id)return false;if(num(v.progress_pct))state.percent=range(0,100,Number(v.progress_pct));if(['center','corner','path'].includes(v.target))state.target=v.target;if(pathActive()){if(num(v.path_index))routeIndex=range(0,route.xyz_mm.length-1,Math.round(Number(v.path_index)));else if(num(v.progress_pct))routeIndex=Math.round(state.percent*(route.xyz_mm.length-1)/100);state.percent=route.xyz_mm.length>1?100*routeIndex/(route.xyz_mm.length-1):100}E('position').value=state.target;return true}
 function readDisplay(d){if(['full','slab'].includes(d.space_view))state.spaceView=d.space_view;if(d.bed&&typeof d.bed==='object'){const b=d.bed;state.bed={visible:typeof b.visible==='boolean'?b.visible:state.bed.visible,x_mm:num(b.x_mm)?Number(b.x_mm):state.bed.x_mm,y_mm:num(b.y_mm)?Number(b.y_mm):state.bed.y_mm,side_mm:num(b.side_mm)?range(1,3000,Number(b.side_mm)):state.bed.side_mm}}E('cloudScope').value=state.spaceView;E('bedOn').checked=state.bed.visible;E('bedX').value=state.bed.x_mm;E('bedY').value=state.bed.y_mm;E('bedSide').value=state.bed.side_mm}
@@ -244,7 +259,16 @@ canvas.addEventListener('wheel',e=>{e.preventDefault();if(cameraMove)cameraMove.
 E('overview').onclick=()=>{cameraMove=null;centerWorld=placementView?placementView.center.slice():[0,0,30];verticalSpan=4150;cameraAction='全景镜头';requestDraw()};E('focus').onclick=()=>{cameraMove=null;focusCurrent()};
 const boxIndices=[[0,3,2,1],[4,5,6,7],[0,1,5,4],[1,2,6,5],[2,3,7,6],[3,0,4,7]],edgesBox=[[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
 function block(x,y,z,dx,dy,dz){return [[-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1],[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]].map(v=>[x+v[0]*dx/2,y+v[1]*dy/2,z+v[2]*dz/2])}
-function layoutBoxes(){if(pathActive()&&Array.isArray(route.model_boxes)){const hits=new Set((activeCollision?.fixture_pairs||[]).map(p=>p[1]));return route.model_boxes.filter(b=>b.role==='fixture'&&vecOK(b.center_mm,3)&&vecOK(b.size_mm,3)).map(b=>({v:block(...b.center_mm,...b.size_mm),color:hits.has(b.id)?[202,89,68]:b.id==='platform'?[157,177,172]:b.id==='mount_plate'?[96,126,136]:[135,152,152]}))}const xy=state.center||[0,0],h=state.h,bottom=Math.min(h-260,-420),platform=state.side+140;const objects=[];
+function layoutBoxes(){
+ if(footprint?.fixture_audit?.boxes){
+  const audit=footprint.fixture_audit, movingHits=new Set((activeCollision?.fixture_pairs??[]).map(pair=>pair[1]));
+  return audit.boxes.map(b=>({
+   v:block(...b.center_mm,...b.size_mm),
+   color:audit.parts.includes(b.id)||audit.bed_parts.includes(b.id)||movingHits.has(b.id)?[220,65,51]:
+    b.id==='mount_plate'?[96,126,136]:[135,152,152]
+  }));
+ }
+ if(pathActive()&&Array.isArray(route.model_boxes)){const hits=new Set((activeCollision?.fixture_pairs||[]).map(p=>p[1]));return route.model_boxes.filter(b=>b.role==='fixture'&&vecOK(b.center_mm,3)&&vecOK(b.size_mm,3)).map(b=>({v:block(...b.center_mm,...b.size_mm),color:hits.has(b.id)?[202,89,68]:b.id==='platform'?[157,177,172]:b.id==='mount_plate'?[96,126,136]:[135,152,152]}))}const xy=state.center||[0,0],h=state.h,bottom=Math.min(h-260,-420),platform=state.side+140;const objects=[];
  const add=(x,y,z,dx,dy,dz,color)=>objects.push({v:block(x,y,z,dx,dy,Math.max(5,dz)),color});
  if(!footprint){
   add(xy[0],xy[1],h-18,platform,platform,36,[157,177,172]);
@@ -285,11 +309,12 @@ function batchLine(record){
 }
 function routeLine(){if(!pathActive())return;if(route.batch){batchLine(route.batch);return}const coords=route.xyz_mm;if(coords.length<2)return;const projected=coords.map(project);let bucket='',drawing=false;const close=()=>{if(drawing)ctx.stroke();drawing=false};for(let i=1;i<coords.length;i++){const prev=route.states[i-1],curr=route.states[i];const noQ=!route.q_rad[i]||!route.q_rad[i-1];const hit=collisionLevel(collisionStatus(prev))==='hit'||collisionLevel(collisionStatus(curr))==='hit';const uncertain=collisionLevel(collisionStatus(prev))==='unknown'||collisionLevel(collisionStatus(curr))==='unknown';const key=noQ?'missing':hit?'hit':uncertain?'unknown':i<=routeIndex?'traced':'planned';if(key!==bucket){close();bucket=key;ctx.beginPath();ctx.setLineDash(key==='missing'?[4,4]:key==='unknown'?[6,3]:[]);ctx.lineWidth=key==='hit'?3.5:key==='traced'?2.9:1.9;ctx.strokeStyle={hit:'#c4332c',unknown:'#a77919',missing:'#797773',traced:'#125777',planned:'#588fa2'}[key];ctx.moveTo(projected[i-1][0],projected[i-1][1]);drawing=true}ctx.lineTo(projected[i][0],projected[i][1])}close();ctx.setLineDash([])}
 let robFrames=null,worldCache=null;const robotPalette=[.6,.87,.88,.83,.76,.72,.61];
-function drawRobot(){if(!robot||!articulation)return;if(host.hasAttribute('fast-render')&&window.UR7EAnchoredPlayback?.createMeshRenderer){if(fastRenderer===null)fastRenderer=window.UR7EAnchoredPlayback.createMeshRenderer()||false;if(fastRenderer){const head=pathActive()?route.anchored?.head:footprint?.head,hits=new Set;for(const pair of activeCollision?.self_pairs||[])for(const id of pair)if(Number.isInteger(id))hits.add(id);for(const id of activeCollision?.part_links||[])hits.add(id);for(const pair of activeCollision?.fixture_pairs||[])hits.add(pair[0]);const image=fastRenderer.draw({parts:robot,articulation,cam,dpr:Math.min(1.65,window.devicePixelRatio||1),head,headMatrix:head?mult(articulation[6],head.flange_from_head):null,hitLinks:hits});ctx.drawImage(image,0,0,cam.w,cam.h);canvas.dataset.robotRenderer='webgl';canvas.dataset.headBoxes=head?head.boxes.length:0;return}}canvas.dataset.robotRenderer='canvas2d';if(robFrames!==articulation){worldCache=robot.map((part,i)=>{const v=new Float32Array(part.v.length),n=new Float32Array(part.n.length),t=articulation[i];for(let k=0;k<v.length;k+=3){const p=xyz(t,part.v[k],part.v[k+1],part.v[k+2]);v[k]=p[0];v[k+1]=p[1];v[k+2]=p[2]}for(let k=0;k<n.length;k+=3){const x=part.n[k],y=part.n[k+1],z=part.n[k+2];n[k]=t[0]*x+t[1]*y+t[2]*z;n[k+1]=t[4]*x+t[5]*y+t[6]*z;n[k+2]=t[8]*x+t[9]*y+t[10]*z}return {v,n}});robFrames=articulation}
+let baseMesh=null;
+function drawRobot(){if(!robot||!articulation)return;const baseOnly=footprint&&footprint.q_rad===null;const parts=baseOnly?(baseMesh??=[robot[0]]):robot;if(host.hasAttribute('fast-render')&&window.UR7EAnchoredPlayback?.createMeshRenderer){if(fastRenderer===null)fastRenderer=window.UR7EAnchoredPlayback.createMeshRenderer()||false;if(fastRenderer){const head=pathActive()?route.anchored?.head:baseOnly?null:footprint?.head,hits=new Set;for(const pair of activeCollision?.self_pairs||[])for(const id of pair)if(Number.isInteger(id))hits.add(id);for(const id of activeCollision?.part_links||[])hits.add(id);for(const pair of activeCollision?.fixture_pairs||[])hits.add(pair[0]);const image=fastRenderer.draw({parts,articulation,cam,dpr:Math.min(1.65,window.devicePixelRatio||1),head,headMatrix:head?mult(articulation[6],head.flange_from_head):null,hitLinks:hits});ctx.drawImage(image,0,0,cam.w,cam.h);canvas.dataset.robotRenderer='webgl';canvas.dataset.headBoxes=head?head.boxes.length:0;return}}canvas.dataset.robotRenderer='canvas2d';if(robFrames!==articulation){worldCache=parts.map((part,i)=>{const v=new Float32Array(part.v.length),n=new Float32Array(part.n.length),t=articulation[i];for(let k=0;k<v.length;k+=3){const p=xyz(t,part.v[k],part.v[k+1],part.v[k+2]);v[k]=p[0];v[k+1]=p[1];v[k+2]=p[2]}for(let k=0;k<n.length;k+=3){const x=part.n[k],y=part.n[k+1],z=part.n[k+2];n[k]=t[0]*x+t[1]*y+t[2]*z;n[k+1]=t[4]*x+t[5]*y+t[6]*z;n[k+2]=t[8]*x+t[9]*y+t[10]*z}return {v,n}});robFrames=articulation}
  const tris=[];const palettes=robotPalette.map(t=>Array.from({length:20},(_,j)=>{const f=.35+.63*j/19;return 'rgb('+[192,207,223].map(v=>Math.round(38+(v-38)*f*t)).join(',')+')'}));const lx=.21*cam.ca*cam.ce+.40*cam.sa,ly=.21*cam.sa*cam.ce-.40*cam.ca,lz=.79;
- for(let i=0;i<robot.length;i++){const part=robot[i],v=worldCache[i].v,n=worldCache[i].n,p=part.p;for(let k=0;k<v.length;k+=3){const x=v[k],y=v[k+1],z=v[k+2],r=x*cam.ca+y*cam.sa;p[k]=cam.cx+cam.k*(-x*cam.sa+y*cam.ca);p[k+1]=cam.cy-cam.k*(-r*cam.se+z*cam.ce);p[k+2]=r*cam.ce+z*cam.se}const f=part.f;for(let k=0;k<f.length;k+=3){const a=3*f[k],b=3*f[k+1],c=3*f[k+2];const det=(p[b]-p[a])*(p[c+1]-p[a+1])-(p[b+1]-p[a+1])*(p[c]-p[a]);if(Math.abs(det)<.015)continue;const light=range(0,1,.15+.85*Math.abs(n[k]*lx+n[k+1]*ly+n[k+2]*lz));tris.push([p[a+2]+p[b+2]+p[c+2],i,a,b,c,Math.round(19*light)])}}
+ for(let i=0;i<parts.length;i++){const part=parts[i],v=worldCache[i].v,n=worldCache[i].n,p=part.p;for(let k=0;k<v.length;k+=3){const x=v[k],y=v[k+1],z=v[k+2],r=x*cam.ca+y*cam.sa;p[k]=cam.cx+cam.k*(-x*cam.sa+y*cam.ca);p[k+1]=cam.cy-cam.k*(-r*cam.se+z*cam.ce);p[k+2]=r*cam.ce+z*cam.se}const f=part.f;for(let k=0;k<f.length;k+=3){const a=3*f[k],b=3*f[k+1],c=3*f[k+2];const det=(p[b]-p[a])*(p[c+1]-p[a+1])-(p[b+1]-p[a+1])*(p[c]-p[a]);if(Math.abs(det)<.015)continue;const light=range(0,1,.15+.85*Math.abs(n[k]*lx+n[k+1]*ly+n[k+2]*lz));tris.push([p[a+2]+p[b+2]+p[c+2],i,a,b,c,Math.round(19*light)])}}
  const hitLinks=new Set;if(activeCollision){for(const pair of activeCollision.self_pairs||[])if(Array.isArray(pair))for(const id of pair)if(Number.isInteger(id))hitLinks.add(id);for(const id of activeCollision.part_links||[])if(Number.isInteger(id))hitLinks.add(id);for(const pair of activeCollision.fixture_pairs||[])if(Array.isArray(pair)&&Number.isInteger(pair[0]))hitLinks.add(pair[0])}canvas.dataset.hitLinks=JSON.stringify([...hitLinks].sort());const collisionColors=Array.from({length:20},(_,j)=>'rgb('+[160+Math.round(j*4),43+Math.round(j*2),33+Math.round(j*1.9)].join(',')+')');
- const head=pathActive()?route.anchored?.head:footprint?.head,headFaces=[];
+ const head=pathActive()?route.anchored?.head:baseOnly?null:footprint?.head,headFaces=[];
  if(head){
   const world=mult(articulation[6],head.flange_from_head);
   for(const b of head.boxes){
@@ -301,7 +326,7 @@ function drawRobot(){if(!robot||!articulation)return;if(host.hasAttribute('fast-
  canvas.dataset.headBoxes=head?head.boxes.length:0;
  let face=0;tris.sort((a,b)=>a[0]-b[0]);ctx.lineWidth=.50;for(const t of tris){
   while(face<headFaces.length&&3*headFaces[face].d<=t[0])drawPolys([headFaces[face++]]);
-  const p=robot[t[1]].p,a=t[2],b=t[3],c=t[4],color=hitLinks.has(t[1])?collisionColors[t[5]]:palettes[t[1]][t[5]];ctx.fillStyle=color;ctx.strokeStyle=color;ctx.beginPath();ctx.moveTo(p[a],p[a+1]);ctx.lineTo(p[b],p[b+1]);ctx.lineTo(p[c],p[c+1]);ctx.closePath();ctx.fill();ctx.stroke()}
+  const p=parts[t[1]].p,a=t[2],b=t[3],c=t[4],color=hitLinks.has(t[1])?collisionColors[t[5]]:palettes[t[1]][t[5]];ctx.fillStyle=color;ctx.strokeStyle=color;ctx.beginPath();ctx.moveTo(p[a],p[a+1]);ctx.lineTo(p[b],p[b+1]);ctx.lineTo(p[c],p[c+1]);ctx.closePath();ctx.fill();ctx.stroke()}
  if(face<headFaces.length)drawPolys(headFaces.slice(face))}
 function label(p,text,color,xShift,yShift){const s=project(p);ctx.font='600 12px system-ui,Microsoft YaHei,sans-serif';const wid=ctx.measureText(text).width,x=range(3,cam.w-wid-5,s[0]+xShift),y=range(17,cam.h-5,s[1]+yShift);ctx.fillStyle='rgba(251,252,249,.9)';ctx.fillRect(x-2,y-12,wid+4,15);ctx.fillStyle=color;ctx.fillText(text,x,y)}
 function marker(){const p=poseTarget();if(!p)return;const s=project(p);if(witness){const flange=posXYZ(articulation[6]);line(flange,p,'#5f4642',2.3,[3,2]);const status=pathActive()&&!route.batch?collisionLevel(activeCollision):null;ctx.fillStyle=pathActive()&&route.batch?'#165777':status==='hit'?'#b7322c':status==='unknown'?'#ad7919':status==='clear'?'#35667a':'#3b6333';ctx.beginPath();ctx.arc(s[0],s[1],pathActive()?5:3.8,0,6.3);ctx.fill();ctx.strokeStyle='#fff';ctx.stroke()}else{ctx.strokeStyle='#b23a2c';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(s[0]-5,s[1]-5);ctx.lineTo(s[0]+5,s[1]+5);ctx.moveTo(s[0]-5,s[1]+5);ctx.lineTo(s[0]+5,s[1]-5);ctx.stroke()}}
@@ -322,11 +347,11 @@ function draw(){queue=false;if(host.hasAttribute('anchored')&&host.hasAttribute(
  crossSection(m,shellKey());referenceBed();if(topZ>state.h)drawPolys(boxFaces(grown,activeCollision?.part==='hit'?[219,87,47]:[244,183,82],.22));
  for(const [a,b] of edgesBox){const bottom=a<4&&b<4,top=a>=4&&b>=4;line(work[a],work[b],bottom?'#46627c':top?'#a55a25':'#bd8c4c',top||bottom?1.65:1.05,top&&topZ<state.h+state.build?[4,3]:[])}if(topZ>state.h&&topZ<state.h+state.build){for(let i=4;i<8;i++)line(grown[i],grown[4+(i-3)%4],'#c88624',1.6)}
  }
- const a=baseAxis[m],end=a.map(v=>v*350);line(a.map(v=>-110*v),end,'#915024',1.5,[5,4]);routeLine();drawRobot();if(!footprint)marker();label(end,'基座 '+sign[m],'#88411f',4,-4);
+ const a=baseAxis[m],end=a.map(v=>v*350);line(a.map(v=>-110*v),end,'#915024',1.5,[5,4]);routeLine();if(footprint)drawFootprintPath();drawRobot();if(footprint){drawFootprintWarnings();drawFootprintMarker()}else marker();label(end,'基座 '+sign[m],'#88411f',4,-4);
  const topOutline=footprint?footprint.vertices.slice(footprint.vertices.length/2):work.slice(4);
  const topPoint=topOutline.reduce((best,p)=>project(p)[0]>project(best)[0]?p:best);
  const basePoint=[topPoint[0],topPoint[1],state.h],top=project(topPoint),bottom=project(basePoint);if(top[1]>=0&&top[1]<h&&top[0]>=0&&top[0]<w)label(topPoint,'顶 '+fmt(state.h+state.build)+' mm','#875124',5,-4);if(bottom[1]>=0&&bottom[1]<h&&bottom[0]>=0&&bottom[0]<w)label(basePoint,'底 '+fmt(state.h)+' mm','#37546b',5,13);triad();cameraOverlay(work);
- canvas.dataset.printedHeight=String(topZ-state.h);canvas.dataset.pathKind=pathActive()&&route.batch?route.batch.frames[routeIndex].kind:'';canvas.dataset.azimuth=az.toFixed(4);canvas.dataset.elevation=elevation.toFixed(4);canvas.dataset.height=currentZ();canvas.dataset.parts=robot?robot.length:0;canvas.dataset.cloud=E('shellOn').checked?'shown':'off';canvas.dataset.section=E('cutOn').checked?'shown':'off';canvas.dataset.fixtures=boxes.length;
+ canvas.dataset.printedHeight=String(topZ-state.h);canvas.dataset.pathKind=pathActive()&&route.batch?route.batch.frames[routeIndex].kind:'';canvas.dataset.azimuth=az.toFixed(4);canvas.dataset.elevation=elevation.toFixed(4);canvas.dataset.height=currentZ();canvas.dataset.parts=robot?(footprint?.q_rad===null?1:robot.length):0;canvas.dataset.cloud=E('shellOn').checked?'shown':'off';canvas.dataset.section=E('cutOn').checked?'shown':'off';canvas.dataset.fixtures=boxes.length;
  if(reachExplicit&&robot){canvas.dataset.rendered=reachOverlay?.id??'';canvas.dataset.boundaryPoints=reachOverlay?.points.length??0;delete canvas.dataset.triangles}else if(shell&&robot){canvas.dataset.rendered=shellKey();canvas.dataset.boundaryPoints=shell.v.length/3;if(state.mode==='threshold'&&state.minPoses!==25)delete canvas.dataset.triangles;else canvas.dataset.triangles=D.mesh[m][state.mode==='threshold'?'all25':state.mode].f}else{delete canvas.dataset.rendered;delete canvas.dataset.boundaryPoints}}
 // Candidate beds use the same world frame and camera as the recorded paths.
 // A loop may outline a separate slab or the hole inside a ring.
@@ -402,13 +427,113 @@ function drawFootprintMask(){
   (py[0]-p[0])/mask.height,(py[1]-p[1])/mask.height,p[0],p[1]);
  ctx.imageSmoothingEnabled=false;ctx.drawImage(mask,0,0);ctx.restore();canvas.dataset.sectionZ=z;
 }
+function drawFootprintWarnings(){
+ const audit=footprint.fixture_audit;
+ canvas.dataset.poseKnown=String(footprint.q_rad!==null);
+ if(!audit)return;
+ canvas.dataset.fixtureBlocked=String(audit.blocked);
+ canvas.dataset.fixtureOverlap=JSON.stringify(audit.parts);
+ if(!E('fixtureOn').checked)return;
+ for(const hit of audit.hits){
+  if(!hit.volume&&!hit.bed)continue;
+  const [lo,hi]=hit.z_mm;
+  for(const z of new Set([lo,hi])){
+   ctx.beginPath();
+   for(const loop of hit.loops){
+    loop.forEach(([x,y],i)=>{
+     const [u,v]=project([x,y,z]);
+     if(i===0)ctx.moveTo(u,v);else ctx.lineTo(u,v);
+    });ctx.closePath();
+   }
+   ctx.fillStyle='rgba(211,45,39,.46)';ctx.fill('evenodd');
+   ctx.lineWidth=1.5;ctx.strokeStyle='#ba221b';ctx.stroke();
+  }
+  if(hit.marker_xy){
+   const where=hit.bed&&hit.volume?'穿过床面和工件':hit.bed?'穿过床面':'穿入工件';
+   label([...hit.marker_xy,(lo+hi)/2],hit.name+where,'#a32119',6,-5);
+  }
+ }
+}
+function drawFootprintPath(){
+ const fp=footprint;
+ ctx.save();ctx.lineCap='round';ctx.lineJoin='round';
+ const stroke=(coords,start,end,color,width,dash)=>{
+  if(!coords||end<=start)return;
+  ctx.setLineDash(dash);ctx.lineWidth=width;ctx.strokeStyle=color;ctx.beginPath();
+  let pen=false;
+  for(let i=start;i<=end;i++){
+   if(coords[i]===null){pen=false;continue}
+   const [u,v]=project(coords[i]);
+   if(pen)ctx.lineTo(u,v);else ctx.moveTo(u,v);
+   pen=true;
+  }
+  ctx.stroke();
+ };
+ if(fp.plan)stroke(fp.plan,0,fp.plan.length-1,'rgba(60,73,102,.85)',1.6,[5,4]);
+ if(fp.motion){
+  const coords=fp.motion.xyz;
+  stroke(coords,fp.index,coords.length-1,'rgba(48,106,123,.78)',1.4,[3,3]);
+  stroke(coords,0,fp.index,'#00678a',2.3,[]);
+ }
+ ctx.restore();
+}
+function drawFootprintMarker(){
+ if(footprint.motion){
+  const [u,v]=project(footprint.motion.xyz[footprint.index]);
+  ctx.save();ctx.setLineDash([]);ctx.fillStyle='#00678a';ctx.strokeStyle='white';ctx.lineWidth=2;
+  ctx.beginPath();ctx.arc(u,v,4.3,0,2*Math.PI);ctx.fill();ctx.stroke();ctx.restore();
+ }
+ if(footprint.failurePoint){
+  const p=footprint.failurePoint,[u,v]=project(p);
+  ctx.save();ctx.setLineDash([]);ctx.lineWidth=2.5;ctx.strokeStyle='#a21620';ctx.fillStyle='rgba(255,250,247,.93)';
+  ctx.beginPath();ctx.arc(u,v,8.2,0,2*Math.PI);ctx.fill();ctx.stroke();
+  ctx.beginPath();ctx.moveTo(u-3,v-3);ctx.lineTo(u+3,v+3);
+  ctx.moveTo(u+3,v-3);ctx.lineTo(u-3,v+3);ctx.stroke();
+  label(p,footprint.failureLabel,'#a21620',12,-9);ctx.restore();
+ }
+ if(footprint.unreachablePoint){
+  const p=footprint.unreachablePoint,[u,v]=project(p);
+  ctx.save();ctx.setLineDash([]);ctx.lineWidth=2;ctx.strokeStyle='#8c3460';ctx.fillStyle='white';
+  ctx.beginPath();ctx.moveTo(u,v-5.5);ctx.lineTo(u+5.5,v);ctx.lineTo(u,v+5.5);ctx.lineTo(u-5.5,v);
+  ctx.closePath();ctx.fill();ctx.stroke();
+  label(p,'无关节解的边界点','#8c3460',9,13);ctx.restore();
+ }
+}
+// A planned line may contain null to lift the pen between two separate beds.
+host.setFootprintPlan=coords=>{
+ if(!footprint||!Array.isArray(coords))return false;
+ let line=coords;
+ if(coords.length&&coords.every(s=>Array.isArray(s?.xyz_mm))){
+  line=[];
+  for(const s of coords){if(line.length)line.push(null);for(const p of s.xyz_mm)line.push(p)}
+ }
+ if(!line.every(p=>p===null||vecOK(p,3)))return false;
+ footprint.plan=line;canvas.dataset.footprintPlanNodes=line.filter(Boolean).length;
+ requestDraw();return true;
+};
+host.setFootprintMotion=motion=>{
+ if(!footprint||!Array.isArray(motion?.xyz)||!Array.isArray(motion.q)||
+  !motion.q.length||motion.q.length!==motion.xyz.length||
+  !motion.xyz.every(p=>vecOK(p,3))||!motion.q.every(q=>vecOK(q,6)))return false;
+ footprint.motion=motion;canvas.dataset.footprintMotionNodes=motion.q.length;
+ return host.seekFootprintFrame(0);
+};
+host.seekFootprintFrame=index=>{
+ if(!footprint?.motion||!Number.isInteger(index)||index<0||index>=footprint.motion.q.length)return false;
+ footprint.index=index;footprint.q_rad=footprint.motion.q[index];
+ canvas.dataset.footprintFrame=index;
+ updatePose();
+ return true;
+};
 host.setFootprint=spec=>{
  if(spec&&(!names[spec.mount]||!Number.isFinite(spec.h)||!(spec.d>0)||!spec.loops?.length||
-  !spec.loops.every(loop=>loop.length>=3&&loop.every(p=>vecOK(p,2)))||!vecOK(spec.q_rad,6)))return false;
+  !spec.loops.every(loop=>loop.length>=3&&loop.every(p=>vecOK(p,2)))||(spec.q_rad!=null&&!vecOK(spec.q_rad,6))))return false;
  const legend=root.querySelectorAll('.legend>span');
  const layerLabel=E('cutOn').parentNode.lastChild;
+ if(footprint){articulation=null;activeCollision=null;witness=null}
  footprint=null;
- delete canvas.dataset.footprint;delete canvas.dataset.footprintLoops;
+ E('noPose').hidden=true;
+ for(const key of ['footprint','footprintLoops','fixtureBlocked','fixtureOverlap','footprintFrame','footprintMotionNodes','footprintPlanNodes','poseKnown','footprintFkErrorMm','footprintFailure','sectionZ'])delete canvas.dataset[key];
  if(!spec){
   legend[1].lastChild.textContent='工件';layerLabel.textContent='剖面';
   requestDraw();return true;
@@ -419,7 +544,15 @@ host.setFootprint=spec=>{
  const center=[(xmin+xmax)/2,(ymin+ymax)/2];
  const vertices=[...xy.map(p=>[...p,spec.h]),...xy.map(p=>[...p,spec.h+spec.d])];
  const bounds=block(...center,spec.h+spec.d/2,xmax-xmin,ymax-ymin,spec.d);
- footprint={...spec,vertices,bounds,maskKey:spec.mount+'|'+spec.mask_url};
+ const failure=spec.motion?.failure;
+ const failurePoint=!spec.fixture_audit?.blocked&&vecOK(failure?.xyz_mm,3)?failure.xyz_mm:null;
+ const failureLabel=failure?.code==='waypoint_ik'?'此处无关节解':failure?.phase==='entry'?'进场失败时的喷嘴':'路径失败时的喷嘴';
+ const unreachable=spec.motion?.preflight?.first_unreachable_xyz_mm;
+ const unreachablePoint=!spec.fixture_audit?.blocked&&vecOK(unreachable,3)&&
+  (!failurePoint||Math.hypot(...unreachable.map((v,i)=>v-failurePoint[i]))>1)?unreachable:null;
+ footprint={...spec,q_rad:spec.q_rad??null,index:0,motion:null,plan:null,failurePoint,failureLabel,unreachablePoint,
+  vertices,bounds,maskKey:spec.mount+'|'+spec.mask_url};
+ if(failurePoint)canvas.dataset.footprintFailure=JSON.stringify(failurePoint);
  displayPose=null;route=null;routeIndex=0;requestedPath++;
  applyLayout({mount:spec.mount,mode:'down',h:spec.h,build:spec.d,width_mm:Math.max(xmax-xmin,ymax-ymin),
   center_xy_mm:center,placement:'custom',target:'path',progress_pct:100},true);
