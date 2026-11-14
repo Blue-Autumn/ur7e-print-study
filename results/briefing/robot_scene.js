@@ -11,6 +11,7 @@ class RobotScene extends HTMLElement {
 :host(:not([standalone])) .shell {width:100%;max-width:none;padding:0}
 :host(:not([standalone])) .scene canvas {width:100%;height:clamp(180px,51dvh,1080px)}
 .pathKey i{height:3px;vertical-align:3px}
+:host([surface-review]) .bar label:has(#shellOn),:host([surface-review]) .bar label:has(#cutOn),:host([surface-review]) .legend{display:none}
 :host([anchored][fast-render]) #routeChip{display:none!important}
 :host([anchored]) #fitChip,:host([anchored]) #scopeChip,:host([anchored]) .detailsRead {display:none}
 .chip.hit{background:#fff1ec;color:#8a231e}.chip.unknown{background:#fff8e7;color:#795214}
@@ -102,7 +103,7 @@ if(host.hasAttribute('fixed-print-pose')){
   // table to the left and a little nearer to the viewer than the base.
   const heading=Math.hypot(dx,dy)>1e-6?Math.atan2(dy,dx)+.91:az;
   const first=placementView===null;
-  if(!first && canvas.width && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+  if(!footprint && !first && canvas.width && !matchMedia('(prefers-reduced-motion: reduce)').matches){
    const previousFrame=document.createElement('canvas');
    previousFrame.width=canvas.width;
    previousFrame.height=canvas.height;
@@ -350,12 +351,25 @@ function draw(){queue=false;if(host.hasAttribute('anchored')&&host.hasAttribute(
  const a=baseAxis[m],end=a.map(v=>v*350);line(a.map(v=>-110*v),end,'#915024',1.5,[5,4]);routeLine();if(footprint)drawFootprintPath();drawRobot();if(footprint){drawFootprintWarnings();drawFootprintMarker()}else marker();label(end,'基座 '+sign[m],'#88411f',4,-4);
  const topOutline=footprint?footprint.vertices.slice(footprint.vertices.length/2):work.slice(4);
  const topPoint=topOutline.reduce((best,p)=>project(p)[0]>project(best)[0]?p:best);
- const basePoint=[topPoint[0],topPoint[1],state.h],top=project(topPoint),bottom=project(basePoint);if(top[1]>=0&&top[1]<h&&top[0]>=0&&top[0]<w)label(topPoint,'顶 '+fmt(state.h+state.build)+' mm','#875124',5,-4);if(bottom[1]>=0&&bottom[1]<h&&bottom[0]>=0&&bottom[0]<w)label(basePoint,'底 '+fmt(state.h)+' mm','#37546b',5,13);triad();cameraOverlay(work);
+ const basePoint=[topPoint[0],topPoint[1],state.h],top=project(topPoint),bottom=project(basePoint);
+ if(!footprint?.surface&&top[1]>=0&&top[1]<h&&top[0]>=0&&top[0]<w)label(topPoint,'顶 '+fmt(state.h+state.build)+' mm','#875124',5,-4);
+ if(bottom[1]>=0&&bottom[1]<h&&bottom[0]>=0&&bottom[0]<w)label(basePoint,(footprint?.surface?'床面 ':'底 ')+fmt(state.h)+' mm','#37546b',5,13);
+ triad();cameraOverlay(work);
  canvas.dataset.printedHeight=String(topZ-state.h);canvas.dataset.pathKind=pathActive()&&route.batch?route.batch.frames[routeIndex].kind:'';canvas.dataset.azimuth=az.toFixed(4);canvas.dataset.elevation=elevation.toFixed(4);canvas.dataset.height=currentZ();canvas.dataset.parts=robot?(footprint?.q_rad===null?1:robot.length):0;canvas.dataset.cloud=E('shellOn').checked?'shown':'off';canvas.dataset.section=E('cutOn').checked?'shown':'off';canvas.dataset.fixtures=boxes.length;
  if(reachExplicit&&robot){canvas.dataset.rendered=reachOverlay?.id??'';canvas.dataset.boundaryPoints=reachOverlay?.points.length??0;delete canvas.dataset.triangles}else if(shell&&robot){canvas.dataset.rendered=shellKey();canvas.dataset.boundaryPoints=shell.v.length/3;if(state.mode==='threshold'&&state.minPoses!==25)delete canvas.dataset.triangles;else canvas.dataset.triangles=D.mesh[m][state.mode==='threshold'?'all25':state.mode].f}else{delete canvas.dataset.rendered;delete canvas.dataset.boundaryPoints}}
 // Candidate beds use the same world frame and camera as the recorded paths.
 // A loop may outline a separate slab or the hole inside a ring.
 function drawFootprint(){
+ if(footprint.surface){
+  const {points,faces}=footprint.surface;
+  drawPolys(boxFaces(block(...state.center,state.h-1,state.side,state.side,2),[189,190,164],.78));
+  const projected=points.map(project);
+  drawPolys(faces.map(ids=>{
+   const p=ids.map(i=>projected[i]);
+   return {p,d:p.reduce((sum,v)=>sum+v[2],0)/3,c:'rgba(222,170,83,.85)'};
+  }));
+  return;
+ }
  const layers=footprint.loops.map(loop=>({
   bottom:loop.map(p=>project([...p,state.h])),
   top:loop.map(p=>project([...p,state.h+state.build]))
@@ -526,6 +540,7 @@ host.seekFootprintFrame=index=>{
  return true;
 };
 host.setFootprint=spec=>{
+ canvas.parentElement.querySelector('canvas[data-transition]')?.remove();
  if(spec&&(!names[spec.mount]||!Number.isFinite(spec.h)||!(spec.d>0)||!spec.loops?.length||
   !spec.loops.every(loop=>loop.length>=3&&loop.every(p=>vecOK(p,2)))||(spec.q_rad!=null&&!vecOK(spec.q_rad,6))))return false;
  const legend=root.querySelectorAll('.legend>span');
