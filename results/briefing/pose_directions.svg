@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 470 185" role="img" aria-labelledby="title desc" lang="zh-CN">
+ <title id="title">25 个候选喷嘴方向</title><desc id="desc">中央一点为竖直朝下。内、中、外三圈分别为倾斜十度、二十度和三十度，每圈八个方位，相邻方位间隔四十五度。所有方向均固定零滚转。</desc>
+ <g transform="translate(91 91)"><path d="M-74 0H74M0-74V74M-52-52L52 52M-52 52L52-52" fill="none" stroke="#dce4e0" stroke-width="1"/>
+  <g fill="none" stroke-width="1.4"><circle r="21" stroke="#68aab0"/><circle r="42" stroke="#d1a271"/><circle r="63" stroke="#a293ba"/></g>
+  <g fill="#277e84"><circle cx="21" cy="0" r="3.65"/><circle cx="14.849" cy="14.849" r="3.65"/><circle cx="0" cy="21" r="3.65"/><circle cx="-14.849" cy="14.849" r="3.65"/><circle cx="-21" cy="0" r="3.65"/><circle cx="-14.849" cy="-14.849" r="3.65"/><circle cx="0" cy="-21" r="3.65"/><circle cx="14.849" cy="-14.849" r="3.65"/></g>
+  <g fill="#a46021"><circle cx="42" cy="0" r="3.65"/><circle cx="29.698" cy="29.698" r="3.65"/><circle cx="0" cy="42" r="3.65"/><circle cx="-29.698" cy="29.698" r="3.65"/><circle cx="-42" cy="0" r="3.65"/><circle cx="-29.698" cy="-29.698" r="3.65"/><circle cx="0" cy="-42" r="3.65"/><circle cx="29.698" cy="-29.698" r="3.65"/></g>
+  <g fill="#76569a"><circle cx="63" cy="0" r="3.65"/><circle cx="44.548" cy="44.548" r="3.65"/><circle cx="0" cy="63" r="3.65"/><circle cx="-44.548" cy="44.548" r="3.65"/><circle cx="-63" cy="0" r="3.65"/><circle cx="-44.548" cy="-44.548" r="3.65"/><circle cx="0" cy="-63" r="3.65"/><circle cx="44.548" cy="-44.548" r="3.65"/></g>
+  <circle r="4.8" fill="#193b34" stroke="white" stroke-width="1.2"/></g>
+ <g font-family="Microsoft YaHei,Noto Sans SC,sans-serif" fill="#253f38"><text x="178" y="30" font-size="19" font-weight="650">喷嘴能选哪些方向？</text>
+  <g font-size="14"><circle cx="185" cy="53" r="4" fill="#193b34"/><text x="198" y="58">中心 · 竖直朝下，1 个方向</text>
+  <circle cx="185" cy="76" r="3.65" fill="#277e84"/><text x="198" y="81">内圈 · 倾斜 10°，8 个方位</text>
+  <circle cx="185" cy="99" r="3.65" fill="#a46021"/><text x="198" y="104">中圈 · 倾斜 20°，8 个方位</text>
+  <circle cx="185" cy="122" r="3.65" fill="#76569a"/><text x="198" y="127">外圈 · 倾斜 30°，8 个方位</text></g>
+  <text x="178" y="153" font-size="12" fill="#51665d">相邻方位相差 45°，工具滚转为 0°。</text></g>
+</svg>

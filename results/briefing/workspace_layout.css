@@ -1,0 +1,57 @@
+main.workLayout, body:has(#workspace) #ur-study-nav .us-row {
+  width:100%;max-width:none;padding-inline:clamp(12px,1.5vw,48px);
+}
+.workLayout hgroup {display:flex;align-items:baseline;flex-wrap:wrap;gap:8px 24px}
+.workLayout hgroup p {margin:0}
+#workspace {overflow:visible;scroll-margin-top:54px}
+#workspace .heroCols {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
+#workspace .visual, #workspace .comparison {min-width:0;padding:12px clamp(10px,1vw,22px);border:0;background:white}
+#workspace .comparison {border-left:1px solid var(--rule)}
+#workspace :is(.panelTitle,#assemblyTitle) {font-size:clamp(17px,1vw,23px);margin:0 0 8px}
+#robotScene {display:block;width:100%}
+#workspace .sceneFacts {padding:0;margin:3px 0}
+#workspace .layoutVerdict {padding:6px 9px;margin:7px 0;border:0;border-left:3px solid var(--teal,#087563)}
+#workspace .layoutVerdict p {margin:0}
+#workspace .workspaceOptions {
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(8px,1vw,18px);
+  padding:0;overflow:visible;background:transparent
+}
+.workspaceOptions > div {min-width:0}
+#workspace .workspaceOptions .ctrlPart {padding:7px 0;margin:0;border:0;border-top:1px solid var(--rule)}
+#workspace .workspaceOptions .bedSettings {padding:0;border:0}
+#workspace .workspaceOptions :is(.placementLine,.paramsRow,.inlineCtrl) {
+  display:flex;flex-wrap:wrap;align-items:center;gap:4px 7px
+}
+#workspace .workspaceOptions .dialRow {display:flex;align-items:center;gap:6px}
+#workspace .heightsLine {display:grid;gap:3px}
+#workspace .heightsLine .dialRow {display:grid;grid-template-columns:max-content minmax(20px,1fr) 52px max-content;gap:4px}
+#workspace :is(#analysisH,#analysisD,#analysisCount) {display:block!important}
+#workspace :is(#analysisH,#analysisD) {width:100%}
+#workspace #directionGuide {color:#17665d;font-size:13px}
+#workspace #directionGuide img {max-width:100%}
+#workspace #pathReview {scroll-margin-top:60px}
+#workspace .comparison .chartPanel {border:0;border-radius:0;padding:0}
+#workspace .chartMenus {justify-content:flex-start;gap:8px 20px}
+#workspace .chartPanel svg {display:block;width:100%;height:clamp(155px,24vh,510px)}
+#workspace .mapLegend {margin-block:5px}
+#workspace .footMaps {gap:clamp(4px,.65vw,14px)}
+#workspace .footMap {padding:4px;border:0;border-top:3px solid var(--m);border-radius:0}
+#workspace .footMap canvas {width:min(100%,24vh);height:auto;margin:auto}
+#workspace .comparison > div:has(>.footMaps) {margin-top:10px;padding-top:8px;border-top:1px solid var(--rule)}
+#workspace .comparison > div > h3 {margin:0 0 6px}
+#workspace :is(.footMap,.chartPanel) h3 {font-size:clamp(14px,.9vw,20px)}
+#workspace :is(.mapMore,.mapLegend,.inlineNote,.mapClick,.helpText,.hint,.inlineFilters,.sceneFacts,.chartMenus>div,.axisUnit) {color:var(--muted);font-size:clamp(12px,.75vw,16px)}
+#workspace :is(.mapClick,#trendCaption) {margin:3px 0}
+#workspace #trendExplain {margin:6px 0;padding:5px 8px}
+#workspace .axisUnit {display:block}
+#workspace button,#workspace select {font-size:clamp(12px,.75vw,16px)}
+.workspaceEvidence {border-top:1px solid var(--rule);padding:8px 14px}
+#workspace .footMap canvas[aria-disabled="true"] {cursor:default}
+.recordsLayout {max-width:1020px}
+.recordsLayout #examplesList {padding-left:1.4em;margin-bottom:0}
+.recordsLayout #examplesList li {margin:4px 0}
+@media(max-width:880px){
+  #workspace .workspaceOptions {grid-template-columns:minmax(0,1fr)}
+  #workspace .heroCols {grid-template-columns:repeat(2,minmax(0,1fr))}
+  #workspace .chartMenus .btnGroup {flex-wrap:wrap}
+}

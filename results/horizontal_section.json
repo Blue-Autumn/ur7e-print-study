@@ -1,0 +1,210 @@
+{
+  "scope": "Nominal, joint-limited, upright DH base. TCP orientation unrestricted. No collision, safety-plane, gravity, cable, speed, deposition or path constraints.",
+  "geometry": "For all horizontal slices at z, radial distance squared <= Rmax_squared - (z-d1)^2. At z=d1 the attained radii form a closed interval. An attained axis and outer radius imply the full disk.",
+  "objective": "R(B)^2=(d4+B)^2+(L_arm_max + H_max(B))^2. B>=0 suffices by symmetry and d4>0. Both analytic arcs are maximized over their complete interval.",
+  "enclosure": "Closed-form extrema evaluate the nominal SI lengths at 60 decimal digits; the radius bracket expands to adjacent binary64 values and the area bracket is rounded outward again. The six-axis FK witnesses use independent binary64 arithmetic.",
+  "results": {
+    "rtde_20260921": {
+      "tool_xyz_in_flange_m": [
+        0.01616,
+        0.16579,
+        0.02213
+      ],
+      "shoulder_z_in_base_m": 0.1625,
+      "analytic_segments": [
+        {
+          "B_interval_m": [
+            0.0,
+            0.12173
+          ],
+          "B_at_max_m": 0.04713495218918255,
+          "max_distance_squared_m2": 1.2561519443117173
+        },
+        {
+          "B_interval_m": [
+            0.12173,
+            0.20631447501326705
+          ],
+          "B_at_max_m": 0.12173,
+          "max_distance_squared_m2": 1.2389599315681543
+        }
+      ],
+      "shoulder_distance_max_m": 1.1207818451026574,
+      "shoulder_distance_max_bracket_m": [
+        1.1207818451026572,
+        1.1207818451026577
+      ],
+      "outer_radius_witness": {
+        "q_rad": [
+          0.16169391105414554,
+          -3.141592653589793,
+          0.0,
+          -1.9696950989239728,
+          -1.1731938012149636,
+          -3.0444268930204395
+        ],
+        "fk_tcp_base_m": [
+          1.1207818451026574,
+          -1.249000902703301e-16,
+          0.16250000000000003
+        ]
+      },
+      "shoulder_plane_axis_status": 1,
+      "shoulder_plane_axis_witness": {
+        "q_rad": [
+          0.0,
+          -2.737159436889666,
+          2.6500630464957178,
+          -0.7895138180891292,
+          -1.3495488593382463,
+          -1.6493327040116232
+        ],
+        "fk_tcp_base_m": [
+          -2.6020852139652106e-17,
+          2.7755575615628914e-17,
+          0.16250000000000003
+        ]
+      },
+      "axis_arm_wrist_common_length_range_m": [
+        0.1455352569262917,
+        0.25716991014158863
+      ],
+      "vertical_axis_excluded_cylinder_radius_lower_bound_m": 0.0,
+      "shoulder_plane_full_disk": true,
+      "max_horizontal_area_m2": 3.946317720042226,
+      "max_horizontal_area_bracket_m2": [
+        3.9463177200422233,
+        3.9463177200422277
+      ],
+      "max_area_height_base_m": 0.1625
+    },
+    "bare_flange": {
+      "tool_xyz_in_flange_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "shoulder_z_in_base_m": 0.1625,
+      "analytic_segments": [
+        {
+          "B_interval_m": [
+            0.0,
+            0.0996
+          ],
+          "B_at_max_m": 0.02268777658953987,
+          "max_distance_squared_m2": 0.9388192213719432
+        },
+        {
+          "B_interval_m": [
+            0.0996,
+            0.0996
+          ],
+          "B_at_max_m": 0.0996,
+          "max_distance_squared_m2": 0.89494802
+        }
+      ],
+      "shoulder_distance_max_m": 0.9689268400513752,
+      "shoulder_distance_max_bracket_m": [
+        0.9689268400513751,
+        0.9689268400513753
+      ],
+      "outer_radius_witness": {
+        "q_rad": [
+          0.16169391105414554,
+          -3.141592653589793,
+          0.0,
+          -2.342373888821042,
+          -1.3409900252514262,
+          0.0
+        ],
+        "fk_tcp_base_m": [
+          0.9689268400513751,
+          -1.3704315460216776e-16,
+          0.16250000000000014
+        ]
+      },
+      "shoulder_plane_axis_status": 0,
+      "shoulder_plane_axis_witness": null,
+      "axis_arm_wrist_common_length_range_m": null,
+      "vertical_axis_excluded_cylinder_radius_lower_bound_m": 0.03370000000000001,
+      "shoulder_plane_full_disk": false,
+      "max_horizontal_area_m2": null,
+      "max_horizontal_area_bracket_m2": null,
+      "max_area_height_base_m": null
+    },
+    "robodk_station": {
+      "tool_xyz_in_flange_m": [
+        -0.0061600000000000005,
+        0.11384,
+        0.023690000000000003
+      ],
+      "shoulder_z_in_base_m": 0.1625,
+      "analytic_segments": [
+        {
+          "B_interval_m": [
+            0.0,
+            0.12329
+          ],
+          "B_at_max_m": 0.03971956435368467,
+          "max_distance_squared_m2": 1.1550246837167115
+        },
+        {
+          "B_interval_m": [
+            0.12329,
+            0.16792234901882477
+          ],
+          "B_at_max_m": 0.12329,
+          "max_distance_squared_m2": 1.1286067226514103
+        }
+      ],
+      "shoulder_distance_max_m": 1.0747207468532054,
+      "shoulder_distance_max_bracket_m": [
+        1.0747207468532052,
+        1.0747207468532056
+      ],
+      "outer_radius_witness": {
+        "q_rad": [
+          0.16169391105414554,
+          -3.141592653589793,
+          0.0,
+          -2.07068190617115,
+          -1.2427821536095989,
+          3.087534340412068
+        ],
+        "fk_tcp_base_m": [
+          1.0747207468532054,
+          -1.5439038936193583e-16,
+          0.16250000000000017
+        ]
+      },
+      "shoulder_plane_axis_status": 1,
+      "shoulder_plane_axis_witness": {
+        "q_rad": [
+          0.0,
+          -2.7454150693519974,
+          2.720747533966466,
+          -0.5169237263368247,
+          -1.854743436397089,
+          -2.070327283704379
+        ],
+        "fk_tcp_base_m": [
+          3.469446951953614e-17,
+          1.3877787807814457e-17,
+          0.16250000000000012
+        ]
+      },
+      "axis_arm_wrist_common_length_range_m": [
+        0.1455352569262917,
+        0.2018225993597891
+      ],
+      "vertical_axis_excluded_cylinder_radius_lower_bound_m": 0.0,
+      "shoulder_plane_full_disk": true,
+      "max_horizontal_area_m2": 3.628617061079295,
+      "max_horizontal_area_bracket_m2": [
+        3.6286170610792934,
+        3.628617061079298
+      ],
+      "max_area_height_base_m": 0.1625
+    }
+  }
+}

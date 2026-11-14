@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UR7e 打印实验 · 三种安装方式</title>
+<style>
+:root{color-scheme:light;--ink:#18322f;--muted:#4b645f;--line:#c6d7cf;--accent:#076653;--paper:#fff;--page:#f3f6f3}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);background:var(--page);font:16px/1.55 "Segoe UI","Microsoft YaHei",sans-serif}
+main{width:100%;max-width:2020px;margin:auto;padding:clamp(16px,2vw,36px)}
+header{margin-bottom:20px}h1,h2,h3,p{margin:0}h1{font-size:clamp(28px,2.2vw,42px);line-height:1.24;letter-spacing:-.03em}
+header p{margin-top:7px;color:var(--muted)}h2{font-size:clamp(20px,1.35vw,26px);line-height:1.3}h3{font-size:16px;margin:12px 0 4px}
+.workspace{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(16px,2vw,32px);align-items:start}
+.panel{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:clamp(12px,1.3vw,22px)}
+.panel>h2{margin-bottom:8px}.headline{color:#173d34;font-size:clamp(17px,1.1vw,21px)}
+.viewport{position:relative}#loadingNote{position:absolute;inset:42% auto auto 50%;transform:translateX(-50%);padding:6px 14px;background:#fff;border:1px solid var(--line);border-radius:5px;pointer-events:none;white-space:nowrap}
+.controls,.jump,.location{display:flex;align-items:center;gap:7px 12px;flex-wrap:wrap}
+.controls{margin-top:10px;flex-wrap:nowrap}.controls input{flex:1;min-width:50px;accent-color:var(--accent)}
+output{min-width:44px;text-align:right;font-variant-numeric:tabular-nums}.jump{margin-top:7px}.jump span{color:var(--muted);margin-left:auto}
+button,select{font:inherit;border:1px solid #9db9ad;background:white;color:var(--ink);border-radius:5px;padding:4px 10px;cursor:pointer}
+button:hover,select:hover{background:#edf5ee}button[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:white}button:disabled,input:disabled{opacity:.55;cursor:default}
+button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #468e75;outline-offset:2px}
+#play{background:var(--accent);color:white;min-width:62px}
+.small,details,figcaption{font-size:14px;color:var(--muted)}details{margin-top:8px}summary{cursor:pointer;display:list-item}details p{margin-top:5px}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;margin:10px 0 5px}
+th,td{text-align:center;padding:7px 2px;border-bottom:1px solid #dae4dd}th{font-weight:600;color:var(--muted)}th:first-child,td:first-child{text-align:left}
+th.floor{color:#007969}th.side{color:#a64a16}th.overhead{color:#564b93}
+td button{font-size:14px;padding:3px 8px}td.empty{font-size:14px;color:#657672}#variantRow{margin:8px 0 0}
+.reading{padding-top:10px;margin-top:10px;border-top:1px solid var(--line)}
+#position,#orientation{color:var(--muted)}#tip{font-size:15px;margin-top:7px}
+.metrics{display:flex;gap:12px 30px;flex-wrap:wrap;margin:8px 0 0}.metrics b{font-size:21px;font-variant-numeric:tabular-nums}
+.metrics span{color:var(--muted);font-size:14px}.result{margin-top:12px;border-left:3px solid #668e7d;background:#f1f6f2;padding:9px 12px}
+footer{margin-top:18px;padding-top:13px;border-top:1px solid var(--line);color:var(--muted);font-size:15px}
+footer p{margin-top:4px}a{color:var(--accent);text-underline-offset:.18em}
+#legacy{margin:0 0 8px;color:#854c20}#joints{font-variant-numeric:tabular-nums}
+[hidden]{display:none!important}
+@media(max-width:900px){.workspace{grid-template-columns:1fr}main{padding:10px}.panel{padding:12px}}
+</style>
+</head>
+<body><main>
+<header>
+<h1>UR7e 地装、侧装和吊装，各能打印多大的方件？</h1>
+<p>在相同的仿真起姿、喷嘴竖直朝下的条件下，地装和侧装都走通了 405 × 405 × 300 mm 的测试路径。吊装走通的宽件为 390 × 390 × 150 mm。</p>
+</header>
+<p id="legacy" hidden></p>
+<div class="workspace">
+<section class="panel" aria-labelledby="replayTitle">
+<h2 id="replayTitle">打印路径回放</h2>
+<div class="viewport"><robot-scene anchored fast-render fixed-print-pose id="scene" style="visibility:hidden"></robot-scene><span id="loadingNote" role="status">正在载入回放…</span></div>
+<div class="controls"><button id="play" disabled>播放</button><input id="progress" type="range" min="0" max="0" value="0" step="1" aria-label="路径进度" disabled><output id="read" for="progress">—</output></div>
+<div class="jump">
+<button id="start" disabled>起始姿势</button><button id="seam" disabled>首层起点</button><button id="top" disabled>顶层起点</button><button id="peak" disabled>关节转动最大处</button>
+<span id="stage" role="status">正在载入…</span></div>
+<details><summary>当前关节角与回放说明</summary><p id="joints"></p><p id="modelNote"></p><p>回放按路径快进，两个计算点之间的画面用关节角插值。</p></details>
+</section>
+<section class="panel" aria-labelledby="choicesTitle">
+<h2 id="choicesTitle">选择工件和安装方式</h2>
+<table aria-label="各工件通过测试的安装方式"><thead><tr><th>方形边长 × 高度（mm）</th><th class="floor">地装</th><th class="side">侧装</th><th class="overhead">吊装</th></tr></thead><tbody id="choices"></tbody></table>
+<p class="small">点击通过的摆位可查看回放。“未找到”仅指本轮搜索。</p>
+<label class="location" id="variantRow" hidden>同尺寸的其他摆位 <select id="variant"></select></label>
+<div class="reading"><h2 id="title">当前摆位</h2>
+<p id="position"></p><p id="orientation"></p>
+<p id="tip"></p>
+<div class="metrics"><div><span>打印中，单个关节最多转动</span><br><b id="gain">—</b> °/mm</div><div><span>进场与打印中，腕部相对起姿最多转动</span><br><b id="wrist">—</b> °</div></div>
+</div>
+<p class="result">同样打印 405 mm 方件，所测侧装摆位中，喷嘴每走 1 mm，单个关节最多转约 0.29°，地装为 0.78°。但从共同起姿算起，侧装腕部最多偏转约 108°，地装约 0.55°。</p>
+</section></div>
+<footer><strong>怎样得到这些结果</strong>
+<p><a href="../../bed_shapes/index.html">如果不限定方形：比较圆环、长方形和分块床 →</a></p>
+<p>先筛选工件位置和喷头方向，再从同一组关节角进场，走五层方形轮廓、四次抬升和三层填充。用 RoboDK 求连续的关节运动，再用机械臂、喷头、支架和已打印工件的模型检查采样位置是否相碰。</p>
+<p>点云表示喷嘴在当前方向能到达的位置。进场时喷头可以转向。表中的通过结果适用于这条测试路径，完整切片和实物管线仍需验证。</p>
+<details><summary>查看实验数据</summary><p><a href="three_mount_motions.json">关节转角</a>　<a href="cloud_diagnostics.json">首层点云核对</a>　<a href="study.json">全部摆位和复核记录</a>　<a href="../../briefing/volume.html">交互工作空间</a>　<a href="../../layout_search/report.html">安装布局搜索</a>　<a href="../playback-benchmark.html">地装尺寸实验</a></p></details></footer>
+</main>
+<script src="../../briefing/scene_geometry.js?v=3d8a77a12e48ba61"></script>
+<script src="../../briefing/anchored_playback.js?v=f3b6c6ce01d26d47"></script>
+<script src="cloud_data.js?v=1c2df4e91cd90170"></script>
+<script src="../../briefing/robot_scene.js?v=4a55b5acf82e73a4"></script>
+<script>
+'use strict';
+const study={"schema":2,"anchor":{"q_deg":[16.113519113712258,-104.11317205858388,117.70833695584766,-13.63348093151794,15.964890501125256,179.763116956514],"mount":"floor","source":"joint_angles_transferred_from_floor_simulation","starting_hose_state":"unknown","reference_mount":"floor"},"legacy_case_map":{"2":{"kind":"case","stable_id":"side-300-original","index":3},"3":{"kind":"case","stable_id":"overhead-300-original","index":4},"4":{"kind":"case","stable_id":"side-405-r90-x220","index":5},"5":{"kind":"case","stable_id":"side-405-r90-x330","index":6},"6":{"kind":"case","stable_id":"side-390-z-350","index":7},"7":{"kind":"case","stable_id":"side-390-z-500","index":8},"8":{"kind":"case","stable_id":"overhead-390","index":9},"0":{"kind":"comparison","stable_id":"comparison-initial-side-405","source_result_id":"3f73777f451386ae770e6e40","fallback_stable_id":"floor-300","reason":"initial_candidate_did_not_pass_all_independent_checks"},"1":{"kind":"comparison","stable_id":"comparison-initial-side-390","source_result_id":"640ed636fd7873b84fe1b31e","fallback_stable_id":"floor-300","reason":"initial_candidate_did_not_pass_all_independent_checks"}},"cases_by_id":{"floor-300":0,"floor-390":1,"floor-405":2,"side-300-original":3,"overhead-300-original":4,"side-405-r90-x220":5,"side-405-r90-x330":6,"side-390-z-350":7,"side-390-z-500":8,"overhead-390":9},"default_case_id":"floor-300","flange_from_head":[[-1.0,0.0,0.0,0.0],[0.0,0.0,-1.0,0.0],[0.0,-1.0,0.0,0.0],[0.0,0.0,0.0,1.0]],"head_boxes":[{"id":"cad_component_00","vertices":17635,"triangles":35294,"center_cad_mm":[1.0707168579101562,-8.854671134613454,-48.77419853210449],"size_mm":[152.38491821289062,17.740040512755513,185.1269874572754]},{"id":"cad_component_01","vertices":256,"triangles":508,"center_cad_mm":[-48.31620407104492,-40.39811897277832,-114.45811462402344],"size_mm":[28.34801483154297,11.302547454833984,28.3480224609375]},{"id":"cad_component_02","vertices":8,"triangles":12,"center_cad_mm":[-48.245492935180664,-11.17127275466919,-105.48287963867188],"size_mm":[20.141422271728516,41.09154415130615,38.33331298828125]},{"id":"cad_component_03","vertices":260,"triangles":516,"center_cad_mm":[-20.513383895158768,-40.39554214477539,-100.76713562011719],"size_mm":[41.81591409444809,11.30255126953125,35.59526062011719]},{"id":"cad_component_04","vertices":10917,"triangles":21830,"center_cad_mm":[-31.13726043701172,21.33815848827362,-21.166820526123047],"size_mm":[12.0,45.04024338722229,239.78504180908203]},{"id":"cad_component_05","vertices":7761,"triangles":15538,"center_cad_mm":[-5.446672439575195,-21.27469253540039,-112.07156753540039],"size_mm":[59.79999923706055,22.5,30.900001525878906]},{"id":"cad_component_06","vertices":8,"triangles":12,"center_cad_mm":[-7.612712860107422,14.541767874950892,-117.54577255249023],"size_mm":[40.56901550292969,29.08257905722712,19.85028839111328]},{"id":"cad_component_07","vertices":2714,"triangles":5432,"center_cad_mm":[-18.46296501159668,-20.784286499023438,-154.74267578125],"size_mm":[18.263607025146484,18.263607025146484,12.0]},{"id":"cad_component_08","vertices":1626,"triangles":3316,"center_cad_mm":[-15.398365497589111,-23.170028686523438,-162.8926773071289],"size_mm":[8.66645336151123,9.898200988769531,4.3000030517578125]},{"id":"cad_component_09","vertices":2732,"triangles":5464,"center_cad_mm":[-15.48478078842163,-23.22145652770996,-136.2651481628418],"size_mm":[5.898446083068848,5.898445129394531,18.00000762939453]},{"id":"cad_component_10","vertices":8152,"triangles":16396,"center_cad_mm":[4.792429447174072,-20.02469253540039,-155.1140594482422],"size_mm":[26.598925590515137,20.0,16.600006103515625]},{"id":"cad_component_11","vertices":64,"triangles":124,"center_cad_mm":[-6.508108139038086,-28.02469253540039,-145.52156829833984],"size_mm":[3.479999542236328,3.479999542236328,0.5999908447265625]},{"id":"cad_component_12","vertices":64,"triangles":124,"center_cad_mm":[-6.508108139038086,-28.02469253540039,-127.77156448364258],"size_mm":[3.479999542236328,3.479999542236328,0.49999237060546875]},{"id":"cad_component_13","vertices":54,"triangles":104,"center_cad_mm":[-6.513010501861572,-28.02469253540039,-136.67156600952148],"size_mm":[2.890195846557617,2.895092010498047,18.29999542236328]},{"id":"cad_component_14","vertices":2724,"triangles":5448,"center_cad_mm":[15.491892337799072,-24.224692344665527,-133.32156372070312],"size_mm":[5.90000057220459,5.899999618530273,18.0]}],"cloud":{"script":"cloud_data.js","global_name":"UR7E_ANCHORED_CLOUDS","join":"cases[].cloud_key -> by_id[key]","coordinates":"world millimetres; installation centre origin; +Z up; no extra base transform","available":true,"joined_cases":10,"sha256":"1c2df4e91cd901704698ab014dc29745444a4a3c2785004a8e05e2302583f078"},"cases":[{"index":0,"stable_id":"floor-300","candidate":{"mount":"floor","h_mm":150.0,"d_mm":150.0,"side_mm":300.0,"x_mm":20.0,"y_mm":570.0},"variant":{"roll_deg":0.0,"start_corner":0,"clockwise":false},"cloud_key":"3725f4b835c052c4f75866bd70a99c46ae2c6553c40546e8e706ae47fa23c70d","cloud_id":"floor_r0","metrics":{"min_scaled_sigma":0.23657034015950434,"max_joint_gain_deg_per_mm":0.24748211107889376,"route_m":13.17,"max_fk_mm":0.9301982442489226,"entry_nodes":1407,"print_nodes":2637,"anchor_metrics":{"excursion_by_joint_deg":[156.7376684274481,46.14598961153224,62.664996145662926,18.5853469389499,76.47351410239919,0.39400807404263105],"absolute_travel_sum_deg":5031.720994376978}},"replay_file":"replay-0.js","source_result_id":"3725f4b835c052c4f75866bd70a99c46ae2c6553c40546e8e706ae47fa23c70d","native_print_sha256":"3725f4b835c052c4f75866bd70a99c46ae2c6553c40546e8e706ae47fa23c70d","evidence_kind":"native_corrected","native_state":"connected_sampled_pass","nominal_render_position_difference_mm":0.9301982442489226,"replay_version":"00ecc55f8bfbe608"},{"index":1,"stable_id":"floor-390","candidate":{"mount":"floor","h_mm":60.0,"d_mm":330.0,"side_mm":390.0,"x_mm":20.0,"y_mm":545.0},"variant":{"roll_deg":0.0,"start_corner":0,"clockwise":false},"cloud_key":"e03d983b8b887558f2d42887","cloud_id":"floor_r0","metrics":{"min_scaled_sigma":0.04256532387152197,"max_joint_gain_deg_per_mm":0.5581887337439803,"route_m":19.662857142857142,"max_fk_mm":1.0675134730259077,"entry_nodes":1489,"print_nodes":3954,"anchor_metrics":{"excursion_by_joint_deg":[173.23943758441828,56.309953405786224,96.87649882471713,40.53961034283179,87.43180145032477,0.5585895584259504],"absolute_travel_sum_deg":8286.926096588799}},"replay_file":"replay-1.js","source_result_id":"e03d983b8b887558f2d42887","native_print_sha256":"1435b8b8383799d4dbab38a992d18d53d85415caf716650e923843865ec53bad","evidence_kind":"native_corrected","native_state":"connected_sampled_pass","nominal_render_position_difference_mm":1.0675134730259077,"replay_version":"bfb0a0d6f1db0a9a"},{"index":2,"stable_id":"floor-405","candidate":{"mount":"floor","h_mm":80.0,"d_mm":300.0,"side_mm":405.0,"x_mm":5.0,"y_mm":550.0},"variant":{"roll_deg":0.0,"start_corner":0,"clockwise":false},"cloud_key":"fe82aeb6e49b2a1751b76ff6","cloud_id":"floor_r0","metrics":{"min_scaled_sigma":0.02413025834236826,"max_joint_gain_deg_per_mm":0.7788054070396129,"route_m":20.376428571428573,"max_fk_mm":1.067650591775776,"entry_nodes":1415,"print_nodes":4087,"anchor_metrics":{"excursion_by_joint_deg":[173.10162450027286,60.828957263400966,103.62455420609416,42.72626493095561,92.09533230254718,0.5491984823469522],"absolute_travel_sum_deg":8700.304771164745}},"replay_file":"replay-2.js","source_result_id":"fe82aeb6e49b2a1751b76ff6","native_print_sha256":"bb54ac78064dbf1241556da5eb5a2800755a50e356994800e036bcc1bf69a62d","evidence_kind":"native_corrected","native_state":"connected_sampled_pass","nominal_render_position_difference_mm":1.067650591775776,"replay_version":"f57de8c5d509140f"},{"index":3,"stable_id":"side-300-original","candidate":{"d_mm":150.0,"h_mm":-350.0,"mount":"side","side_mm":300.0,"x_mm":110.0,"y_mm":-660.0},"variant":{"roll_deg":180.0,"start_corner":2,"clockwise":true},"cloud_key":"ffc82e4979147ef60cbc8634","cloud_id":"side_r180","metrics":{"collision":{"arm_checked_frames":5277,"arm_vs_arm_and_cell":"sampled_clear","head_min_gap":{"at":{"direction":"+Y","edge":521,"edge_fraction":0.5,"fk_world_xyz_mm":[49.99885718369825,-512.5021590111697,-350.0021595146025],"frame":1043,"infill_row":3,"kind":"infill","layer_mm":0.0,"phase":"print","printed_height_mm":0.0,"q_deg":[97.26740852586221,-56.39834948342667,119.77832481632355,-63.37997533289688,97.26761898501194,270.0],"segment":11,"xyz_mm":[50.0,-512.5,-350.0]},"lower_bound_mm":0.7451472935621557,"pair":["cad_component_08","platform"]},"head_vs_cell":"sampled_separated","head_vs_links_0_to_5":"separated","physical_head_registration":"unknown","reason":"passed","scheduled_frames":5277,"state":"sampled_pass"},"joint_travel_deg_per_mm":0.341449869295086,"max_joint_gain_deg_per_mm":0.2912372401805925,"max_joint_step_deg":1.463214870987365,"max_tracking_deg":0.001216425545399127,"max_tracking_mm":0.03152303168983373,"min_joint_margin_deg":33.07281307641953,"min_sampled_scaled_sigma":0.3059365663644788,"min_scaled_sigma":0.2710236650340452,"passed":true,"print_q_sha256":"917efa2443dd504cd9ff6a1b17c09038302b161d91f066a89dc13ab6bc737e74","reason":"passed","sample_witness":{"direction":"-Y","edge":59,"edge_fraction":1.0,"fk_world_xyz_mm":[259.9999999999995,-809.9999999999999,-350.0000000000003],"kind":"perimeter","layer_mm":0.0,"phase":"print","printed_height_mm":0.0,"q_deg":[94.20066606044935,-42.27312554460641,52.92918067374482,-10.656055129138405,94.20087651959902,270.0],"segment":0,"xyz_mm":[260.0,-810.0,-350.0]},"route_m":13.17,"max_fk_mm":1.1299848900223257,"entry_nodes":1542,"print_nodes":2637,"anchor_metrics":{"excursion_by_joint_deg":[81.2264991740686,82.05884783273186,64.59749833361387,66.84083901879582,81.45991010956635,90.30179742119964],"absolute_travel_sum_deg":4794.340115945118}},"replay_file":"replay-3.js","source_result_id":"ffc82e4979147ef60cbc8634","native_print_sha256":"c68ffc5c33b82651b8abdb40c3e0819fa59a1c2d0420c53074df38f3e4cb03b0","evidence_kind":"native_corrected","native_state":"connected_sampled_pass","nominal_render_position_difference_mm":1.1299848900223257,"replay_version":"75a67a01d1b4fec7"},{"index":4,"stable_id":"overhead-300-original","candidate":{"d_mm":150.0,"h_mm":-750.0,"mount":"overhead","side_mm":300.0,"x_mm":-110.0,"y_mm":-550.0},"variant":{"roll_deg":180.0,"start_corner":2,"clockwise":true},"cloud_key":"e26cf0148fde0768b1318eee","cloud_id":"overhead_r180","metrics":{"collision":{"arm_checked_frames":5277,"arm_vs_arm_and_cell":"sampled_clear","head_min_gap":{"at":{"direction":"+Y","edge":120,"edge_fraction":0.5,"fk_world_xyz_mm":[-260.009721731649,-697.5418801613982,-750.0398348178458],"frame":241,"kind":"perimeter","layer_mm":0.0,"phase":"print","printed_height_mm":0.0,"q_deg":[100.64382351666215,-50.67168628491598,21.24337666231927,29.428523766289196,100.64382351658953,3.95530171275017e-05],"segment":2,"xyz_mm":[-260.0,-697.5,-750.0]},"lower_bound_mm":0.7074719903138069,"pair":["cad_component_08","platform"]},"head_vs_cell":"sampled_separated","head_vs_links_0_to_5":"separated","physical_head_registration":"unknown","reason":"passed","scheduled_frames":5277,"state":"sampled_pass"},"joint_travel_deg_per_mm":0.40209959080380375,"max_joint_gain_deg_per_mm":0.5308336989786355,"max_joint_step_deg":2.731375569184712,"max_tracking_deg":0.004331184503637414,"max_tracking_mm":0.11640845810701154,"min_joint_margin_deg":45.76653766242486,"min_sampled_scaled_sigma":0.1390623292881445,"min_scaled_sigma":0.0770451801456273,"passed":true,"print_q_sha256":"88917c5d15cc93c2937bc020158e005fa6e379ed29d5c6cf59aff28ddcd4c300","reason":"passed","sample_witness":{"direction":"+Y","edge":120,"edge_fraction":1.0,"fk_world_xyz_mm":[-259.9999999999997,-695.0000000000002,-750.0000000000002],"kind":"perimeter","layer_mm":0.0,"phase":"print","printed_height_mm":0.0,"q_deg":[100.68713130310867,-51.43528176568816,22.609064446911628,28.82643149288913,100.68713130303574,3.971771422573902e-05],"segment":2,"xyz_mm":[-260.0,-695.0,-750.0]},"route_m":13.17,"max_fk_mm":0.8326463399583205,"entry_nodes":1089,"print_nodes":2637,"anchor_metrics":{"excursion_by_joint_deg":[94.02914480554254,53.896844026839496,97.22817067411297,43.2574498627211,94.07336381222059,179.8639476547897],"absolute_travel_sum_deg":5596.032196744596}},"replay_file":"replay-4.js","source_result_id":"e26cf0148fde0768b1318eee","native_print_sha256":"b5de6816320d4e611e71739205c6540a77ddf8de8196f807fa4bc953686a2f18","evidence_kind":"native_corrected","native_state":"connected_sampled_pass","nominal_render_position_difference_mm":0.8326463399583205,"replay_version":"31327916c92f3c5b"},{"index":5,"stable_id":"side-405-r90-x220","candidate":{"mount":"side","h_mm":-500.0,"d_mm":300.0,"side_mm":405.0,"x_mm":220.0,"y_mm":-550.0},"variant":{"roll_deg":90.0,"start_corner":1,"clockwise":false},"cloud_key":"ec1f96e6a2fb7b5b188cbf8c","cloud_id":"side_r90","metrics":{"passed":true,"reason":"passed","max_joint_gain_deg_per_mm":0.2929121427823091,"max_joint_step_deg":1.4710409364647352,"joint_travel_deg_per_mm":0.35170856923025384,"max_tracking_mm":0.03245245761410283,"max_tracking_deg":0.001334304394061667,"min_scaled_sigma":0.2646571078838564,"min_sampled_scaled_sigma":0.2990264190867389,"min_joint_margin_deg":8.780800811303365,"print_q_sha256":"7eee355c924faa195e98c8575dd9ed7a535dc5b7b0c55b9fdb14416490276e40","sample_witness":{"edge":242,"edge_fraction":1.0,"segment":2,"kind":"perimeter","direction":"-Y","layer_mm":0.0,"printed_height_mm":0.0,"xyz_mm":[17.5,-752.5,-500.0],"q_deg":[104.92412538987986,-1.986448287718273,47.84728926492707,-135.8608951787908,90.00020335988344,255.0758746100239],"fk_world_xyz_mm":[17.499999999999634,-752.5000000000003,-500.0],"phase":"print"},"collision":{"state":"sampled_pass","arm_vs_arm_and_cell":"sampled_clear","head_vs_cell":"sampled_separated","head_vs_links_0_to_5":"separated","physical_head_registration":"unknown","scheduled_frames":8177,"arm_checked_frames":8177,"head_min_gap":{"lower_bound_mm":0.7413434833866628,"pair":["cad_component_08","platform"],"at":{"phase":"print","frame":847,"edge":423,"edge_fraction":0.5,"segment":7,"kind":"infill","direction":"-Y","layer_mm":0.0,"printed_height_mm":0.0,"infill_row":1,"xyz_mm":[335.7142857142858,-350.0,-500.0],"q_deg":[118.64171688240354,-67.72030237192051,128.3492198935947,-150.62901840091357,90.00018470550359,241.35828311743387],"fk_world_xyz_mm":[335.7148492012415,-349.99978714846327,-500.00596332482814]}},"reason":"passed"},"route_m":20.376428571428573,"max_fk_mm":2.1474155226585263,"entry_nodes":2545,"print_nodes":4087,"anchor_metrics":{"excursion_by_joint_deg":[102.68026287402684,102.03704348293702,69.70108723576922,199.6716262139314,74.2102228036463,107.79052135624562],"absolute_travel_sum_deg":7624.997138459294}},"replay_file":"replay-5.js","source_result_id":"ec1f96e6a2fb7b5b188cbf8c","native_print_sha256":"e901cfcebcfd6b8cde24231c97f0253ee90686458290762505d60f6a7e38abfa","evidence_kind":"native_corrected","native_state":"connected_sampled_pass","nominal_render_position_difference_mm":2.1474155226585263,"replay_version":"06834a878995a54f"},{"index":6,"stable_id":"side-405-r90-x330","candidate":{"mount":"side","h_mm":-500.0,"d_mm":300.0,"side_mm":405.0,"x_mm":330.0,"y_mm":-550.0},"variant":{"roll_deg":90.0,"start_corner":3,"clockwise":true},"cloud_key":"0fb1fd96e3392c397c7e9ac3","cloud_id":"side_r90","metrics":{"passed":true,"reason":"passed","max_joint_gain_deg_per_mm":0.290832290888801,"max_joint_step_deg":1.4558340919559691,"joint_travel_deg_per_mm":0.33704661096326555,"max_tracking_mm":0.0315824980072313,"max_tracking_deg":0.0012569019600088677,"min_scaled_sigma":0.27569614977046586,"min_sampled_scaled_sigma":0.3095689828476612,"min_joint_margin_deg":8.781841178916446,"print_q_sha256":"f79213cc4c01031f484de328d843cb6c6eecd71f81428bbc42fa8f032e8f43c8","sample_witness":{"edge":2999,"edge_fraction":1.0,"segment":52,"kind":"perimeter","direction":"+X","layer_mm":300.0,"printed_height_mm":300.0,"xyz_mm":[327.5,-347.5,-200.0],"q_deg":[72.30549751940403,-78.47992605048519,150.55781864331107,-162.07782862552426,90.00020050246385,287.69450248070785],"fk_world_xyz_mm":[327.5,-347.5000000000004,-199.99999999999994],"phase":"print"},"collision":{"state":"sampled_pass","arm_vs_arm_and_cell":"sampled_clear","head_vs_cell":"sampled_separated","head_vs_links_0_to_5":"separated","physical_head_registration":"unknown","scheduled_frames":8177,"arm_checked_frames":8177,"head_min_gap":{"lower_bound_mm":0.7418495254060282,"pair":["cad_component_08","platform"],"at":{"phase":"print","frame":163,"edge":81,"edge_fraction":0.5,"segment":1,"kind":"perimeter","direction":"-Y","layer_mm":0.0,"printed_height_mm":0.0,"xyz_mm":[532.5,-350.0,-500.0],"q_deg":[118.64171688240354,-89.54764216267583,116.32790691530975,-116.78036563187338,90.00018470550359,241.35828311743387],"fk_world_xyz_mm":[532.5039584440541,-349.9988606075166,-500.0054572828088]}},"reason":"passed"},"route_m":20.376428571428573,"max_fk_mm":1.957811539204654,"entry_nodes":2636,"print_nodes":4087,"anchor_metrics":{"excursion_by_joint_deg":[102.69533492771549,89.02019058696865,67.55240144856026,192.3378640997267,74.21016112684416,107.83374554597953],"absolute_travel_sum_deg":7351.969597121366}},"replay_file":"replay-6.js","source_result_id":"0fb1fd96e3392c397c7e9ac3","native_print_sha256":"d5d3335eabd9c0c3068f9bcfef2cfb6e62e36b08dd49018e1584642f6c62afab","evidence_kind":"native_corrected","native_state":"connected_sampled_pass","nominal_render_position_difference_mm":1.957811539204654,"replay_version":"e64716bf12378671"},{"index":7,"stable_id":"side-390-z-350","candidate":{"d_mm":330.0,"h_mm":-350.0,"mount":"side","side_mm":390.0,"x_mm":0.0,"y_mm":-550.0},"variant":{"roll_deg":180.0,"start_corner":1,"clockwise":false},"cloud_key":"02424b753c13f3407509d037","cloud_id":"side_r180","metrics":{"collision":{"arm_checked_frames":7911,"arm_vs_arm_and_cell":"sampled_clear","head_min_gap":{"at":{"direction":"+Y","edge":575,"edge_fraction":0.5,"fk_world_xyz_mm":[55.71257513612834,-357.5005872165985,-350.0045524242881],"frame":1151,"infill_row":2,"kind":"infill","layer_mm":0.0,"phase":"print","printed_height_mm":0.0,"q_deg":[101.5453237184812,-66.28325926379406,141.97505689864715,-75.69179763485312,101.54553417763091,270.0],"segment":9,"xyz_mm":[55.71428571428578,-357.5,-350.0]},"lower_bound_mm":0.7427543838765303,"pair":["cad_component_08","platform"]},"head_vs_cell":"sampled_separated","head_vs_links_0_to_5":"separated","physical_head_registration":"unknown","reason":"passed","scheduled_frames":7911,"state":"sampled_pass"},"joint_travel_deg_per_mm":0.3924223845472416,"max_joint_gain_deg_per_mm":0.3099613939615892,"max_joint_step_deg":1.553518298533908,"max_tracking_deg":0.002640877933720989,"max_tracking_mm":0.05431571315837735,"min_joint_margin_deg":6.850632162606913,"min_sampled_scaled_sigma":0.2286176280331884,"min_scaled_sigma":0.1869602854393871,"passed":true,"print_q_sha256":"7d7dbd924583f50c56dac6483991d5c53d9da8f141466eb4cccc5fb7c1deb61e","reason":"passed","sample_witness":{"direction":"-X","edge":1532,"edge_fraction":1.0,"fk_world_xyz_mm":[85.00000000000003,-355.0000000000001,-184.99999999999991],"kind":"perimeter","layer_mm":165.0,"phase":"print","printed_height_mm":165.0,"q_deg":[59.99149231035423,-78.22556973354128,152.59573361674896,-74.37016388320768,59.99170276950395,270.0],"segment":27,"xyz_mm":[85.0,-355.0,-185.0]},"route_m":19.662857142857142,"max_fk_mm":1.3737098863987354,"entry_nodes":2009,"print_nodes":3954,"anchor_metrics":{"excursion_by_joint_deg":[85.6258513594983,93.27614156676825,50.26120798463512,111.37015026117184,85.86272828419847,90.4892729051345],"absolute_travel_sum_deg":8074.485228706995}},"replay_file":"replay-7.js","source_result_id":"02424b753c13f3407509d037","native_print_sha256":"e0cbe3e939ed0c6b47c89c00180bc00bfb7f1b1751d89e264f740a02ba952b45","evidence_kind":"native_corrected","native_state":"connected_sampled_pass","nominal_render_position_difference_mm":1.3737098863987354,"replay_version":"56bad7d172299f66"},{"index":8,"stable_id":"side-390-z-500","candidate":{"d_mm":330.0,"h_mm":-500.0,"mount":"side","side_mm":390.0,"x_mm":0.0,"y_mm":-550.0},"variant":{"roll_deg":180.0,"start_corner":1,"clockwise":false},"cloud_key":"d7feb657d00a556ea13ce69d","cloud_id":"side_r180","metrics":{"collision":{"arm_checked_frames":7911,"arm_vs_arm_and_cell":"sampled_clear","head_min_gap":{"at":{"direction":"+Y","edge":575,"edge_fraction":0.5,"fk_world_xyz_mm":[55.7138664961727,-357.49901056266077,-500.00756319796704],"frame":1151,"infill_row":2,"kind":"infill","layer_mm":0.0,"phase":"print","printed_height_mm":0.0,"q_deg":[125.77890125255232,-58.89385582426472,123.67428218467931,-64.7804263604146,125.77911171170201,270.0],"segment":9,"xyz_mm":[55.71428571428578,-357.5,-500.0]},"lower_bound_mm":0.7397436101975101,"pair":["cad_component_08","platform"]},"head_vs_cell":"sampled_separated","head_vs_links_0_to_5":"separated","physical_head_registration":"unknown","reason":"passed","scheduled_frames":7911,"state":"sampled_pass"},"joint_travel_deg_per_mm":0.3708691371364108,"max_joint_gain_deg_per_mm":0.3113874053816602,"max_joint_step_deg":1.5607905451165633,"max_tracking_deg":0.002599876149824478,"max_tracking_mm":0.0557799387619855,"min_joint_margin_deg":6.71562930643892,"min_sampled_scaled_sigma":0.24022063241987165,"min_scaled_sigma":0.19750324184855134,"passed":true,"print_q_sha256":"8b480bb6f0df9b45e611b173f88dd1d3252289a4d3c3b5c8f83ab3ed16f9e054","reason":"passed","sample_witness":{"direction":"-X","edge":2965,"edge_fraction":1.0,"fk_world_xyz_mm":[84.99999999999979,-355.0,-170.0],"kind":"perimeter","layer_mm":330.0,"phase":"print","printed_height_mm":330.0,"q_deg":[56.18969383828816,-78.29781804485873,152.72720905113798,-74.42939100627919,56.189904297437835,270.0],"segment":53,"xyz_mm":[85.0,-355.0,-170.0]},"route_m":19.662857142857142,"max_fk_mm":1.5805644833537875,"entry_nodes":2313,"print_nodes":3954,"anchor_metrics":{"excursion_by_joint_deg":[109.91295516334962,98.42132379627745,65.73520338806536,111.54735179288132,110.15488155612303,90.34630270889357],"absolute_travel_sum_deg":7691.546905813045}},"replay_file":"replay-8.js","source_result_id":"d7feb657d00a556ea13ce69d","native_print_sha256":"9cd31162778d2970d43fc6e71cd0974e10723cefa4b9bb58c257c38453be665b","evidence_kind":"native_corrected","native_state":"connected_sampled_pass","nominal_render_position_difference_mm":1.5805644833537875,"replay_version":"26ad6f977e0eb758"},{"index":9,"stable_id":"overhead-390","candidate":{"d_mm":150.0,"h_mm":-750.0,"mount":"overhead","side_mm":390.0,"x_mm":-50.0,"y_mm":-490.0},"variant":{"roll_deg":180.0,"start_corner":2,"clockwise":true},"cloud_key":"9a034c82c5d1bcb97ccdeb22","cloud_id":"overhead_r180","metrics":{"collision":{"arm_checked_frames":7839,"arm_vs_arm_and_cell":"sampled_clear","head_min_gap":{"at":{"direction":"+Y","edge":156,"edge_fraction":0.5,"fk_world_xyz_mm":[-245.00485271218722,-682.5188067506059,-750.0208350210626],"frame":313,"kind":"perimeter","layer_mm":0.0,"phase":"print","printed_height_mm":0.0,"q_deg":[99.4854187356162,-56.16745085077483,30.74013449750664,25.427529729847656,99.48541873555163,3.5163743286500717e-05],"segment":2,"xyz_mm":[-245.0,-682.5,-750.0]},"lower_bound_mm":0.7264717870977551,"pair":["cad_component_08","platform"]},"head_vs_cell":"sampled_separated","head_vs_links_0_to_5":"separated","physical_head_registration":"unknown","reason":"passed","scheduled_frames":7839,"state":"sampled_pass"},"joint_travel_deg_per_mm":0.4585076658974317,"max_joint_gain_deg_per_mm":0.40529614534585934,"max_joint_step_deg":2.0352573266329905,"max_tracking_deg":0.005734020131440437,"max_tracking_mm":0.11909192510428228,"min_joint_margin_deg":36.44927874499012,"min_sampled_scaled_sigma":0.15119649534738408,"min_scaled_sigma":0.08503911784552834,"passed":true,"print_q_sha256":"6c5efca4f178abd2cbc1662b4eccbbabd071de443e0772cdca44fa1a5fd4062d","reason":"passed","sample_witness":{"direction":"-Y","edge":498,"edge_fraction":1.0,"fk_world_xyz_mm":[5.714285714285696,-300.0,-750.0],"infill_row":2,"kind":"infill","layer_mm":0.0,"phase":"print","printed_height_mm":0.0,"q_deg":[35.087255937569424,-123.48989845034106,98.29361448680748,25.196650091984335,35.08725593811966,-0.0002995947075050298],"segment":9,"xyz_mm":[5.714285714285779,-300.0,-750.0]},"route_m":19.482857142857142,"max_fk_mm":0.9850026250848742,"entry_nodes":734,"print_nodes":3918,"anchor_metrics":{"excursion_by_joint_deg":[99.14995992400891,48.30639922617334,87.52660101281364,39.54111004706264,99.16540015595255,179.8560554151181],"absolute_travel_sum_deg":9177.578280976393}},"replay_file":"replay-9.js","source_result_id":"9a034c82c5d1bcb97ccdeb22","native_print_sha256":"7621bb1f7c50b1bf4e329ab9a1582344f26e21ebec056f09673f41ab7d591469","evidence_kind":"native_corrected","native_state":"connected_sampled_pass","nominal_render_position_difference_mm":0.9850026250848742,"replay_version":"a6c57c49700f6723"}],"comparison":[{"state":"connected_sampled_pass","stable_id":"floor-300"},{"state":"connected_sampled_pass","stable_id":"floor-390"},{"state":"connected_sampled_pass","stable_id":"floor-405"},{"state":"connected_sampling_not_passed","stable_id":"comparison-initial-side-405"},{"state":"connected_sampling_not_passed","stable_id":"comparison-initial-side-390"},{"state":"connected_sampled_pass","stable_id":"side-300-original"},{"state":"connected_sampled_pass","stable_id":"overhead-300-original"},{"state":"connected_sampled_pass","stable_id":"side-405-r90-x220"},{"state":"connected_sampled_pass","stable_id":"side-405-r90-x330"},{"state":"connected_sampled_pass","stable_id":"side-390-z-350"},{"state":"connected_sampled_pass","stable_id":"side-390-z-500"},{"state":"connected_sampled_pass","stable_id":"overhead-390"}]};
+const el=id=>document.getElementById(id);
+const scene=el('scene'), names={floor:'地装',side:'侧装',overhead:'吊装'};
+const format=(v,d=0)=>Number(v).toLocaleString('zh-CN',{maximumFractionDigits:d});
+const command=detail=>scene.dispatchEvent(new CustomEvent('robot-command',{detail}));
+const modelButtons=['play','progress','start','seam','top','peak'];
+const labels={perimeter:'打印轮廓',infill:'打印填充',infill_entry:'进入填充',infill_turn:'填充换行',lift:'抬升',return_to_seam:'返回起印角'};
+const scripts=new Map();
+window.UR7E_MOUNT_PATHS={};
+let current=null, frames=[], ticket=0;
+const playback=window.UR7EAnchoredPlayback?.create?.({
+    scene, onFrame:updateReadout,
+    onPlayingChange:playing=>{el('play').textContent=playing?'暂停':'播放'}
+});
+
+function loadPath(c){
+    if(!scripts.has(c.index)){
+        const promise=new Promise((resolve,reject)=>{
+            const script=document.createElement('script');
+            script.src=c.replay_file+'?v='+c.replay_version;
+            script.onload=()=>{
+                const w=window.UR7E_MOUNT_PATHS[c.index];
+                if(w?.id===c.native_print_sha256)resolve(w);
+                else reject(new Error('轨迹文件与所选摆位不符，请刷新页面。'));
+            };
+            script.onerror=()=>reject(new Error('轨迹文件未能打开，请重新选择摆位。'));
+            document.head.append(script);
+        });
+        scripts.set(c.index,promise);
+        promise.catch(()=>scripts.delete(c.index));
+    }
+    return scripts.get(c.index);
+}
+function makeTable(){
+    for(const [width,height] of [[300,150],[390,150],[390,330],[405,300]]){
+        const tr=el('choices').insertRow();
+        tr.insertCell().textContent=width+' × '+height;
+        for(const mount of Object.keys(names)){
+            const matches=study.cases.filter(({candidate:p})=>p.mount===mount&&p.side_mm===width&&p.d_mm===height);
+            const cell=tr.insertCell();
+            if(!matches.length){
+                cell.textContent=mount==='overhead'?'未找到':'未单测';
+                cell.className='empty';
+                continue;
+            }
+            const button=document.createElement('button');
+            button.textContent='通过';button.dataset.group=matches.map(c=>c.index).join(',');
+            button.setAttribute('aria-label',names[mount]+' '+width+' × '+width+' × '+height+' mm，查看回放');
+            button.onclick=()=>selectCase(matches[0]);
+            cell.append(button);
+        }
+    }
+}
+function showSelection(c){
+    const p=c.candidate;
+    for(const b of document.querySelectorAll('[data-group]')){
+        b.setAttribute('aria-pressed',String(b.dataset.group.split(',').includes(String(c.index))));
+    }
+    const choices=study.cases.filter(({candidate:v})=>v.mount===p.mount&&v.side_mm===p.side_mm&&v.d_mm===p.d_mm);
+    const select=el('variant');
+    select.replaceChildren();
+    for(const other of choices){
+        const v=other.candidate;
+        select.add(new Option('中心 ('+v.x_mm+', '+v.y_mm+')，底面 '+v.h_mm+' mm',other.index));
+    }
+    select.value=c.index;el('variantRow').hidden=choices.length<2;
+    el('title').textContent=names[p.mount]+' · '+p.side_mm+' × '+p.side_mm+' × '+p.d_mm+' mm';
+    el('position').textContent='工件中心 XY ('+p.x_mm+', '+p.y_mm+') mm，底面比基座中心'+(p.h_mm>=0?'高 ':'低 ')+Math.abs(p.h_mm)+' mm。';
+    el('orientation').textContent='喷嘴竖直朝下，绕自身轴转 '+c.variant.roll_deg+'°。';
+    el('gain').textContent=format(c.metrics.max_joint_gain_deg_per_mm,3);
+    el('wrist').textContent=format(c.metrics.anchor_metrics.excursion_by_joint_deg[5],2);
+    el('modelNote').textContent='回放使用 RoboDK 算出的六个关节角。本摆位中，网页机械臂模型画出的喷嘴与设定路径最多相差 '+format(c.nominal_render_position_difference_mm,2)+' mm。';
+}
+function attachCloud(c){
+    const data=window.UR7E_ANCHORED_CLOUDS, audit=data?.by_id[c.cloud_key], group=data?.groups[c.cloud_id];
+    if(!audit||!group||group.mount!==c.candidate.mount||group.roll_deg!==c.variant.roll_deg||audit.cloud_id!==c.cloud_id){
+        scene.setReachOverlay(null);el('tip').textContent='当前摆位的点云未能载入。';return;
+    }
+    scene.setReachOverlay({id:c.cloud_id,points:group.points_mm,mount:group.mount,slices:group.slices,layer_z_mm:audit.layer_z_mm});
+    const counts=audit.first_layer.target_pose;
+    el('tip').textContent='首层轮廓和填充线上，'+format(counts.inside)+' / '+format(counts.samples)+' 个采样位置能以这个方向到达。';
+}
+function updateReadout(f){
+    if(!current)return;
+    const i=f.left_index, seg=frames[i];
+    el('progress').value=i;
+    el('read').textContent=format(100*i/(current.q.length-1))+'%';
+    const stage=i===0?'起始姿势':i<current.seam?'进场':i===current.seam?'首层起点':(labels[seg.kind]||'打印')+' · 距底面 '+format(seg.layer_mm,1)+' mm';
+    if(el('stage').textContent!==stage)el('stage').textContent=stage;
+    el('joints').textContent=f.q_rad.map((q,j)=>'J'+(j+1)+' '+format(q*180/Math.PI,1)+'°').join('　');
+}
+function jump(target){
+    if(!current)return;
+    const nodes={start:0,seam:current.seam,top:frames.findIndex(f=>f.printed_height_mm===current.candidate.d_mm),peak:current.peak};
+    playback.seekNode(nodes[target]??current.seam);
+}
+function routeFor(w){
+    const p=w.candidate;
+    return {
+        schema:1,id:w.id,evidence_kind:w.evidence_kind,params:{mount:p.mount,h_mm:p.h_mm,d_mm:p.d_mm,side_mm:p.side_mm,center_xy_mm:[p.x_mm,p.y_mm]},
+        branch:w.branch,q_rad:w.q,xyz_mm:w.xyz,model_boxes:w.model_boxes,states:w.q.map(()=>null),known_prefix_count:w.q.length,kinematic_passed:true,
+        batch:{frames},anchored:{seam:w.seam,entry_rotations:w.entry_rotations,print_rotation:w.print_rotation,tool_mm:w.tool_mm,
+            head:{flange_from_head:study.flange_from_head.flat(),boxes:study.head_boxes}}
+    };
+}
+async function selectCase(c,target='seam',fromUrl=false){
+    const active=++ticket,p=c.candidate;
+    playback?.pause();current=null;
+    showSelection(c);
+    el('tip').textContent='正在载入这个摆位的回放…';
+    el('loadingNote').hidden=scene.style.visibility!=='hidden';el('loadingNote').textContent='正在载入所选摆位…';
+    modelButtons.forEach(id=>el(id).disabled=true);
+    el('stage').textContent='正在载入…';el('read').textContent='—';el('joints').textContent='';
+    delete scene.dataset.loadedCase;
+    if(!fromUrl)el('legacy').hidden=true;
+    try{
+        if(!playback||typeof scene.setReachOverlay!=='function'||typeof scene.seekReplay!=='function'){
+            throw new Error('三维回放组件未正确加载，请刷新页面重试。');
+        }
+        const w=await loadPath(c);
+        if(active!==ticket)return;
+        frames=w.q.map((_,j)=>j<w.seam?{kind:'entry',printed_height_mm:0}:w.segments[w.edges[Math.max(0,j-w.seam-1)]]);
+        scene.setReachOverlay(null);
+        command({type:'ur7e-layout',mount:p.mount,mode:'down',h:p.h_mm,build:p.d_mm,width_mm:p.side_mm,center_xy_mm:[p.x_mm,p.y_mm],placement:'custom',target:'path'});
+        const route=routeFor(w), check={route};
+        scene.dispatchEvent(new CustomEvent('robot-check-path',{detail:check}));
+        if(!check.check?.ok)throw new Error('这条轨迹与网页中的机械臂模型不匹配。');
+        command({type:'ur7e-path',data:route,path_index:w.seam});
+        current=w;attachCloud(c);
+        el('progress').max=w.q.length-1;
+        playback.setPath(route);jump(target);
+        scene.framePlacement(p);
+        scene.style.visibility='';el('loadingNote').hidden=true;
+        modelButtons.forEach(id=>el(id).disabled=false);
+        scene.dataset.loadedCase=c.index;scene.dataset.checkedFrames=w.q.length;scene.dataset.maxFkMm=check.check.max_error_mm;
+        if(!fromUrl&&location.protocol!=='file:'){
+            const url=new URL(location.href);
+            url.searchParams.delete('case');url.searchParams.set('layout',c.stable_id);url.searchParams.delete('frame');history.replaceState(null,'',url);
+        }
+    }catch(error){
+        if(active!==ticket)return;
+        current=null;
+        el('stage').textContent='回放未载入';
+        el('tip').textContent=error.message;
+        scene.style.visibility='hidden';el('loadingNote').textContent='回放未载入';
+    }
+}
+el('variant').onchange=e=>selectCase(study.cases[Number(e.target.value)]);
+el('progress').oninput=e=>playback.seekNode(Number(e.target.value));
+el('play').onclick=()=>playback.playing?playback.pause():playback.play();
+for(const id of ['start','seam','top','peak'])el(id).onclick=()=>jump(id);
+makeTable();
+const query=new URLSearchParams(location.search);
+const mapped=study.legacy_case_map[query.get('case')];
+let initial=query.get('layout')||mapped?.stable_id||'side-405-r90-x330';
+if(mapped?.kind==='comparison'&&!query.has('layout')){
+    const width=query.get('case')==='0'?405:390;
+    initial=width===405?'side-405-r90-x330':'side-390-z-350';
+    el('legacy').hidden=false;el('legacy').textContent='旧链接中的 '+width+' mm 摆位在顶层出现碰撞检查分歧。这里显示已通过两项检查的替代摆位。';
+}
+selectCase(study.cases[study.cases_by_id[initial]]||study.cases[0],query.get('frame')||'seam',true);
+</script></body></html>

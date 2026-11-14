@@ -1,0 +1,455 @@
+{
+  "schema": 1,
+  "generated_local": "2026-11-13T12:42:53.085059+08:00",
+  "scenarios": [
+    {
+      "scenario_id": "reference_floor",
+      "label": "参考布局",
+      "dimension": 2,
+      "tool_id": "rtde_20260921",
+      "mount": "floor",
+      "offset_mm": 450,
+      "height_mm": 350,
+      "coarse_mm": 10,
+      "fine_mm": 2.5,
+      "refine_margin_deg": 5,
+      "refine_sigma": 0.05,
+      "characteristic_length_m": 0.4,
+      "coarse_csv": "datasets/reference_floor_coarse.csv",
+      "cells_csv": "datasets/reference_floor_leaves.csv",
+      "job_id": "4540194f047f7f055d633b77808b7f0b4e94198579691e9c563fa3528fdab161",
+      "bounds_mm": [
+        [
+          -100,
+          100
+        ],
+        [
+          -100,
+          100
+        ]
+      ],
+      "orientation_count": 25,
+      "jobs_db_status": "complete",
+      "chunks_total": 20,
+      "chunks_complete": 20,
+      "sample_rows": 51000,
+      "attempts": 20,
+      "cached_cpu_wall_sum_s": 10.563603199997488,
+      "domain_measure": 40000,
+      "measure_unit": "mm2",
+      "coarse": {
+        "centres": 400,
+        "measure": 40000.0,
+        "position_measure": 40000.0,
+        "down_measure": 40000.0,
+        "all_orientations_measure": 40000.0,
+        "orientation_fraction_weighted": 1.0,
+        "down_mean_ik_count_over_reachable_measure": 8.0,
+        "down_min_selected_margin_deg": 41.25396314115039,
+        "down_min_selected_sigma": 0.23789495544663494,
+        "down_low_sigma_fraction_of_reachable_measure": 0.0,
+        "environment_collision_pass_fraction": null
+      },
+      "adaptive": {
+        "centres": 400,
+        "measure": 40000.0,
+        "position_measure": 40000.0,
+        "down_measure": 40000.0,
+        "all_orientations_measure": 40000.0,
+        "orientation_fraction_weighted": 1.0,
+        "down_mean_ik_count_over_reachable_measure": 8.0,
+        "down_min_selected_margin_deg": 41.25396314115039,
+        "down_min_selected_sigma": 0.23789495544663494,
+        "down_low_sigma_fraction_of_reachable_measure": 0.0,
+        "environment_collision_pass_fraction": null
+      }
+    },
+    {
+      "scenario_id": "reference_side",
+      "label": "参考布局",
+      "dimension": 2,
+      "tool_id": "rtde_20260921",
+      "mount": "side",
+      "offset_mm": 450,
+      "height_mm": 350,
+      "coarse_mm": 10,
+      "fine_mm": 2.5,
+      "refine_margin_deg": 5,
+      "refine_sigma": 0.05,
+      "characteristic_length_m": 0.4,
+      "coarse_csv": "datasets/reference_side_coarse.csv",
+      "cells_csv": "datasets/reference_side_leaves.csv",
+      "job_id": "b5784f57f079bb34dd0545de9bafbdeeb99d8a5290d6062fcc2baaf4286dbd52",
+      "bounds_mm": [
+        [
+          -100,
+          100
+        ],
+        [
+          -100,
+          100
+        ]
+      ],
+      "orientation_count": 25,
+      "jobs_db_status": "complete",
+      "chunks_total": 20,
+      "chunks_complete": 20,
+      "sample_rows": 51000,
+      "attempts": 20,
+      "cached_cpu_wall_sum_s": 9.959716299998036,
+      "domain_measure": 40000,
+      "measure_unit": "mm2",
+      "coarse": {
+        "centres": 400,
+        "measure": 40000.0,
+        "position_measure": 40000.0,
+        "down_measure": 40000.0,
+        "all_orientations_measure": 40000.0,
+        "orientation_fraction_weighted": 1.0,
+        "down_mean_ik_count_over_reachable_measure": 8.0,
+        "down_min_selected_margin_deg": 23.612095735623466,
+        "down_min_selected_sigma": 0.21044913689961228,
+        "down_low_sigma_fraction_of_reachable_measure": 0.0,
+        "environment_collision_pass_fraction": null
+      },
+      "adaptive": {
+        "centres": 400,
+        "measure": 40000.0,
+        "position_measure": 40000.0,
+        "down_measure": 40000.0,
+        "all_orientations_measure": 40000.0,
+        "orientation_fraction_weighted": 1.0,
+        "down_mean_ik_count_over_reachable_measure": 8.0,
+        "down_min_selected_margin_deg": 23.612095735623466,
+        "down_min_selected_sigma": 0.21044913689961228,
+        "down_low_sigma_fraction_of_reachable_measure": 0.0,
+        "environment_collision_pass_fraction": null
+      }
+    },
+    {
+      "scenario_id": "reference_ceiling",
+      "label": "参考布局",
+      "dimension": 2,
+      "tool_id": "rtde_20260921",
+      "mount": "ceiling",
+      "offset_mm": 450,
+      "height_mm": 350,
+      "coarse_mm": 10,
+      "fine_mm": 2.5,
+      "refine_margin_deg": 5,
+      "refine_sigma": 0.05,
+      "characteristic_length_m": 0.4,
+      "coarse_csv": "datasets/reference_ceiling_coarse.csv",
+      "cells_csv": "datasets/reference_ceiling_leaves.csv",
+      "job_id": "b5b8e2859710987a19c9337d3d1affffc00b2147de43eac78974029b421100d2",
+      "bounds_mm": [
+        [
+          -100,
+          100
+        ],
+        [
+          -100,
+          100
+        ]
+      ],
+      "orientation_count": 25,
+      "jobs_db_status": "complete",
+      "chunks_total": 20,
+      "chunks_complete": 20,
+      "sample_rows": 51000,
+      "attempts": 20,
+      "cached_cpu_wall_sum_s": 10.077358899999126,
+      "domain_measure": 40000,
+      "measure_unit": "mm2",
+      "coarse": {
+        "centres": 400,
+        "measure": 40000.0,
+        "position_measure": 40000.0,
+        "down_measure": 40000.0,
+        "all_orientations_measure": 40000.0,
+        "orientation_fraction_weighted": 1.0,
+        "down_mean_ik_count_over_reachable_measure": 8.0,
+        "down_min_selected_margin_deg": 28.258595513069945,
+        "down_min_selected_sigma": 0.2364495279746098,
+        "down_low_sigma_fraction_of_reachable_measure": 0.0,
+        "environment_collision_pass_fraction": null
+      },
+      "adaptive": {
+        "centres": 400,
+        "measure": 40000.0,
+        "position_measure": 40000.0,
+        "down_measure": 40000.0,
+        "all_orientations_measure": 40000.0,
+        "orientation_fraction_weighted": 1.0,
+        "down_mean_ik_count_over_reachable_measure": 8.0,
+        "down_min_selected_margin_deg": 28.258595513069945,
+        "down_min_selected_sigma": 0.2364495279746098,
+        "down_low_sigma_fraction_of_reachable_measure": 0.0,
+        "environment_collision_pass_fraction": null
+      }
+    },
+    {
+      "scenario_id": "outer_floor",
+      "label": "远端布局",
+      "dimension": 2,
+      "tool_id": "rtde_20260921",
+      "mount": "floor",
+      "offset_mm": 650,
+      "height_mm": 650,
+      "coarse_mm": 10,
+      "fine_mm": 2.5,
+      "refine_margin_deg": 5,
+      "refine_sigma": 0.05,
+      "characteristic_length_m": 0.4,
+      "coarse_csv": "datasets/outer_floor_coarse.csv",
+      "cells_csv": "datasets/outer_floor_leaves.csv",
+      "job_id": "9d0bfabd545a92316e00a1021f5cdbfad8d9f222dd5441bd3599ddcae14e581d",
+      "bounds_mm": [
+        [
+          -100,
+          100
+        ],
+        [
+          -100,
+          100
+        ]
+      ],
+      "orientation_count": 25,
+      "jobs_db_status": "complete",
+      "chunks_total": 20,
+      "chunks_complete": 20,
+      "sample_rows": 385575,
+      "attempts": 20,
+      "cached_cpu_wall_sum_s": 15.035998199997266,
+      "domain_measure": 40000,
+      "measure_unit": "mm2",
+      "coarse": {
+        "centres": 400,
+        "measure": 40000.0,
+        "position_measure": 40000.0,
+        "down_measure": 14600.0,
+        "all_orientations_measure": 0,
+        "orientation_fraction_weighted": 0.3765,
+        "down_mean_ik_count_over_reachable_measure": 4.0,
+        "down_min_selected_margin_deg": 115.57208012745325,
+        "down_min_selected_sigma": 0.010113481224619664,
+        "down_low_sigma_fraction_of_reachable_measure": 0.04794520547945205,
+        "environment_collision_pass_fraction": null
+      },
+      "adaptive": {
+        "centres": 3499,
+        "measure": 40000.0,
+        "position_measure": 40000.0,
+        "down_measure": 14568.75,
+        "all_orientations_measure": 0,
+        "orientation_fraction_weighted": 0.3759625,
+        "down_mean_ik_count_over_reachable_measure": 3.999141999141999,
+        "down_min_selected_margin_deg": 115.09898120731292,
+        "down_min_selected_sigma": 5.697504455890171e-05,
+        "down_low_sigma_fraction_of_reachable_measure": 0.04418704418704419,
+        "environment_collision_pass_fraction": null
+      }
+    },
+    {
+      "scenario_id": "outer_side",
+      "label": "远端布局",
+      "dimension": 2,
+      "tool_id": "rtde_20260921",
+      "mount": "side",
+      "offset_mm": 650,
+      "height_mm": 650,
+      "coarse_mm": 10,
+      "fine_mm": 2.5,
+      "refine_margin_deg": 5,
+      "refine_sigma": 0.05,
+      "characteristic_length_m": 0.4,
+      "coarse_csv": "datasets/outer_side_coarse.csv",
+      "cells_csv": "datasets/outer_side_leaves.csv",
+      "job_id": "4d73f35ebd72fb3272d09fbecb4c5e029635dfca12c6569bd34ae59a403c632b",
+      "bounds_mm": [
+        [
+          -100,
+          100
+        ],
+        [
+          -100,
+          100
+        ]
+      ],
+      "orientation_count": 25,
+      "jobs_db_status": "complete",
+      "chunks_total": 20,
+      "chunks_complete": 20,
+      "sample_rows": 51000,
+      "attempts": 20,
+      "cached_cpu_wall_sum_s": 8.521625700002005,
+      "domain_measure": 40000,
+      "measure_unit": "mm2",
+      "coarse": {
+        "centres": 400,
+        "measure": 40000.0,
+        "position_measure": 40000.0,
+        "down_measure": 40000.0,
+        "all_orientations_measure": 40000.0,
+        "orientation_fraction_weighted": 1.0,
+        "down_mean_ik_count_over_reachable_measure": 7.73,
+        "down_min_selected_margin_deg": 64.514438961072,
+        "down_min_selected_sigma": 0.2367656848551442,
+        "down_low_sigma_fraction_of_reachable_measure": 0.0,
+        "environment_collision_pass_fraction": null
+      },
+      "adaptive": {
+        "centres": 400,
+        "measure": 40000.0,
+        "position_measure": 40000.0,
+        "down_measure": 40000.0,
+        "all_orientations_measure": 40000.0,
+        "orientation_fraction_weighted": 1.0,
+        "down_mean_ik_count_over_reachable_measure": 7.73,
+        "down_min_selected_margin_deg": 64.514438961072,
+        "down_min_selected_sigma": 0.2367656848551442,
+        "down_low_sigma_fraction_of_reachable_measure": 0.0,
+        "environment_collision_pass_fraction": null
+      }
+    },
+    {
+      "scenario_id": "outer_ceiling",
+      "label": "远端布局",
+      "dimension": 2,
+      "tool_id": "rtde_20260921",
+      "mount": "ceiling",
+      "offset_mm": 650,
+      "height_mm": 650,
+      "coarse_mm": 10,
+      "fine_mm": 2.5,
+      "refine_margin_deg": 5,
+      "refine_sigma": 0.05,
+      "characteristic_length_m": 0.4,
+      "coarse_csv": "datasets/outer_ceiling_coarse.csv",
+      "cells_csv": "datasets/outer_ceiling_leaves.csv",
+      "job_id": "c219ffb8fd1095321300bb259884c4d579c5c51df85564623e334b76d24ff58b",
+      "bounds_mm": [
+        [
+          -100,
+          100
+        ],
+        [
+          -100,
+          100
+        ]
+      ],
+      "orientation_count": 25,
+      "jobs_db_status": "complete",
+      "chunks_total": 20,
+      "chunks_complete": 20,
+      "sample_rows": 95000,
+      "attempts": 20,
+      "cached_cpu_wall_sum_s": 12.93055799999911,
+      "domain_measure": 40000,
+      "measure_unit": "mm2",
+      "coarse": {
+        "centres": 400,
+        "measure": 40000.0,
+        "position_measure": 40000.0,
+        "down_measure": 40000.0,
+        "all_orientations_measure": 32400.0,
+        "orientation_fraction_weighted": 0.9907,
+        "down_mean_ik_count_over_reachable_measure": 7.33,
+        "down_min_selected_margin_deg": 72.06075794474377,
+        "down_min_selected_sigma": 0.15561140317073022,
+        "down_low_sigma_fraction_of_reachable_measure": 0.0,
+        "environment_collision_pass_fraction": null
+      },
+      "adaptive": {
+        "centres": 802,
+        "measure": 40000.0,
+        "position_measure": 40000.0,
+        "down_measure": 40000.0,
+        "all_orientations_measure": 32650.0,
+        "orientation_fraction_weighted": 0.99086875,
+        "down_mean_ik_count_over_reachable_measure": 7.3171875,
+        "down_min_selected_margin_deg": 72.06075794474377,
+        "down_min_selected_sigma": 0.15561140317073022,
+        "down_low_sigma_fraction_of_reachable_measure": 0.0,
+        "environment_collision_pass_fraction": null
+      }
+    },
+    {
+      "scenario_id": "volume_roi",
+      "label": "基座坐标局部体积",
+      "dimension": 3,
+      "tool_id": "rtde_20260921",
+      "mount": "floor",
+      "offset_mm": 0,
+      "height_mm": 0,
+      "coarse_mm": 40,
+      "fine_mm": 10,
+      "refine_margin_deg": 5,
+      "refine_sigma": 0.05,
+      "characteristic_length_m": 0.4,
+      "coarse_csv": "datasets/volume_roi_coarse.csv",
+      "cells_csv": "datasets/volume_roi_leaves.csv",
+      "job_id": "25209a85c223d6174bf131c331de4c15ffe55e8f19ada9202fb376941068bc4b",
+      "bounds_mm": [
+        [
+          560,
+          800
+        ],
+        [
+          -120,
+          120
+        ],
+        [
+          300,
+          540
+        ]
+      ],
+      "orientation_count": 25,
+      "jobs_db_status": "complete",
+      "chunks_total": 18,
+      "chunks_complete": 18,
+      "sample_rows": 893050,
+      "attempts": 18,
+      "cached_cpu_wall_sum_s": 67.53446749999875,
+      "domain_measure": 13824000,
+      "measure_unit": "mm3",
+      "coarse": {
+        "centres": 216,
+        "measure": 13824000.0,
+        "position_measure": 13824000.0,
+        "down_measure": 11584000.0,
+        "all_orientations_measure": 7040000.0,
+        "orientation_fraction_weighted": 0.8974074074074074,
+        "down_mean_ik_count_over_reachable_measure": 5.569060773480663,
+        "down_min_selected_margin_deg": 78.40323052015766,
+        "down_min_selected_sigma": 0.045461872321158725,
+        "down_low_sigma_fraction_of_reachable_measure": 0.011049723756906077,
+        "environment_collision_pass_fraction": null
+      },
+      "adaptive": {
+        "centres": 7874,
+        "measure": 13824000.0,
+        "position_measure": 13824000.0,
+        "down_measure": 11551000.0,
+        "all_orientations_measure": 7044000.0,
+        "orientation_fraction_weighted": 0.8949479166666666,
+        "down_mean_ik_count_over_reachable_measure": 5.589819063284564,
+        "down_min_selected_margin_deg": 78.40323052015766,
+        "down_min_selected_sigma": 0.0036976471747762456,
+        "down_low_sigma_fraction_of_reachable_measure": 0.013505324214353735,
+        "environment_collision_pass_fraction": null
+      },
+      "point_cloud_ply": "volume_roi.ply"
+    }
+  ],
+  "paths_file": "paths.json",
+  "robodk_file": "robodk/summary.json",
+  "evidence_compatible": {
+    "paths": true,
+    "robodk": true
+  },
+  "reference_evidence_matches": true,
+  "pose_meaning": "Equal weights for the configured discrete task poses. Jacobian linear rows are divided by the scenario's characteristic_length_m.",
+  "area_meaning": "Sum of leaf measure weighted by its centre. Partial jobs report only the sampled roots.",
+  "physical_collision": "UNKNOWN"
+}

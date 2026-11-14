@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UR7e 工作空间与安装选择</title>
+<style>
+:root{color-scheme:light;--ink:#15343d;--muted:#526a71;--rule:#cddad8;--light:#f3f7f5;--floor:#007969;--side:#a64a16;--overhead:#564b93}*{box-sizing:border-box}[hidden]{display:none!important}body{margin:0;background:#f2f6f4;color:var(--ink);font:15px/1.55 "Segoe UI","Microsoft YaHei","PingFang SC",sans-serif}main,.bar{max-width:1350px;margin:auto;padding:0 clamp(12px,3.2vw,45px)}header{background:#162e35;color:white}.bar{min-height:45px;display:flex;align-items:center;justify-content:space-between;gap:8px}.bar strong{font-size:14px}.bar a{color:#dff2eb;font-size:13px}.bar nav,.links{display:flex;gap:9px 16px;align-items:center;flex-wrap:wrap}a{color:#006e62;text-underline-offset:3px}h1,h2,h3,p,figure{margin:0}h1{font-size:clamp(27px,3.5vw,45px);line-height:1.18;letter-spacing:-.02em}h2{font-size:clamp(19px,2.2vw,26px);line-height:1.3}h3{font-size:15px}hgroup{margin:17px 0 12px}hgroup p{margin-top:5px;color:var(--muted)}details,section{scroll-margin-top:8px}.card{background:white;border:1px solid var(--rule);margin:12px 0;border-radius:8px;overflow:hidden}.heroHead,.shead{display:flex;align-items:baseline;justify-content:space-between;gap:9px 16px;flex-wrap:wrap;padding:12px 16px 7px}.heroHead{background:#eff5f2;border-bottom:1px solid var(--rule)}.heroHead .label,.hint,.links,.caption,.explain{font-size:13px;color:var(--muted)}.heroCols{display:grid;grid-template-columns:minmax(0,2.4fr) minmax(285px,.94fr)}.visual{min-width:0;border-right:1px solid var(--rule);background:#fafcfb}.visual iframe{background:#f2f6f2;border:0;width:100%;height:clamp(492px,61vh,710px);display:block}.visual .caption{padding:6px 14px 10px;line-height:1.5}.controls{padding:11px 14px;min-width:0}.controls h2{font-size:19px}.control{margin:11px 0}.control .rlabel{display:flex;align-items:center;justify-content:space-between;gap:5px;font-size:13px;color:var(--muted)}.control output{font-weight:650;color:var(--ink);font-variant-numeric:tabular-nums}.slider{display:grid;grid-template-columns:25px minmax(0,1fr) 25px;align-items:center;gap:3px;margin:2px 0}.slider button{padding:0;height:23px;font-size:14px}.slider input{width:100%;margin:0;accent-color:#096c62}.rangeEnds{display:flex;justify-content:space-between;margin:0 28px;color:#647b7c;font:11px/1.2 "Segoe UI",sans-serif}.btnGroup{border:1px solid var(--rule);display:flex;width:max-content;max-width:100%;border-radius:5px;background:#ecf2ee;padding:2px;gap:1px}.btnGroup button{font-size:12px;line-height:1.35;border:0;background:transparent;padding:4px 7px;white-space:nowrap;color:#45626a}.btnGroup button[aria-pressed=true]{background:white;color:#0a534a;font-weight:650;box-shadow:0 1px 3px #bfcdc8}.control label,.clabel{display:block;font-size:12px;margin:4px 0;color:var(--muted)}button,input,select{font:inherit;color:inherit}button,select,input[type=number]{border:1px solid #a7bbba;border-radius:4px;background:#fff}button{cursor:pointer;padding:4px 8px}select,input[type=number]{max-width:100%;padding:3px 6px}button:disabled{opacity:.45;cursor:default}a:focus-visible,button:focus-visible,canvas:focus-visible,svg:focus-visible,summary:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #208d98;outline-offset:2px}.resultBox{border-top:1px solid var(--rule);padding-top:8px;margin-top:8px}.resultBox p{margin:4px 0;font-size:13px}.resultBox strong{color:#075c4d}.evidenceBlock{padding:9px 16px 13px;border-top:1px solid #dce4e1}.tagmount{font-weight:650}.floor{color:var(--floor)}.side{color:var(--side)}.overhead{color:var(--overhead)}.mountCards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:5px 0}.mountCard{display:block;text-align:left;border:1px solid var(--rule);border-top:3px solid var(--c);border-radius:5px;background:#fff;padding:7px 9px}.mountCard[aria-pressed=true]{background:#f1f7f4;border-color:var(--c)}.mountCard .line,.mountCard small{display:block;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}.mountCard .big{font-size:17px;font-weight:650}.examples{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin:6px 0}.examples button{font-size:12px;padding:3px 7px}.examples button[aria-pressed=true]{background:#e4f0e9;border-color:#84afa1}.sectionBody{padding:2px 16px 15px}.sectionBody>p,.detailBody>p{margin:6px 0 8px}.trends{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.chartPanel{min-width:0;border:1px solid #dae3de;border-radius:5px;padding:7px 6px 1px}.chartPanel h3{margin:0 4px;font-size:14px}.chartPanel svg{display:block;width:100%;height:207px;touch-action:pan-y}.axis{font:11px "Segoe UI",sans-serif;fill:#465e67}.legend{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:5px 15px;flex-wrap:wrap;margin:7px 0}.legend i{width:11px;height:10px;display:inline-block;margin-right:4px;border-radius:2px}.legend .sample i{height:3px;width:14px}.detail{padding:10px 15px;background:white}.detail>summary{font-size:16px;font-weight:650}.detailBody{padding-top:6px}.inner{border-top:1px solid var(--rule);padding:6px 0;margin-top:6px}.inner summary{font-size:13px;color:#14594f}summary{cursor:pointer}.scroll{overflow:auto}table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:13px}th,td{padding:5px 8px;border-bottom:1px solid #dde6e4;text-align:right}th{font-size:12px;color:#3d5960;background:#eff4f1}th:first-child,td:first-child{text-align:left}.maps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.map{min-width:0}.map b{font-size:13px;display:block;margin:3px 0}.map canvas{display:block;width:min(100%,300px);aspect-ratio:1;border:1px solid var(--rule);cursor:crosshair}.read{font-size:13px;color:#455e65;min-height:1.5em;margin:5px 0;font-variant-numeric:tabular-nums}.smallControls{display:flex;gap:6px 16px;flex-wrap:wrap;align-items:center;margin:6px 0}.smallControls label{font-size:13px}.smallControls input{width:6.2em}.motion{max-width:920px;width:100%;height:auto;display:block;margin:8px auto}.figureLinks{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(0,1fr);gap:12px}.figureLinks a{display:block;font-size:13px}.figureLinks img{display:block;width:100%;max-height:290px;object-fit:contain;object-position:left center;border:1px solid #dce4df}.notice{font-size:13px;color:#6f4430;background:#f9f3e9;padding:7px 10px;border-left:3px solid #b6743f}.note{font-size:13px;color:#244b43;background:#eff6f1;padding:7px 10px;border-left:3px solid #70a898}.filters label{margin-right:9px}.precision h3{margin-top:9px}.colorTitle{font:650 11px "Segoe UI",sans-serif;fill:#3e5961}footer{font-size:13px;color:var(--muted);padding:3px 0 30px}
+@media(max-width:900px){.heroCols{grid-template-columns:minmax(0,1.7fr) minmax(250px,1fr)}.controls{padding:8px 11px}.visual iframe{height:505px}.mountCard .big{font-size:15px}}
+@media(max-width:660px){main,.bar{padding:0 10px}.bar strong,.bar a{font-size:11px}.bar nav{gap:7px}.bar{min-height:39px}hgroup{margin:12px 0 9px}hgroup p{font-size:13px}.heroCols{grid-template-columns:1fr}.visual{border-right:0;border-bottom:1px solid var(--rule)}.visual iframe{height:445px}.visual .caption{font-size:11px}.heroHead,.shead{padding:9px 10px 6px}.controls{display:grid;grid-template-columns:1fr 1fr;gap:2px 12px}.controls>h2,.controls .resultBox{grid-column:1/-1}.control{margin:4px 0}.controls .modeControl{grid-column:1/-1}.mountCards{gap:4px}.mountCard{padding:4px 5px}.mountCard .big{font-size:13px}.mountCard small,.mountCard .line{font-size:10px}.evidenceBlock,.sectionBody,.detail{padding:8px 9px}.trends,.figureLinks{grid-template-columns:1fr}.chartPanel svg{height:190px}.maps{gap:5px}.detail>summary{font-size:14px}th,td{padding:4px}.figureLinks img{max-height:185px}}
+.workLayout{max-width:1610px;padding-inline:clamp(10px,2.2vw,35px)}.workLayout hgroup{margin:13px 0 9px}.workLayout h1{font-size:clamp(23px,2.6vw,35px)}.workLayout hgroup p{font-size:13px}.heroCols{grid-template-columns:minmax(0,2.3fr) minmax(325px,.94fr)}.visual iframe{height:clamp(520px,66vh,730px)}.controls{padding:8px 12px}.controls .control{margin:6px 0}.controls .inlineCtrl{display:grid;grid-template-columns:45px minmax(0,1fr);gap:4px;align-items:center;margin:3px 0}.controlPair{display:grid;grid-template-columns:1fr 1fr;gap:7px}.controlPair .control{min-width:0}.controls .btnGroup button{padding:4px 7px}.paramsRow{display:flex;flex-wrap:wrap;align-items:center;gap:5px 8px;margin:5px 0}.paramsRow label{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:4px;white-space:nowrap}.paramsRow input[type=number]{width:63px;padding:3px 4px}.paramsRow select{font-size:12px}.paramsRow input[type=range]{flex:1;min-width:75px;accent-color:var(--teal)}.controls .rlabel label{margin:0}.controls .inlineForm{margin-top:5px;border-top:1px solid #dbe5df;padding-top:4px}.controls h3{font-size:13px}.controls .resultBox{margin-top:6px;padding-top:5px}.controls .resultBox p{font-size:12px}.controls select{font-size:12px}.minorLink{font-size:12px;margin-left:auto}.statusLine{font-size:12px;color:var(--muted);margin:4px 0}.statusLine.hit{color:#9b3d25}.metricBar{display:flex;align-items:center;gap:7px 19px;flex-wrap:wrap;padding:6px 12px;border-top:1px solid var(--rule);color:#415b62;font-size:12px}.metricBar b{color:var(--ink);font-variant-numeric:tabular-nums}.sectionNav{display:flex;gap:9px 16px;flex-wrap:wrap;margin:5px 0 9px;font-size:12px}.sectionNav a{white-space:nowrap}.sliceGrid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1.55fr);gap:10px}.sliceGrid .chartPanel svg{height:218px}.sliceCards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.sliceItem{min-width:0}.sliceItem h3,.sliceItem p{font-size:12px}.sliceItem canvas{display:block;width:100%;aspect-ratio:1;image-rendering:pixelated;border:1px solid #ccd9d4;background:#eef3f0;cursor:crosshair}.sliceItem p{color:var(--muted)}.sectionBody #pathOut{white-space:normal}.inlineNote{font-size:11px;color:var(--muted)}.controls button,.controls select{min-height:22px}.progressLine{display:flex;align-items:center;gap:6px;margin:3px 0}.progressLine button,.progressLine select{font-size:12px;padding:2px 5px}.progressLine input{flex:1;min-width:38px;accent-color:#067665}.progressLine output{min-width:27px;font-size:11px;font-variant-numeric:tabular-nums}.controlErr{font-size:12px;color:#9e442b}.resizeNumber{width:62px!important;font-size:12px;padding:2px!important}.sqControl{display:flex;gap:5px;align-items:center}.sqControl input[type=range]{flex:1;width:80px;accent-color:#007969}.legendMark{display:inline-block;width:10px;height:10px;vertical-align:middle;margin:0 2px 1px 6px}.snapBadge{font-size:12px;font-weight:500;color:var(--muted)}.sceneFacts{font-size:11px;color:#506a70;padding:3px 12px 7px}.pathActions{display:flex;flex-wrap:wrap;align-items:center;gap:7px 12px;margin:6px 0}.pathActions input[type=range]{width:min(185px,40vw);accent-color:var(--teal)}.pathActions label{font-size:13px}.inlineForm summary{font-size:12px;cursor:pointer;color:#365653}.caseGridSummary{display:flex;gap:8px 17px;flex-wrap:wrap}.caseGridSummary p{font-size:12px;margin:0;flex:1;min-width:280px}.skin3d{font-size:11px;color:var(--muted)}
+@media(max-width:950px){.heroCols{grid-template-columns:minmax(0,1.75fr) minmax(290px,.93fr)}.controls{padding:7px 9px}.sliceGrid{grid-template-columns:1fr 1.1fr}.sliceGrid .chartPanel svg{height:185px}.visual iframe{height:570px}}
+@media(max-width:670px){.heroCols,.sliceGrid{grid-template-columns:1fr}.visual iframe{height:clamp(365px,54vh,480px)}.controls{display:block}.workLayout hgroup{margin:9px 0 5px}.controlPair .control{margin:2px 0}.visual .caption{padding:3px 8px;font-size:11px}.sectionNav{gap:5px 11px}.controls .inlineCtrl{margin:4px 0}.caseGridSummary p{min-width:240px}.sliceGrid .chartPanel svg{height:170px}.sliceItem h3,.sliceItem p{font-size:10px}.metricBar{gap:3px 10px;padding:4px 8px}.heroHead h2{font-size:17px}.sectionNav a{font-size:11px}}
+.xyControls{display:grid;grid-template-columns:1fr 1fr;gap:8px}.xyControls label{display:grid;grid-template-columns:12px minmax(28px,1fr) 52px;gap:3px;align-items:center;color:#456167;font-size:12px}.xyControls input[type=number]{width:52px;padding:2px;font-size:12px}.xyControls input[type=range]{width:100%;margin:0;accent-color:#067665}.mountCard[aria-current=true]{background:#f3f7f3;border-color:var(--c)}.controls #pathReview{padding:5px 0 0;border-top:1px solid #cddad8;margin-top:5px}.controls #pathReview h3,.controls #pathReview>p{margin:3px 0}.controls #pathReview .paramsRow button,.controls #pathReview .paramsRow a{font-size:12px;padding:2px 5px}.visual{align-self:stretch}.controls #quickTitle{font-size:13px}#thresholdOn{width:auto}.controls #spaceView{width:auto}.controls #bedControl p{margin:2px 0}.controls #pathReview:target{background:#f1f7f2}.controls #pathCompute{background:#e7f3ee;color:#075f50;border-color:#79aa9b}
+.analysisCard .shead{align-items:center;border-bottom:1px solid #d5e1d9;padding-bottom:9px}.studyControls{display:grid;grid-template-columns:minmax(270px,1.1fr) minmax(280px,1fr);gap:8px 22px;margin:9px 0}.studyControls .control{margin:1px 0}.conditionBar,.chartMenus,.mapLegend,.studyRange,.inlineThreshold{display:flex;align-items:center;flex-wrap:wrap;gap:5px 11px}.inlineThreshold{gap:5px;font-size:12px;color:#31544c;margin:3px 0}.inlineThreshold input{width:90px;accent-color:#007969;margin:0}.inlineThreshold output{min-width:27px;font-weight:650;font-variant-numeric:tabular-nums}.assemblyPlots{display:grid;grid-template-columns:minmax(330px,1fr) minmax(0,1.45fr);align-items:start;gap:16px;margin-top:10px}.assemblyPlots .chartPanel{padding:7px 9px}.chartMenus{justify-content:space-between;margin:5px 0}.chartMenus>div{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}.assemblyPlots svg{height:clamp(193px,19vw,265px)}.assemblyPlots .legend{margin:2px 4px}.footMaps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.footMap{border:1px solid #cddbd6;border-top:3px solid var(--m);border-radius:5px;min-width:0;padding:5px 6px;background:#fff}.footMap[aria-current=true]{background:#f4f8f6}.footMap h3{color:var(--m);font-size:14px}.footMap canvas{display:block;width:100%;aspect-ratio:1;cursor:crosshair;background:#f1f5f2;border:1px solid #d8e1dd}.footMap .mapNumbers{font-size:13px;font-variant-numeric:tabular-nums;font-weight:650;line-height:1.4;margin:4px 0 2px}.footMap .mapMore{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}.mapLegend{gap:4px 10px;font-size:11px;color:var(--muted);margin:5px 0}.mapLegend span{white-space:nowrap}.keySquare,.keyOutline{display:inline-block;vertical-align:middle;width:13px;height:10px;margin-right:3px}.keySquare{background:#35796b}.keySquare.pale{background:#c7dcd4}.keyOutline{border:2px solid #182e34}.keyOutline.piece{border:1.5px dashed #96322c}.inlineFilters{display:flex;gap:8px 12px;align-items:center;flex-wrap:wrap;font-size:12px}.inlineFilters input[type=checkbox]{width:auto}.studyRange{flex-wrap:nowrap;align-items:center;font-size:12px}.studyRange input{min-width:20px;width:100%;accent-color:#007969}.studyRange output{font-variant-numeric:tabular-nums;min-width:68px;text-align:right}.analysisCard #trendExplain{background:#edf5f0;border-left:3px solid #6ea291;padding:6px 9px;font-size:13px}.analysisCard details{margin-top:7px}.analysisCard details>summary{font-size:12px;color:var(--muted)}.poseDirections{max-width:580px;width:100%;display:block;margin:6px 0}.mapClick{font-size:12px;color:var(--muted)}@media(max-width:975px){.assemblyPlots{grid-template-columns:1fr 1.3fr;gap:8px}.footMaps{gap:4px}.footMap{padding:4px}.studyControls{gap:6px 12px}}@media(max-width:740px){.assemblyPlots{grid-template-columns:1fr}.assemblyPlots .chartPanel{order:2}.studyControls{grid-template-columns:1fr}.footMap .mapNumbers{font-size:11px}.footMap .mapMore{font-size:10px}.footMap h3{font-size:12px}.assemblyPlots svg{height:200px}.chartMenus{justify-content:flex-start}.analysisCard .sectionBody{padding:5px 8px 10px}.footMap .mapNumbers b{display:block}.analysisCard h2{font-size:19px}}
+.studyRange{display:grid;grid-template-columns:max-content minmax(28px,1fr) max-content;white-space:nowrap;gap:5px}.studyRange output{min-width:0}.studyRange input{margin:0}
+.poseGuide{display:flex;align-items:baseline;gap:5px 12px;flex-wrap:wrap;color:#526a71;font-size:12px}.poseGuide details{margin:0}.poseGuide details[open]{width:100%}.poseGuide summary{color:#146455!important}
+.controls .ctrlPart{border:0;border-top:1px solid #cfdbd7;margin:0;padding:10px 0;min-width:0}.controls .ctrlPart:first-child{border-top:0}.controls .ctrlPart h3{font-size:14px;line-height:1.4;margin:0 0 5px;color:#163d42}.controls .helpText{font-size:12px;color:#4d666b;line-height:1.45;margin:3px 0 6px}.controls .heights .slider{display:block}.controls .heights .control+.control{margin-top:10px}.controls .xyControls{grid-template-columns:1fr;margin-top:6px}.controls .sqControl,.controls .xyControls label{gap:9px}.controls .bedSettings{border:0;margin:8px 0 0;padding:0}.controls .bedSettings summary{font-size:12px;color:#17665d}.controls .bedSettings label{font-size:12px}.controls input[type=range]{appearance:none;height:5px;min-width:0;border:0;padding:0;margin:8px 0;border-radius:4px;background:#b9cec8;accent-color:#087563;vertical-align:middle}.controls input[type=range]::-webkit-slider-thumb{appearance:none;background:#087563;width:15px;height:15px;border-radius:50%}.controls input[type=range]::-moz-range-thumb{background:#087563;width:15px;height:15px;border:0;border-radius:50%}.controls .slider input[type=range]{width:100%}.controls .resultBox{background:#f0f6f3;padding:9px}.controls .resultBox a{font-size:12px}.controls #pathReview{padding-top:10px;margin-top:0}.controls{display:block}
+.bedSettings input[type=number]{width:64px}.bedSettings>label,.bedSettings #bedControl>label{display:block;margin:6px 0}.controls .inlineForm{border-top:0;padding:0}.ctrlPart input[type=range]:focus-visible{outline:2px solid #007768;outline-offset:3px}.visual>.ctrlPart{border-top:1px solid #cfdbd7;padding:8px 12px;margin:0}.visual>.ctrlPart h3{font-size:14px;margin:0 0 3px}.visual>.ctrlPart .helpText{font-size:12px;color:#526a71}.visual>.ctrlPart .paramsRow,.visual>.ctrlPart .progressLine{max-width:650px}.visual>.ctrlPart .progressLine input[type=range]{appearance:none;height:5px;background:#b9cec8;border:0;border-radius:4px}.visual>.ctrlPart .progressLine input[type=range]::-webkit-slider-thumb{appearance:none;border-radius:50%;background:#087563;width:15px;height:15px}
+.controls .heightRail{display:grid;grid-template-columns:max-content minmax(0,1fr) max-content;align-items:center;gap:8px;min-height:22px}.heightRail span{font-size:11px;color:#526a71;white-space:nowrap;font-variant-numeric:tabular-nums}.controls .heightRail input[type=range]{display:block;width:100%;margin:0}.controls .heights .control{margin:3px 0}.controls .heights .control+.control{margin-top:4px}.controls .heights .rlabel{margin:0}.controls .ctrlPart{padding-block:7px}.controls .ctrlPart .helpText{margin:2px 0 4px}
+.controls input[type=range]{display:none!important}.controls .dialRow{display:grid;grid-template-columns:minmax(0,1fr) 70px 23px;align-items:center;gap:5px;margin:3px 0;color:#405c63;font-size:12px}.controls input.dial{font:600 13px/1.2 inherit;font-family:inherit;font-size:13px;font-weight:600;width:70px!important;max-width:100%;text-align:right;padding:3px 6px!important;color:#164e49;border:1px solid #b7ccc7;border-radius:4px;appearance:textfield}.controls input.dial::-webkit-inner-spin-button{appearance:none}.controls input.dial:hover,.controls input.dial:focus{background:#edf6f2;border-color:#288278}.controls .xyControls{grid-template-columns:1fr 1fr}.controls .xyControls label{display:flex;justify-content:space-between;gap:4px}.controls .progressLine input.dial{flex:none}.controls .ctrlPart h3{margin-bottom:3px}
+.layoutVerdict{display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 12px;padding:6px 12px;background:#eef6f2;border-bottom:1px solid #cddad8;font-size:12px}.layoutVerdict h3{font-size:13px}.layoutVerdict a{margin-left:auto}.controls .heightsLine,.controls .placementLine{display:flex;align-items:center;gap:4px 12px;flex-wrap:nowrap}.controls .heightsLine .dialRow,.controls .placementLine label{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}.controls .heightsLine input.dial,.controls .placementLine input.dial{width:53px!important}.controls .placementLine .xyControls{display:flex;gap:7px}.controls .placementLine{font-size:12px}.controls .progressLine input[type=range]{display:block!important;flex:1 1 60px;min-width:30px;width:auto}.controls .progressLine output{white-space:nowrap}.controls .progressLine input:disabled{opacity:.45}
+@media(max-width:370px){.controls .placementLine,.controls .heightsLine{gap:5px}.controls .placementLine input.dial,.controls .heightsLine input.dial{width:49px!important}}
+</style><link rel="stylesheet" href="workspace_layout.css"></head><body><script src="../report_nav.js" data-section="report"></script>
+<main class="workLayout">
+<hgroup><h1 id="heroTitle">UR7e 工件摆放与安装比较</h1><p id="heroDims"></p></hgroup>
+<section aria-labelledby="heroTitle" class="card" id="workspace" tabindex="-1"><div class="heroCols">
+<div class="visual"><h2 class="panelTitle">机械臂与工件</h2><robot-scene aria-label="机器人、台面、方形工件和可达工作空间的三维对照" id="robotScene"></robot-scene><p aria-live="polite" class="sceneFacts" id="sceneInfo"></p><div class="layoutVerdict"><h3 id="quickTitle"></h3><p id="quickResult"></p><p class="hint" id="why"></p></div><aside class="controls workspaceOptions"><div><section class="ctrlPart"><h3>安装与喷嘴方向</h3><div class="inlineCtrl"><span class="clabel">安装</span><div aria-label="安装方式" class="btnGroup" id="mountBtns" role="group"><button data-mount="floor">地装</button><button data-mount="side">侧装</button><button data-mount="overhead">吊装</button></div></div>
+<div class="inlineCtrl"><span class="clabel">姿态</span><div aria-label="各点所需姿态" class="btnGroup" id="mode" role="group"><button data-mode="free">姿态不限</button><button data-mode="down">固定朝下</button><button data-mode="threshold">按方向数</button></div></div><p class="helpText" id="poseHint"></p><div class="inlineThreshold" id="topCountLine">每个点至少 <input aria-label="整件各层最少可达姿态数量" id="analysisCount" max="25" min="1" step="1" type="range" value="25"/><input aria-label="可达方向数" class="dial" id="kEdit" step="1" title="滚轮调整，也可直接输入" type="number"/> 个方向<input aria-label="全页要求的最少姿态数" hidden="" id="poseCount" max="25" min="1" step="1" type="range" value="25"/><output hidden="" id="poseCountText"></output></div>
+<details id="directionGuide"><summary>25 个候选方向怎样取样？</summary><img alt="一束竖直线和三圈各八个方向表示 25 个候选喷嘴方向" class="poseDirections" loading="lazy" src="pose_directions.svg"/></details></section><section class="ctrlPart"><h3>工件摆放</h3><div class="dialRow"><label for="width">工件边长</label><input aria-label="方形工件边长毫米" id="pieceWidth" max="2600" min="1" step="1" type="range"/><input aria-label="准确方形边长" class="resizeNumber" id="width" min="1" step="any" type="number"/> mm</div>
+<div class="placementLine"><label>中心 <select id="placeMode"><option value="best">自动找位置</option><option value="custom">手动指定</option></select></label>
+<div class="xyControls" hidden="" id="workXY"><label>X <input aria-label="滑动工件中心X" id="sliderX" step="1" type="range"/><input aria-label="工件中心X毫米" id="centerX" step="any" type="number"/></label><label>Y <input aria-label="滑动工件中心Y" id="sliderY" step="1" type="range"/><input aria-label="工件中心Y毫米" id="centerY" step="any" type="number"/></label></div></div><p class="controlErr" hidden="" id="inputWarn"></p>
+<section class="ctrlPart bedSettings"><label><input id="bedOn" type="checkbox"/> 叠加参考热床</label><div hidden="" id="bedControl"><div class="dialRow"><label for="bedSize">热床边长</label><input id="bedSizeSlider" max="3000" min="1" step="1" type="range" value="200"/><input aria-label="准确热床边长毫米" id="bedSize" max="3000" min="1" type="number" value="200"/></div><label><input checked="" id="bedFollow" type="checkbox"/> 与工件中心对齐</label><div class="xyControls" hidden="" id="bedXY"><label>X <input id="bedSliderX" max="1300" min="-1300" step="1" type="range" value="0"/><input aria-label="热床中心 X 毫米" id="bedX" type="number" value="0"/></label><label>Y <input id="bedSliderY" max="1300" min="-1300" step="1" type="range" value="0"/><input aria-label="热床中心 Y 毫米" id="bedY" type="number" value="0"/></label></div><p class="helpText" id="bedNote"></p></div></section></section></div>
+<div><section class="ctrlPart heights"><h3>工件的垂直位置</h3><p class="helpText">底面以基座中心为零，工件高度是从第一层到顶层的距离。</p>
+<div class="heightsLine"><div class="dialRow"><span>底面高度 H</span><input aria-label="分析区底面高度毫米" id="analysisH" type="range"/><input aria-label="底面高度毫米" class="dial" id="hEdit" step="1" title="滚轮调整，也可直接输入" type="number"/> mm</div><input hidden="" id="h" type="range"/>
+<div class="dialRow"><span>工件高度 d</span><input aria-label="分析区工件高度毫米" id="analysisD" type="range"/><input aria-label="向上打印高度毫米" class="dial" id="buildEdit" step="1" title="滚轮调整，也可直接输入" type="number"/> mm</div><input hidden="" id="build" type="range"/></div>
+</section><section class="ctrlPart" id="viewControls"><h3>查看打印层</h3><div class="inlineForm"><div class="paramsRow"><div aria-label="显示工作空间范围" class="btnGroup" id="spaceView" role="group"><button data-space="full">完整工作空间</button><button data-space="slab">仅看当前层高</button></div><label>喷嘴 <select id="nozzleTarget"><option value="center">层中心</option><option value="corner">层角点</option></select></label></div>
+<div class="progressLine"><button id="scenePlay" type="button">播放生长</button><input aria-label="工件生长进度百分比" id="sceneProgress" max="100" min="0" step="1" type="range" value="100"/><output id="progressText"></output></div></div>
+</section><section aria-label="当前层打印轮廓与播放" class="ctrlPart" id="pathReview" tabindex="-1"><h3>路径回放与本层轮廓检查</h3><p class="helpText" id="witnessStatus" role="status" hidden></p><p class="helpText">喷嘴竖直朝下，沿四条边检查连续运动和碰撞。</p><div class="paramsRow"><label>距底面 / mm <input id="pathLayer" min="0" step="any" type="number" value="300"/></label><button id="pathCompute" type="button">查看已存轮廓</button><a href="experiment_records.html#pathData">检验方法</a></div><div class="progressLine"><button disabled="" id="pathPlay" type="button">播放路径</button><input aria-label="轮廓播放节点" disabled="" id="pathProgress" max="0" min="0" type="range" value="0"/><output id="pathFrame"></output></div><p aria-live="polite" class="statusLine" id="pathOut"></p><p class="statusLine" id="pathState"></p><p class="helpText" id="branchInfo" hidden></p><div class="pathActions"><button id="pathExample" type="button">回放 200 mm 示例</button><button id="pathDownload" type="button" disabled>导出当前轮廓</button></div></section></div></aside></div><section aria-labelledby="assemblyTitle" class="analysisCard comparison" id="assemblyTrends" tabindex="-1">
+
+<h2 id="assemblyTitle">高度变化怎样影响可打印范围？</h2><div class="chartPanel"><h3 id="trendTitle">改变底面高度</h3><div class="chartMenus"><div>横轴<div aria-label="折线图横轴" class="btnGroup" id="axBtns" role="group"><button data-axis="h">升降底面</button><button data-axis="d">加高零件</button></div></div><div>纵轴<div aria-label="折线图纵轴" class="btnGroup" id="measureBtns" role="group"><button data-measure="shared">有效底面积</button><button data-measure="square">最大方形边长</button></div></div></div><div class="legend sample" id="trendLegend"></div><span class="axisUnit" id="measureLabel"></span><svg aria-label="三种安装的计算曲线，点击或左右方向键选择工况" id="assemblyChart" role="img" tabindex="0"></svg><p class="inlineNote" id="trendCaption"></p><p id="trendExplain"></p></div><div><h3>当前高度范围内，工件可以放在哪里？</h3><div class="footMaps" id="assemblyMaps"></div><div class="mapLegend"><span><i class="keySquare"></i>整段高度都可达</span><span><i class="keySquare pale"></i>仅底层满足、其后有层失效</span><span><i class="keyOutline"></i>可放最大方形</span><span><i class="keyOutline piece"></i>当前工件</span></div><div class="inlineFilters"><label><input checked="" id="showPlane" type="checkbox"/> 叠加底层</label><label><input checked="" id="showPiece" type="checkbox"/> 显示工件框</label><span id="mapScale"></span></div><p aria-live="polite" class="mapClick" id="mapRead"></p><div class="inlineFilters"><button id="downloadCurrent" type="button">导出当前安装数据 CSV</button><button id="screenshotCase" title="底面 −560 mm，工件高 130 mm" type="button">示例工况</button></div></div></section>
+</div>
+
+<div class="metricBar" id="overall"></div><div class="workspaceEvidence"><a href="../anchored_search/index.html"><strong>指定起姿的三种安装与轨迹回放</strong></a>　·　<a href="../layout_search/report.html">首轮安装布局比较</a>　·　<a href="experiment_records.html">实验记录、计算精度与原图</a></div></section></main>
+<script src="scene_geometry.js"></script><script src="robot_scene.js"></script><script src="volume_data.js"></script><script src="layer-data.js"></script><script src="count_data.js"></script><script src="footprint_preview.js"></script><script src="footprint_maps.js"></script><script src="witness_replay.js"></script><script src="contour_previews.js"></script><script type="application/json" id="motionFacts">{"zero_layer_runs": {"floor": {"free": [[-1300, -948], [1274, 1300]], "down": [[-1300, -922], [914, 1300]], "all25": [[-1300, -824], [854, 1300]]}, "side": {"free": [[-1300, -1122], [1122, 1300]], "down": [[-1300, -994], [664, 1300]], "all25": [[-1300, -912], [624, 1300]]}, "overhead": {"free": [[-1300, -1274], [948, 1300]], "down": [[-1300, -1246], [590, 1300]], "all25": [[-1300, -1150], [530, 1300]]}}}</script>
+<script>
+'use strict';
+const E=id=>document.getElementById(id),V=window.VOLUME_DATA,F=JSON.parse(E('motionFacts').textContent||'{}');
+const mounts=V.mounts,hs=V.heights_mm,ds=V.build_mm,labels={floor:'地装',side:'侧装',overhead:'吊装',ceiling:'吊装'},names=mounts.map(m=>labels[m]||m),colors=['#007969','#a64a16','#564b93'],modes=V.modes||['free','down','all25'],mTitles=['姿态不限','固定朝下','全部 25 种工艺姿态'];
+const fixed=(v,d=3)=>typeof v==='number'&&Number.isFinite(v)?v.toFixed(d):'—',num=v=>typeof v==='number'&&Number.isFinite(v)?v.toLocaleString('zh-CN',{maximumFractionDigits:3}):'—';
+const nearest=(a,v)=>a.reduce((best,x,i)=>Math.abs(x-v)<Math.abs(a[best]-v)?i:best,0),tag=(name,text)=>{const n=document.createElement(name);if(text!=null)n.textContent=text;return n};
+const layout={h:hs[nearest(hs,-650)],d:ds[nearest(ds,300)],mode:'threshold',k:25,axis:'d',mount:mounts.includes('side')?'side':mounts[0],width:500,placement:'best',x:0,y:0,measure:'shared',progress:100,target:'center',space:'full',bed:{visible:false,x_mm:0,y_mm:0,side_mm:200}};
+// Reproduce either a recorded manual placement or the presentation example.
+const queryParams=new URLSearchParams(location.search);
+const exampleCase=queryParams.get('case')==='shape-compare';
+if(exampleCase){Object.assign(layout,{h:-560,d:130,axis:'d',measure:'square'});E('pathLayer').value=layout.d}
+const dz=+V.dz_mm,xy=+V.pitch_mm,mapPitch=+V.display_pitch_mm,mapN=+V.n_display,mapStart=+V.first_display_xy_mm,summaryDz=Number(V.z_summary_step_mm)||hs[1]-hs[0],mapLeft=mapStart-mapPitch/2,maxBuild=Math.max(...ds),runCap=Number(V.max_encoded_nodes)||1+Math.round(maxBuild/dz);
+const halfMm=Number(V.half_mm)||mapN*mapPitch/2,counts=window.PRINT_COUNTS;
+function readLinkedPlacement(params){
+ const required=['mount','h','d','side','x','y','pose'];
+ if(!required.every(key=>params.getAll(key).length===1&&params.get(key).trim()!==''))return null;
+ const mount=params.get('mount'),pose=params.get('pose');
+ const h=Number(params.get('h')),d=Number(params.get('d')),width=Number(params.get('side')),x=Number(params.get('x')),y=Number(params.get('y'));
+ if(!mounts.includes(mount)||!hs.includes(h)||!ds.includes(d)||![width,x,y].every(Number.isFinite)||
+    width<1||width>2*halfMm||Math.abs(x)>halfMm||Math.abs(y)>halfMm)return null;
+ let k=25,mode=pose;
+ if(pose==='all25')mode='threshold';
+ else if(pose==='threshold'){k=Number(params.get('k'));if(!Number.isInteger(k)||k<1||k>25)return null}
+ else if(!['free','down'].includes(pose))return null;
+ return {mount,h,d,width,x,y,k,mode,placement:'custom'};
+}
+const linkedPlacement=readLinkedPlacement(queryParams);
+if(linkedPlacement){Object.assign(layout,linkedPlacement);E('pathLayer').value=layout.d}
+const poseTitle=()=>layout.mode==='threshold'?(layout.k===25?'全部 25 个候选姿态':'至少 '+layout.k+' / 25 个候选姿态'):layout.mode==='free'?'姿态不限':'固定朝下';
+const mainPitch=()=>layout.mode==='threshold'?(counts?.xy_pitch_mm||xy):xy,mainDz=()=>layout.mode==='threshold'?(counts?.z_pitch_mm||dz):dz;
+function recordAt(m,h=layout.h,d=layout.d,mode=layout.mode,k=layout.k){
+ if(mode==='threshold'){
+  const value=counts?.at(m,h,d,k);if(value)return value;
+  if(k!==25)return null;
+  mode='all25';
+ }
+ const r=V.rows[m]?.[h],j=modes.indexOf(mode),i=ds.indexOf(d);if(!r||j<0||i<0)return null;
+ const a=r.shared[i][j],sq=r.square[i][j];
+ return {area_m2:a,plane_area_m2:r.area[j],square_mm:sq?.[0]||0,center_xy_mm:sq?.slice(1)||null,layer_volume_m3:r.layer_volume[i][j],prism_m3:a*d/1000};
+}
+function totalFor(m){if(layout.mode!=='threshold')return V.totals[m].fine[modes.indexOf(layout.mode)];return counts?.total(m,layout.k)??(layout.k===25?V.totals[m].fine[2]:null)}
+function square(m,h=layout.h,d=layout.d){const v=recordAt(m,h,d);return v?.center_xy_mm&&v.square_mm>0?[v.square_mm,...v.center_xy_mm]:null}
+function footprint(m,h=layout.h,d=layout.d){return recordAt(m,h,d)?.area_m2??null}
+function setPressed(selector,key,v){document.querySelectorAll(selector).forEach(b=>b.setAttribute('aria-pressed',String(b.dataset[key]===v)))}
+function range(id,arr,number){const e=E(id);e.min=arr[0];e.max=arr[arr.length-1];e.step=arr.length>1?Math.min(...arr.slice(1).map((x,i)=>x-arr[i])):1;e.value=number}
+range('h',hs,layout.h);range('build',ds,layout.d);range('analysisH',hs,layout.h);range('analysisD',ds,layout.d);
+let selectedXY=null,appliedMsg='',queuedDraw=false,sceneClock=0,pathClock=0,pathData=null,pathCursor=0,pathLimit=0,pathToken=0,pathLast='',currentScene=null,viewingPath=false;
+const scene=E('robotScene'),cached=new Map(),loading=new Map();window.UP_COLUMNS=window.UP_COLUMNS||{};
+const centre=()=>layout.placement==='custom'?[layout.x,layout.y]:square(layout.mount)?.slice(1,3)||null;
+function sendScene(force=false){
+  const sq=square(layout.mount),record={type:'ur7e-layout',h:layout.h,build:layout.d,mode:layout.mode==='threshold'&&layout.k===25?'all25':layout.mode,min_poses:layout.mode==='threshold'?layout.k:null,mount:layout.mount,center_xy_mm:centre(),width_mm:layout.width,placement:layout.placement,reference_square_mm:sq,progress_pct:layout.progress,target:layout.target,space_view:layout.space,bed:{...layout.bed}};
+  const key=JSON.stringify(record);if(!force&&appliedMsg===key)return;appliedMsg=key;commandScene(record);if(viewingPath&&pathData)postPlayback('path');
+}
+function commandScene(detail){scene.dispatchEvent(new CustomEvent('robot-command',{detail}))}
+scene.addEventListener('robot-state',ev=>{const d=ev.detail;
+  if(d.type==='ur7e-shape-ready'){sendScene(true);if(pathData){commandScene({type:'ur7e-path',data:pathData});if(viewingPath)postPlayback('path')}return}
+  if(d.type==='ur7e-scene-state'){if(d.h_mm!==layout.h||d.d_mm!==layout.d||d.mount!==layout.mount)return;if(d.mode){const wanted=layout.mode==='threshold'&&layout.k===25?'all25':layout.mode;if(d.mode!==wanted&&!(wanted==='all25'&&d.mode==='threshold'&&d.min_poses===25))return;if(wanted==='threshold'&&Number(d.min_poses)!==layout.k)return}if(viewingPath?(d.target!=='path'||d.path_id!==pathData?.id||d.path_index!==pathCursor):(d.target!==layout.target||Math.abs(d.progress_pct-layout.progress)>.01))return;currentScene=d;sceneInfo();return}
+});
+function setDefaultCenter(){const sq=square(layout.mount);E('centerX').value=sq?numPlain(sq[1]):'';E('centerY').value=sq?numPlain(sq[2]):'';E('width').value=layout.width}
+const numPlain=v=>String(Math.round(v*1000)/1000);
+function controlInputs(){
+ E('hEdit').value=layout.h;E('buildEdit').value=layout.d;E('kEdit').value=layout.k;
+
+ E('workXY').hidden=layout.placement!=='custom';
+ E('poseHint').textContent={free:'只看喷嘴尖端能否够到，不要求朝向。',down:'喷嘴始终竖直朝下，适合评估常规逐层打印。',threshold:'按每个采样点能达到的候选方向数筛选。'}[layout.mode];
+ E('h').value=layout.h;E('build').value=layout.d;
+ setPressed('[data-mode]','mode',layout.mode);setPressed('[data-mount]','mount',layout.mount);setPressed('[data-measure]','measure',layout.measure);
+ E('pieceWidth').max=E('width').max=Math.floor(2*halfMm);E('pieceWidth').value=layout.width;E('placeMode').value=layout.placement;setPressed('[data-space]','space',layout.space);E('nozzleTarget').value=layout.target;
+ for(const dim of ['X','Y']){const slider=E('slider'+dim),val=E('center'+dim).valueAsNumber;slider.min=Math.min(-halfMm,Number.isFinite(val)?val:0);slider.max=Math.max(halfMm,Number.isFinite(val)?val:0);slider.value=Number.isFinite(val)?val:0}
+ E('analysisH').value=layout.h;E('analysisD').value=layout.d;
+ setPressed('[data-axis]','axis',layout.axis);E('poseCount').value=E('analysisCount').value=layout.k;E('topCountLine').hidden=layout.mode!=='threshold';
+ E('pathLayer').max=layout.d;E('sceneProgress').value=layout.progress;E('progressText').textContent=num(layout.progress)+'%';
+}
+function choose(field,value){if(field==='k')value=Math.max(1,Math.min(25,Math.round(value)));if(field==='h')value=hs[nearest(hs,value)];if(field==='d')value=ds[nearest(ds,value)];if(layout[field]===value)return;stopGrowth();if(field==='d'){const old=+E('pathLayer').value;E('pathLayer').value=old===layout.d?value:Math.min(old,value)}layout[field]=value;selectedXY=null;if(layout.placement==='best')setDefaultCenter();E('inputWarn').hidden=true;render()}
+E('h').oninput=e=>choose('h',+e.target.value);E('build').oninput=e=>choose('d',+e.target.value);
+for(const b of document.querySelectorAll('[data-mode]'))b.onclick=()=>choose('mode',b.dataset.mode);for(const b of document.querySelectorAll('[data-mount]'))b.onclick=()=>choose('mount',b.dataset.mount);
+for(const b of document.querySelectorAll('[data-measure]'))b.onclick=()=>{layout.measure=b.dataset.measure;controlInputs();drawCharts()};
+for(const b of document.querySelectorAll('[data-axis]'))b.onclick=()=>{layout.axis=b.dataset.axis;controlInputs();drawCharts()};
+for(const id of ['poseCount','analysisCount'])E(id).oninput=e=>choose('k',+e.target.value);
+E('analysisH').oninput=e=>choose('h',+e.target.value);E('analysisD').oninput=e=>choose('d',+e.target.value);
+E('screenshotCase').onclick=()=>{layout.axis='d';layout.measure='square';choose('h',-560);choose('d',130);controlInputs();drawCharts()};
+
+function firstEmpty(m){
+ const end=layout.h+layout.d,known=layout.mode==='threshold'?(layout.k===25?'all25':null):layout.mode,runs=known&&F.zero_layer_runs?.[m]?.[known];
+ if(Array.isArray(runs)){for(const [a,b] of runs){const z=Math.max(a,layout.h+mainDz());if(z<=b&&z<=end)return {h:z,pitch:mainDz()}}return null}
+ for(const z of hs){if(z>layout.h&&z<=end&&recordAt(m,z)?.plane_area_m2===0)return {h:z,pitch:summaryDz}}
+ return null;
+}
+function heightLimits(m,r){
+ if(!r)return '此条件的数值尚未载入。';
+ if(!r.plane_area_m2)return '底层没有满足所选姿态的采样点。';
+ if(r.area_m2>0)return '从底到顶每隔 '+num(mainDz())+' mm 检查一次。';
+ const top=layout.h+layout.d,e=firstEmpty(m);
+ if(e)return '底层有 '+fixed(r.plane_area_m2)+' m²；在每隔 '+num(e.pitch)+' mm 的截面中，首个完全为空的高度是 H = '+num(e.h)+' mm'+(top>hs.at(-1)?'，顶面 H = '+num(top)+' mm 已超出计算范围。':'。');
+ if(top>hs.at(-1))return '顶面 H = '+num(top)+' mm 高于研究范围上端 '+num(hs.at(-1))+' mm。';
+ return '底层有面积，但没有同一 XY 位置能贯穿所选高度。';
+}
+function narrative(){
+ const recs=mounts.map(m=>recordAt(m)),idx=mounts.indexOf(layout.mount),r=recs[idx],sq=square(layout.mount),top=layout.h+layout.d,mt=names[idx],vol=totalFor(layout.mount);
+ E('heroDims').textContent='底面 H = '+num(layout.h)+' mm　→　顶面 H = '+num(top)+' mm　·　'+poseTitle();
+ 
+ E('overall').replaceChildren();const bigMeasures=[['全域体积',fixed(vol)+' m³'],['单独底层',fixed(r?.plane_area_m2)+' m²'],['整件有效底面',fixed(r?.area_m2)+' m²'],['最佳位置能放的方形',num(r?.square_mm)+' mm']];for(const [label,v] of bigMeasures){const node=tag('span',label+'　');node.append(tag('b',v));E('overall').append(node)}
+ E('quickTitle').textContent='当前摆放结果 · '+mt;
+ E('quickResult').textContent=layout.placement==='custom'?'检查所选中心…':!r?'正在读取工件数据。':mt+'在自动选择的位置'+(r.square_mm>=layout.width?'能容纳':'放不下')+'边长 '+num(layout.width)+' mm、高 '+num(layout.d)+' mm 的工件（按 '+num(mainPitch())+' mm 网格）。';
+ E('why').hidden=layout.placement==='custom';E('why').textContent=sq?'自动选择的中心：('+num(sq[1])+', '+num(sq[2])+') mm。':heightLimits(layout.mount,r);
+
+ E('downloadCurrent').disabled=!recs.every(Boolean);
+}
+E('downloadCurrent').onclick=()=>{
+ const headers=['mount','base_height_mm','build_height_mm','condition','min_poses_of_25','workpiece_side_mm','placement','selected_center_x_mm','selected_center_y_mm','xy_pitch_mm','z_pitch_mm','map_pitch_mm','base_area_m2','whole_height_area_m2','largest_square_mm','best_center_x_mm','best_center_y_mm','shared_prism_m3','layer_integral_m3','workspace_volume_m3'];
+ const rows=mounts.map(m=>{const v=recordAt(m);if(!v)return null;const c=v.center_xy_mm??[],placed=layout.placement==='custom'?[layout.x,layout.y]:c;return[m,layout.h,layout.d,layout.mode,layout.mode==='threshold'?layout.k:'',layout.width,layout.placement,placed[0],placed[1],mainPitch(),mainDz(),layout.mode==='threshold'?(counts?.map_pitch_mm||mapPitch):mapPitch,v.plane_area_m2.toFixed(6),v.area_m2.toFixed(6),v.square_mm,c[0],c[1],v.prism_m3.toFixed(9),v.layer_volume_m3.toFixed(9),totalFor(m)?.toFixed(9)]});
+ if(rows.some(r=>!r))return;const csv=[headers,...rows].map(row=>row.map(v=>v==null?'':String(v)).join(',')).join('\r\n')+'\r\n';
+ const url=URL.createObjectURL(new Blob(['\uFEFF',csv],{type:'text/csv;charset=utf-8'})),link=tag('a');link.href=url;link.download='UR7e-H'+layout.h+'-d'+layout.d+'-'+(layout.mode==='threshold'?'k'+layout.k:layout.mode)+'.csv';link.click();setTimeout(()=>URL.revokeObjectURL(url),30000);
+};
+const svgNS='http://www.w3.org/2000/svg';
+function sEl(p,n,attrs={},txt){const node=document.createElementNS(svgNS,n);for(const [k,v] of Object.entries(attrs))node.setAttribute(k,v);if(txt!==undefined)node.textContent=txt;p.append(node);return node}
+function trendMetric(m,h,d){const r=recordAt(m,h,d);return r?(layout.measure==='shared'?r.area_m2:r.square_mm):null}
+// With the position-only predicate each fixed-attitude model is a subset.
+// Its existing full-range maximum keeps the axes fixed as the user changes k.
+const trendMax={shared:0,square:0};for(const m of mounts)for(const h of hs){const r=V.rows[m][h];for(let i=0;i<ds.length;i++){trendMax.shared=Math.max(trendMax.shared,r.shared[i][0]||0);trendMax.square=Math.max(trendMax.square,r.square[i][0]?.[0]||0)}}
+function tickSize(span,count){if(!(span>0))return 1;const v=span/count,p=10**Math.floor(Math.log10(v)),t=v/p;return (t<1.5?1:t<3?2:t<4.2?2.5:t<7.6?5:10)*p}
+function metricText(v,exact=false){return v==null?'—':layout.measure==='shared'?fixed(v,exact?6:3)+' m²':num(v)+' mm'}
+function explainCurve(values,axis){
+ const idx=mounts.indexOf(layout.mount),series=values[idx],at=axis.indexOf(layout.axis==='h'?layout.h:layout.d),sel=series[at],mt=names[idx];
+ if(sel==null){E('trendExplain').textContent='此姿态条件的有效底面记录尚未载入。';return}
+ if(layout.axis==='h'){
+  const delta=at<axis.length-1?1:-1,j=at+delta;E('trendExplain').textContent='工件高度保持 '+num(layout.d)+' mm。'+mt+'的'+(layout.measure==='shared'?'有效面积':'可放方形边长')+'在底面 H = '+num(axis[at])+' mm 时为 '+metricText(sel,true)+'，把底面移到 '+num(axis[j])+' mm 后为 '+metricText(series[j],true)+'。底面移动时，纳入比较的整段高度同时移动。';return
+ }
+ let lo=at,hi=at;const same=x=>x!=null&&Math.abs(x-sel)<1e-10;while(lo>0&&same(series[lo-1]))lo--;while(hi+1<series.length&&same(series[hi+1]))hi++;
+ const what=layout.measure==='shared'?'有效底面积':'最大方形边长';
+ let message=mt+'在 H = '+num(layout.h)+' mm 时，'+(lo===hi?'件高 '+num(axis[at])+' mm 的'+what+'为 '+metricText(sel,true):'件高 '+num(axis[lo])+' 至 '+num(axis[hi])+' mm，'+what+'保持 '+metricText(sel,true))+'。';
+ if(hi+1<series.length&&series[hi+1]!=null)message+='加高到 '+num(axis[hi+1])+' mm 后为 '+metricText(series[hi+1],true)+'。';
+ let jump=-1,jumpSize=0;for(let j=1;j<axis.length;j++){if(series[j]==null||series[j-1]==null)continue;const v=series[j-1]-series[j];if(v>jumpSize){jumpSize=v;jump=j}}
+ if(jump>0&&jump!==hi+1){message+='图中最大一步下降在 '+num(axis[jump-1])+'→'+num(axis[jump])+' mm，由 '+metricText(series[jump-1],true)+' 降到 '+metricText(series[jump],true)+'。'}
+ message+=layout.measure==='shared'?'曲线平坦表示新增高度没有剔除原来合格的 XY 格。':'平台表示可放的最大方形边长保持相同；即使只少一小块面积，方形也可能被切开。';
+ E('trendExplain').textContent=message;
+}
+function drawCharts(){
+ const svg=E('assemblyChart'),arr=layout.axis==='h'?hs:ds,sel=layout.axis==='h'?layout.h:layout.d,values=mounts.map(m=>arr.map(v=>layout.axis==='h'?trendMetric(m,v,layout.d):trendMetric(m,layout.h,v))),metric=layout.measure==='shared'?'有效底面积 / m²':'最大方形边长 / mm';
+ E('measureLabel').textContent=metric;E('trendTitle').textContent=(layout.axis==='h'?'升降底面，件高固定 '+num(layout.d):'加高零件，底面 H 固定 '+num(layout.h))+' mm';E('trendCaption').textContent='空心点为当前高度。点击曲线或用左右键选高度。';
+ explainCurve(values,arr);
+ const bounds=svg.getBoundingClientRect(),w=Math.max(220,Math.round(bounds.width)),h=Math.max(140,Math.round(bounds.height)),left=43,right=w-12,top=14,bottom=h-35;
+ const step=tickSize(trendMax[layout.measure],4),maxY=Math.ceil(trendMax[layout.measure]/step)*step,x0=arr[0],x1=arr.at(-1),x=v=>left+(v-x0)/(x1-x0)*(right-left),y=v=>bottom-v/maxY*(bottom-top);
+ svg.setAttribute('viewBox','0 0 '+w+' '+h);svg.replaceChildren();svg.dataset.axis=layout.axis;svg.dataset.measure=layout.measure;svg.dataset.maximum=maxY;
+ for(let q=0;q<=maxY+.001*step;q+=step){sEl(svg,'line',{x1:left,x2:right,y1:y(q),y2:y(q),stroke:'#d4dfda'});sEl(svg,'text',{x:left-5,y:y(q)+4,'text-anchor':'end',class:'axis'},num(q))}
+ const xt=tickSize(x1-x0,Math.max(3,Math.min(7,(right-left)/70)));for(let z=Math.ceil(x0/xt)*xt;z<=x1;z+=xt)sEl(svg,'text',{x:x(z),y:bottom+15,'text-anchor':'middle',class:'axis'},num(z));
+ sEl(svg,'text',{x:(left+right)/2,y:h-3,'text-anchor':'middle',class:'axis'},layout.axis==='h'?'底面高度 H / mm':'工件高度 d / mm');sEl(svg,'line',{x1:x(sel),x2:x(sel),y1:top,y2:bottom,stroke:'#596d6b','stroke-dasharray':'3 3'});
+ const stride=Math.max(1,Math.ceil(arr.length/28));mounts.forEach((m,j)=>{const series=values[j];let active=false,path='';for(let i=0;i<arr.length;i++){if(series[i]==null){active=false;continue}path+=(active?' L':' M')+x(arr[i])+' '+y(series[i]);active=true}
+  if(path)sEl(svg,'path',{d:path,fill:'none',stroke:colors[j],'stroke-width':m===layout.mount?2.7:1.65,'stroke-linejoin':'round'});for(let i=0;i<arr.length;i++){if(series[i]==null||(i%stride&&arr[i]!==sel&&i!==arr.length-1))continue;const chosen=arr[i]===sel,p=sEl(svg,'circle',{cx:x(arr[i]),cy:y(series[i]),r:chosen?3.8:1.5,fill:chosen?'white':colors[j],stroke:colors[j],'stroke-width':chosen?2:.55});sEl(p,'title',{},names[j]+' · '+num(arr[i])+' mm · '+metricText(series[i],true))}});
+ svg.onclick=e=>{const px=e.clientX-svg.getBoundingClientRect().left;if(px>=left-4&&px<=right+4)choose(layout.axis,x0+(px-left)/(right-left)*(x1-x0))};svg.onkeydown=e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const i=arr.indexOf(sel);choose(layout.axis,e.key==='Home'?arr[0]:e.key==='End'?arr.at(-1):arr[Math.max(0,Math.min(arr.length-1,i+(e.key==='ArrowRight'?1:-1)))])};
+}
+function gridCoords(c,e,n){const r=c.getBoundingClientRect();return [Math.min(n-1,Math.max(0,Math.floor((e.clientX-r.left)/r.width*n))),n-1-Math.min(n-1,Math.max(0,Math.floor((e.clientY-r.top)/r.height*n)))]}
+function legend(id,colors,labels){const p=E(id);p.replaceChildren();labels.forEach((x,i)=>{const value=tag('span'),sw=tag('i');sw.style.background=colors[i];value.append(sw,document.createTextNode(x));p.append(value)})}
+legend('trendLegend',colors,names);E('trendLegend').classList.add('sample');
+function rgb(c){return parseInt(c.substring(1),16)}
+function decode(code){const a=atob(code),n=mounts.length*modes.length*mapN**2,b=new Uint8Array(n);if(a.length%3)throw Error('列地图的文件长度异常');let at=0;for(let i=0;i<a.length;i+=3){const count=a.charCodeAt(i)|(a.charCodeAt(i+1)<<8),v=a.charCodeAt(i+2);if(!count||at+count>n||v>runCap)throw Error('列图格值超出数据范围');b.fill(v,at,at+count);at+=count}if(at!==n)throw Error('列图读取不完整');return b}
+function column(h){if(cached.has(h))return Promise.resolve(cached.get(h));if(loading.has(h))return loading.get(h);
+ const promise=new Promise((resolve,reject)=>{const take=()=>{try{const v=decode(window.UP_COLUMNS[h]);delete window.UP_COLUMNS[h];cached.set(h,v);if(cached.size>4)cached.delete(cached.keys().next().value);resolve(v)}catch(e){reject(e)}};
+   if(window.UP_COLUMNS[h]){take();return}readReportLayer('columns/z'+h+'.json.gz').then(data=>{window.UP_COLUMNS[h]=data;take()},reject)}).finally(()=>loading.delete(h));loading.set(h,promise);return promise;
+}
+// The three maps show the minimum available directions along each vertical
+// column. The area and fitted squares come from the full analysis grid.
+const panels=mounts.map((m,i)=>{
+ const box=tag('div'),heading=tag('h3',names[i]),cv=tag('canvas'),fig=tag('p'),extra=tag('p');box.className='footMap';box.style.setProperty('--m',colors[i]);cv.tabIndex=0;cv.setAttribute('aria-label',names[i]+'有效底面俯视图，可按左右上下方向键选择工件中心');fig.className='mapNumbers';extra.className='mapMore';box.append(heading,cv,fig,extra);E('assemblyMaps').append(box);return {cv,box,fig,extra,img:null};
+});
+const quickMaps=window.createFootprintPreview(window.FOOTPRINT_PREVIEW);
+let mapSeq=0,mapKey='',mapImagesKey='',frameMaps=null,mapData=null,mapFrameKey='',mapQuality='',mapError='',reading=false;
+let exactTimer=0;
+const mapSliders=new Set(['analysisH','analysisD','analysisCount','h','build','poseCount']);
+let activeMapPointer=null;
+document.addEventListener('pointerdown',ev=>{
+ if(mapSliders.has(ev.target.id))activeMapPointer=ev.pointerId;
+},true);
+function finishMapDrag(ev){
+ if(activeMapPointer!==null&&(!ev||ev.pointerId===activeMapPointer)){
+  activeMapPointer=null;if(reading)queueExact(0);
+ }
+}
+document.addEventListener('pointerup',finishMapDrag,true);
+document.addEventListener('pointercancel',finishMapDrag,true);
+window.addEventListener('blur',()=>finishMapDrag());
+function legacyMap(a,j){
+ const q=layout.mode==='threshold'?2:modes.indexOf(layout.mode),i=(j*modes.length+q)*mapN*mapN,need=1+Math.round(layout.d/dz),slice=a.subarray(i,i+mapN*mapN);
+ return {n:mapN,pitch:mapPitch,first:mapStart,base:k=>slice[k]>0,full:k=>slice[k]>=need,read:k=>slice[k]===0?'底层就未达到':slice[k]>=need?'从底到顶均达到':'底层达到，向上 '+num((slice[k]-1)*dz)+' mm 后失效'};
+}
+function thresholdMap(m){
+ const c=counts?.map(m,layout.h,layout.d);if(!c)return null;const k=layout.k;return {n:c.n,pitch:c.map_pitch_mm,first:c.first_xy_mm,base:i=>c.base[i]>=k,full:i=>c.min[i]>=k,read:i=>'底层 '+c.base[i]+' / 25，各层最少 '+c.min[i]+' / 25'};
+}
+function publishMaps(maps,quality){
+ if(!maps?.every(Boolean))throw Error('当前高度的列图不完整。');
+ // Swap all three panels in one task. Clicks only use the finer current frame.
+ frameMaps=maps;mapQuality=quality;mapFrameKey=mapKey;
+ mapData=quality==='detail'?maps:null;reading=!mapData;
+ buildImages();redrawMaps();stateMapText();fit();
+}
+function queueExact(delay){
+ clearTimeout(exactTimer);
+ const ticket=mapSeq,height=layout.h;
+ exactTimer=setTimeout(async()=>{
+  if(ticket!==mapSeq)return;
+  try{
+   const useCounts=layout.mode==='threshold'&&counts;
+   if(!useCounts&&layout.mode==='threshold'&&layout.k!==25)throw Error('当前阈值的 10 mm 逐层记录未载入。');
+   const records=useCounts?await counts.load(height):await column(height);
+   if(ticket!==mapSeq)return;
+   publishMaps(useCounts?mounts.map(thresholdMap):mounts.map((_,j)=>legacyMap(records,j)),'detail');
+  }catch(err){
+   if(ticket!==mapSeq)return;
+   reading=false;mapError=err.message||'10 mm 逐层记录未载入。';stateMapText();fit();
+  }
+ },delay);
+}
+function ensureMaps(){
+ const key=[layout.h,layout.d,layout.mode,layout.mode==='threshold'?layout.k:''].join('/');
+ if(key===mapKey){stateMapText();redrawMaps();fit();return}
+ mapKey=key;mapData=null;mapError='';reading=true;mapSeq++;clearTimeout(exactTimer);
+ const useCounts=layout.mode==='threshold'&&counts;
+ // Reuse the exact decoded column when edits only change height of build or k.
+ if(activeMapPointer===null){
+  const immediate=useCounts?mounts.map(thresholdMap):cached.has(layout.h)?mounts.map((_,j)=>legacyMap(cached.get(layout.h),j)):null;
+  if(immediate?.every(Boolean)){publishMaps(immediate,'detail');return}
+ }
+ const preview=quickMaps?.(layout.h,layout.d,layout.mode,layout.k);
+ if(preview)publishMaps(preview,'preview');
+ else{stateMapText();redrawMaps();fit()}
+ queueExact(activeMapPointer===null?0:140);
+}
+function buildImages(){
+ if(!frameMaps)return;const pale=E('showPlane').checked,key=mapFrameKey+'/'+mapQuality+'/'+pale;if(mapImagesKey===key)return;mapImagesKey=key;
+ panels.forEach((p,j)=>{const g=frameMaps[j],n=g.n,cv=tag('canvas');cv.width=cv.height=n;const ctx=cv.getContext('2d'),im=ctx.createImageData(n,n),pixels=im.data,dark=rgb(colors[j]),light=[dark>>16,(dark>>8)&255,dark&255].map(x=>Math.round(x*.23+255*.77)),tint=light[0]*65536+light[1]*256+light[2];
+  for(let y=0;y<n;y++)for(let x=0;x<n;x++){const i=y*n+x,v=g.full(i)?dark:pale&&g.base(i)?tint:0xf7f9f7,k=((n-1-y)*n+x)*4;pixels[k]=v>>16;pixels[k+1]=(v>>8)&255;pixels[k+2]=v&255;pixels[k+3]=255}ctx.putImageData(im,0,0);p.img=cv});
+}
+function stateMapText(){
+ const group=E('assemblyMaps'),pitch=frameMaps?.[0].pitch,live=mapFrameKey===mapKey;
+ group.dataset.requested=mapKey;group.dataset.frame=mapFrameKey;group.dataset.quality=live?mapQuality:'previous';group.setAttribute('aria-busy',String(reading));
+ const scaleText=mapData?'10 mm 列图':live&&pitch?num(pitch)+' mm 预览 · 当前参数':frameMaps?'更新中 · 上一张图':'准备首张图';
+ E('mapScale').textContent=scaleText+' · 数值按 '+num(mainPitch())+' mm 计算 · 右 +X，上 +Y';
+ panels.forEach((p,i)=>{const r=recordAt(mounts[i]);p.cv.setAttribute('aria-disabled',String(!mapData));p.box.setAttribute('aria-current',String(layout.mount===mounts[i]));p.fig.replaceChildren(tag('b',fixed(r?.area_m2,6)+' m²'),document.createTextNode(' · 最大 '+num(r?.square_mm)+' mm'));p.extra.textContent='底层 '+fixed(r?.plane_area_m2,6)+' m²';});
+ if(!mapData){E('mapRead').textContent=mapError||'10 mm 列图载入后可点选工件中心。';return}
+ if(!selectedXY){E('mapRead').textContent='点击俯视图可将工件中心移到该点。';return}
+ const j=mounts.indexOf(layout.mount),t=mapData[j],i=selectedXY[0],y=selectedXY[1];if(i>=t.n||y>=t.n)return;const k=y*t.n+i;
+ E('mapRead').textContent=labels[layout.mount]+' · 世界 XY ('+num(t.first+i*t.pitch)+', '+num(t.first+y*t.pitch)+') mm · '+t.read(k)+'。';
+}
+function redrawMaps(){
+ panels.forEach((p,j)=>{const canvas=p.cv,w=Math.min(540,Math.max(60,Math.round((canvas.clientWidth||175)*(window.devicePixelRatio||1))));if(canvas.width!==w||canvas.height!==w){canvas.width=w;canvas.height=w}const ctx=canvas.getContext('2d');ctx.imageSmoothingEnabled=false;if(!p.img||!frameMaps)return;ctx.drawImage(p.img,0,0,w,w);
+ const t=frameMaps[j],start=t.first-t.pitch/2,span=t.n*t.pitch,X=x=>(x-start)/span*w,Y=y=>w-(y-start)/span*w;
+ ctx.beginPath();ctx.setLineDash([2,3]);ctx.strokeStyle='#46635960';ctx.lineWidth=1;ctx.moveTo(X(0),0);ctx.lineTo(X(0),w);ctx.moveTo(0,Y(0));ctx.lineTo(w,Y(0));ctx.stroke();ctx.setLineDash([]);
+ if(mapFrameKey!==mapKey)return;
+ const sq=square(mounts[j]);function rect(cx,cy,width,color,dash,weight){const size=width*w/span;ctx.setLineDash(dash);ctx.strokeStyle=color;ctx.lineWidth=weight;ctx.strokeRect(X(cx)-size/2,Y(cy)-size/2,size,size);ctx.setLineDash([])}
+ if(sq){rect(sq[1],sq[2],sq[0],'white',[],3.3);rect(sq[1],sq[2],sq[0],'#183139',[],1.7)}
+ const where=layout.placement==='custom'?[layout.x,layout.y]:sq?.slice(1);if(E('showPiece').checked&&where){rect(where[0],where[1],layout.width,'white',[4,3],2.8);rect(where[0],where[1],layout.width,'#912e2a',[4,3],1.4)}
+ if(selectedXY&&layout.mount===mounts[j]){const dx=X(layout.x),dy=Y(layout.y);ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(dx,dy,3,0,2*Math.PI);ctx.fill();ctx.strokeStyle='#172f37';ctx.lineWidth=1;ctx.stroke()}
+ });
+}
+function pickCell(j,x,y){
+ const t=mapData?.[j];if(!t)return;const cx=t.first+x*t.pitch,cy=t.first+y*t.pitch;selectedXY=[x,y];layout.mount=mounts[j];layout.placement='custom';layout.x=cx;layout.y=cy;E('centerX').value=cx;E('centerY').value=cy;setError('');render();
+}
+panels.forEach((p,j)=>{p.cv.onclick=e=>{if(!mapData)return;const c=gridCoords(p.cv,e,mapData[j].n);pickCell(j,...c)};p.cv.onkeydown=e=>{const step={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,1],ArrowDown:[0,-1]}[e.key],t=mapData?.[j];if(!step||!t)return;e.preventDefault();const at=selectedXY||[Math.floor(t.n/2),Math.floor(t.n/2)],clamp=v=>Math.max(0,Math.min(t.n-1,v));pickCell(j,clamp(at[0]+step[0]),clamp(at[1]+step[1]))}});
+E('showPlane').onchange=()=>{buildImages();redrawMaps()};E('showPiece').onchange=redrawMaps;
+function fit(){
+ const x=E('centerX').valueAsNumber,y=E('centerY').valueAsNumber,w=E('width').valueAsNumber,custom=layout.placement==='custom';
+ function writeTake(msg){E('quickResult').textContent=msg}
+ if(!custom)return;
+ if(![x,y,w].every(Number.isFinite)||w<=0){writeTake(custom?'请填写完整的工件中心和边长。':'该条件没有可用的方形中心。');return}
+ if(Math.abs(x)+w/2>halfMm||Math.abs(y)+w/2>halfMm){writeTake('工件在此中心超出已计算的 XY 区域（±'+num(halfMm)+' mm）。');return}
+ if(!mapData){writeTake(reading?'正在读取该位置从底到顶的记录。':'此条件的逐层地图尚未载入。');return}
+ const t=mapData[mounts.indexOf(layout.mount)];
+ const loX=Math.max(0,Math.ceil((x-w/2-t.first)/t.pitch)),hiX=Math.min(t.n-1,Math.floor((x+w/2-t.first)/t.pitch));
+ const loY=Math.max(0,Math.ceil((y-w/2-t.first)/t.pitch)),hiY=Math.min(t.n-1,Math.floor((y+w/2-t.first)/t.pitch));
+ let n=0,hits=0;for(let j=loY;j<=hiY;j++)for(let i=loX;i<=hiX;i++){n++;if(t.full(j*t.n+i))hits++}
+ writeTake(n?labels[layout.mount]+'在此中心的 '+num(t.pitch)+' mm 格点检查为 '+hits+'/'+n+'。'+(hits===n?'各显示格点均通过，仍需核对格间与轮廓。':'方形内有格点不能贯穿工件高度。'):'该方形内没有显示格点中心。');
+}
+function setError(text){E('inputWarn').hidden=!text;E('inputWarn').textContent=text;if(text)E('pathCompute').disabled=true;if(text){E('pathOut').textContent='输入完整后可查看已有轮廓。';E('quickResult').textContent='等待完整的工件尺寸和位置。';pathLast=''}}
+function customInput(){const x=E('centerX').valueAsNumber,y=E('centerY').valueAsNumber,w=E('width').valueAsNumber;
+ if(![x,y,w].every(Number.isFinite)||w<1||w>2*halfMm){setError('请填写 X、Y 和 1 至 '+num(2*halfMm)+' mm 的工件边长。');invalidatePath();return}setError('');Object.assign(layout,{placement:'custom',x,y,width:w});selectedXY=null;render()}
+for(const id of ['centerX','centerY'])E(id).oninput=customInput;
+for(const dim of ['X','Y'])E('slider'+dim).oninput=e=>{if(!Number.isFinite(E('center'+(dim==='X'?'Y':'X')).valueAsNumber))E('center'+(dim==='X'?'Y':'X')).value=0;E('center'+dim).value=e.target.value;customInput()};
+function setWidth(x){if(!Number.isFinite(x)||x<1||x>2*halfMm){setError('当前研究的工件边长范围为 1 至 '+num(2*halfMm)+' mm。');invalidatePath();return}setError('');layout.width=x;E('width').value=x;selectedXY=null;render()}
+E('pieceWidth').oninput=e=>setWidth(+e.target.value);E('width').oninput=e=>setWidth(e.target.valueAsNumber);
+E('placeMode').onchange=e=>{const desired=e.target.value;const p=centre()||[0,0];layout.placement=desired;if(desired==='best')setDefaultCenter();else{layout.x=p[0];layout.y=p[1];E('centerX').value=layout.x;E('centerY').value=layout.y}selectedXY=null;setError('');render()};
+function render(){syncBed();controlInputs();narrative();syncPathContext();sendScene();ensureMaps();if(queuedDraw)return;queuedDraw=true;requestAnimationFrame(()=>{queuedDraw=false;drawCharts()})}
+function stopGrowth(){clearInterval(sceneClock);sceneClock=0;E('scenePlay').textContent='播放生长'}
+function stopPath(){clearInterval(pathClock);pathClock=0;E('pathPlay').textContent='播放路径'}
+function postPlayback(target=layout.target){viewingPath=target==='path'&&!!pathData;const record={type:'ur7e-playback',target,progress_pct:layout.progress};if(viewingPath){record.path_id=pathData.id;record.path_index=pathCursor}commandScene(record)}
+function growthAt(value){layout.progress=Math.max(0,Math.min(100,value));E('sceneProgress').value=layout.progress;E('progressText').textContent=num(layout.progress)+'%';postPlayback()}
+E('scenePlay').onclick=()=>{if(sceneClock){stopGrowth();return}stopPath();if(layout.progress>=100)growthAt(0);E('scenePlay').textContent='暂停生长';sceneClock=setInterval(()=>{growthAt(layout.progress+1);if(layout.progress>=100)stopGrowth()},70)};
+E('sceneProgress').oninput=e=>{stopPath();stopGrowth();growthAt(+e.target.value)};
+E('nozzleTarget').onchange=e=>{stopPath();layout.target=e.target.value;postPlayback()};
+for(const b of E('spaceView').querySelectorAll('button'))b.onclick=()=>{layout.space=b.dataset.space;setPressed('[data-space]','space',layout.space);sendScene()};
+function syncBed(){
+ const on=E('bedOn').checked,follow=E('bedFollow').checked,c=centre(),size=E('bedSize').valueAsNumber;
+ E('bedControl').hidden=!on;E('bedXY').hidden=follow;
+ if(Number.isFinite(size)&&size>=1&&size<=3000)E('bedSizeSlider').value=size;
+ if(!on){layout.bed.visible=false;return}
+ if(follow&&c){E('bedX').value=c[0];E('bedY').value=c[1]}
+ const x=E('bedX').valueAsNumber,y=E('bedY').valueAsNumber;
+ if(![size,x,y].every(Number.isFinite)||size<1||size>3000||(follow&&!c)){layout.bed.visible=false;E('bedNote').textContent=follow&&!c?'当前没有自动中心；请手动指定工件或热床的位置。':'请输入有效的热床中心和 1 至 3000 mm 的边长。';return}
+ layout.bed={visible:true,side_mm:size,x_mm:x,y_mm:y};E('bedSizeSlider').value=size;
+ for(const [id,v] of [['bedSliderX',x],['bedSliderY',y]]){const e=E(id);e.min=Math.min(-halfMm,v);e.max=Math.max(halfMm,v);e.value=v}
+ E('bedNote').textContent=(c?(Math.max(Math.abs(c[0]-x),Math.abs(c[1]-y))+layout.width/2<=size/2?'工件底面完全落在热床内。':'工件底面超出热床。'):'未选工件中心。')+' 热床尺寸不改变机械臂能到达的范围，也不参与轮廓碰撞计算。';
+}
+function referenceBed(){syncBed();sendScene()}
+for(const id of ['bedOn','bedFollow'])E(id).onchange=referenceBed;
+for(const id of ['bedX','bedY','bedSize'])E(id).oninput=referenceBed;
+for(const [slider,id] of [['bedSizeSlider','bedSize'],['bedSliderX','bedX'],['bedSliderY','bedY']])E(slider).oninput=e=>{E(id).value=e.target.value;referenceBed()};
+function sceneInfo(){const s=currentScene;if(!s)return;const p=s.target_xyz_mm?.map(x=>num(x)).join(', '),descriptions={solved:'模拟喷嘴已到达这个点',missing:'当前姿态到不了这个点',reference:'模型暂时停在演示姿势','no-center':'请指定工件中心','path-unavailable':'该处没有可播放的关节位置'},type=s.target==='path'?'轮廓点':s.target==='corner'?'层角点':'层中心';E('sceneInfo').textContent=type+(p?' ('+p+') mm · ':' · ')+(descriptions[s.ik]||'正在检查目标')}
+function paramsNow(){const layer=E('pathLayer').valueAsNumber,c=centre();if(!c||!c.every(Number.isFinite)||!Number.isFinite(layer)||layer<0||layer>layout.d||!E('inputWarn').hidden)return null;
+ return {mount:layout.mount,h_mm:layout.h,d_mm:layout.d,side_mm:layout.width,center_xy_mm:c.slice(),layer_mm:layer}}
+function sameParams(a,b){if(!a||!b||a.mount!==b.mount||!Array.isArray(a.center_xy_mm)||!Array.isArray(b.center_xy_mm)||a.center_xy_mm.length!==2||b.center_xy_mm.length!==2)return false;
+ return ['h_mm','d_mm','side_mm','layer_mm'].every(k=>Number.isFinite(a[k])&&Number.isFinite(b[k])&&Math.abs(a[k]-b[k])<1e-6)&&a.center_xy_mm.every((v,i)=>Math.abs(v-b.center_xy_mm[i])<1e-6)}
+function archiveFor(params){return (window.BRIEF_CONTOURS||[]).find(r=>sameParams(r.params,params))}
+function witnessNotice(message){
+ const node=E('witnessStatus');node.textContent=message;node.hidden=false;
+}
+async function openBatchWitness(){
+ if(!queryParams.has('witness'))return;
+ const id=queryParams.get('witness'),token=pathToken;
+ if(queryParams.getAll('witness').length!==1||!linkedPlacement||linkedPlacement.mode!=='down'||!/^[a-f0-9]{24}$/.test(id)){
+  witnessNotice('路径链接中的工况或记录编号无效，仍可检查当前轮廓。');return;
+ }
+ if(!/^https?:$/.test(location.protocol)){
+  witnessNotice('跨层归档回放需从本机工作台的 HTTP 页面打开。当前页仍可使用本层轮廓。');return;
+ }
+ witnessNotice('正在读取该布局的跨层关节记录…');
+ try{
+  const url=new URL('../layout_search/paths/'+id+'.json',location.href);
+  const response=await fetch(url,{mode:'same-origin',redirect:'error'});
+  if(!response.ok)throw Error('本站没有提供这条跨层路径。');
+  const record=await response.json();if(token!==pathToken)return;
+  const saved=window.makeBatchReplay(record,id,layout);
+  const event=new CustomEvent('robot-check-path',{detail:{route:saved}});
+  scene.dispatchEvent(event);
+  if(!event.detail.check?.ok)throw Error(event.detail.check?.message||'该路径与本页机器人模型不一致。');
+  saved.fk_max_error_mm=event.detail.check.max_error_mm;
+  pathData=saved;pathLimit=saved.q_rad.length;pathCursor=0;
+  E('pathProgress').min=0;E('pathProgress').max=pathLimit-1;E('pathProgress').value=0;
+  E('pathPlay').disabled=E('pathProgress').disabled=E('pathDownload').disabled=false;E('pathDownload').textContent='导出跨层路径';
+  commandScene({type:'ur7e-path',data:saved});
+  witnessNotice('已存批量模拟 · '+record.layer_offsets_mm.length+' 个轮廓层，构型 '+record.branch+'，'+pathLimit+' 个关节节点。进场关节姿态未知。');
+  E('pathOut').className='statusLine';E('pathOut').textContent='播放或拖动查看各层及填充。点「查看已存轮廓」切换为当前高度的单层检查。';
+  E('branchInfo').hidden=true;setPathFrame(0);
+ }catch(err){
+  if(token===pathToken)witnessNotice((err instanceof SyntaxError?'轨迹文件内容无法读取。':err.message)+' 仍可使用本层轮廓检查。');
+ }
+}
+function archivedPathSummary(result){
+ const p=result.params,layer=p.layer_mm===p.d_mm?'顶层':p.layer_mm===0?'底层':'距底面 '+num(p.layer_mm)+' mm 的层';
+ const collision=result.collision||{},hit=[],uncertain=[];
+ for(const [key,label] of [['self','机器人部件之间'],['fixture','机器人与工装'],['part','机器人与已打印工件']]){if(collision[key]==='hit')hit.push(label);else if(collision[key]!=='clear')uncertain.push(label)}
+ const travel=result.kinematic_passed?'所选构型在运动学上可连续走完全圈':'没有连续走完全圈';
+ const contact=hit.length?'已查位置中，'+hit.join('、')+'有接触':uncertain.length?'尚无足够数据判定整圈是否有接触':'已查位置中，机器人本体、工装和已打印件均未见接触';
+ return layer+'轮廓的已算结果：'+travel+'。'+contact+'。'+(result.known_prefix_count>0?'点击「查看已存轮廓」可回放。':'点击「查看已存轮廓」可查看停止原因。');
+}
+function invalidatePath(){
+ E('witnessStatus').hidden=true;E('pathDownload').textContent='导出当前轮廓';
+ const had=!!pathData;pathToken++;stopPath();pathData=null;pathCursor=0;pathLimit=0;E('pathPlay').disabled=E('pathProgress').disabled=E('pathDownload').disabled=true;E('pathProgress').value=E('pathProgress').max=0;E('pathFrame').textContent=E('pathState').textContent='';E('branchInfo').hidden=true;
+ if(had){commandScene({type:'ur7e-path',data:null});postPlayback()}E('pathOut').className='statusLine';
+}
+function syncPathContext(){const a=paramsNow(),key=a?JSON.stringify(a)+'/'+layout.mode+(layout.mode==='threshold'?'/'+layout.k:''):'';
+ if(key===pathLast)return;pathLast=key;invalidatePath();const completed=a&&archiveFor(a);E('pathCompute').disabled=!completed;
+ if(completed){E('pathOut').textContent=archivedPathSummary(completed);E('pathOut').classList.toggle('hit',!completed.kinematic_passed||['self','fixture','part'].some(k=>completed.collision?.[k]==='hit'));return}
+ E('pathOut').textContent=!a?'请先选定工件中心，并填入 0 到工件高度之间的打印层。':'此摆位和层高没有已存轮廓，可选择下方的 200 mm 示例。';
+}
+const stateName=x=>x==='clear'?'无接触':x==='hit'?'有接触':'未判定',partNames=['基座','肩部','上臂','前臂','腕一','腕二','法兰'];
+const rNames={passed:'连续通过',waypoint_ik:'喷嘴到不了某个轮廓点',no_common_branch:'相邻位置不能用同一组关节动作连起来',joint_step:'相邻点的关节转角过大',singularity_bound:'太接近运动奇异位置',tracking_bound:'段内误差超过限值',joint_limit:'超过关节角度范围',joint_margin:'过于接近关节极限',collision_self:'机器人部件相碰',collision_fixture:'机器人与工装相碰',collision_part:'机器人与已打印工件相碰',collision_unknown:'模型未能判定接触'};
+function showBranchInfo(r){
+ const panel=E('branchInfo'),b=r.branch_selection;
+ if(!b||!Number.isInteger(b.tested_slots)){panel.hidden=true;return}
+ const chosen=Number.isInteger(r.selected_branch)?'。回放构型 '+r.selected_branch:'';
+ const parts=['检查 '+b.tested_slots+' 个构型分支，'+b.motion_viable_count+' 个运动学可走完全圈，'+b.collision_clear_count+' 个在整圈采样中未见接触'+chosen+'。'];
+ if(b.changed_from_kinematic_choice&&Number.isInteger(b.prior_kinematic_branch))parts.push('仅按运动学排序的构型 '+b.prior_kinematic_branch+' 在碰撞采样中'+stateName(b.prior_kinematic_collision)+'。');
+ const motion=r.j6_motion;
+ if(r.unwrapped_joint_angles&&motion&&Number.isFinite(motion.min_deg)&&Number.isFinite(motion.max_deg)){
+  const scope=r.joint_motion_scope==='whole_path'?'全圈':'已验证的可播放段';
+  parts.push(scope+'内，第六轴展开角 '+num(motion.min_deg)+'° 至 '+num(motion.max_deg)+'°。');
+ }
+ if(r.start_assumption==='free_at_start')parts.push('仿真从本层起点开始，进场轨迹另行检查。');
+ if(r.cable_state==='unknown')parts.push('软管允许扭转量待测。');
+ panel.textContent=parts.join(' ');panel.hidden=false;
+}
+const batchKinds={perimeter:'外轮廓',lift:'抬升',infill:'填充直线',infill_entry:'进入填充区',infill_turn:'填充换行',return_to_seam:'返回接缝'};
+function setPathFrame(index,show=true){if(!pathData||!pathLimit)return;pathCursor=Math.max(0,Math.min(pathLimit-1,index));E('pathProgress').value=pathCursor;E('pathFrame').textContent=(pathCursor+1)+' / '+pathData.xyz_mm.length;
+ if(pathData.batch){
+  const f=pathData.batch.frames[pathCursor],kind=batchKinds[f.kind]||f.kind;
+  E('pathState').className='statusLine';
+  E('pathState').textContent=kind+' · 喷嘴距底面 '+num(f.layer_mm)+' mm · 已打印实体高 '+num(f.printed_height_mm)+' mm · 目标 XYZ ('+f.xyz_mm.map(num).join(', ')+') mm';
+  if(show){stopGrowth();postPlayback('path')}return;
+ }
+ const z=pathData.states[pathCursor]||{},info='本体'+stateName(z.self)+' · 工装'+stateName(z.fixture)+' · 已打印件'+stateName(z.part),pairs=(z.self_pairs||[]).map(p=>p.map(x=>partNames[x]||x).join(' ↔ ')),parts=(z.part_links||[]).map(x=>partNames[x]||x),fixtures=(z.fixture_pairs||[]).map(p=>(partNames[p[0]]||p[0])+' ↔ '+p[1]);
+ E('pathState').textContent='本帧 '+info+([...pairs,...parts,...fixtures].length?' · '+[...pairs,...parts,...fixtures].join('，'):'');E('pathState').className='statusLine '+(['self','fixture','part'].some(k=>z[k]==='hit')?'hit':'');
+ if(show){stopGrowth();postPlayback('path')}}
+function useResult(r,origin){
+ const params=paramsNow(),n=r?.xyz_mm?.length;if(!sameParams(r?.params,params)||!r?.id||!n||!Array.isArray(r.q_rad)||r.q_rad.length!==n||r.states?.length!==n)throw Error('返回数据没有与当前参数对应的完整节点列表。');
+ pathData=r;pathLimit=0;for(const q of r.q_rad){if(!Array.isArray(q)||q.length!==6||!q.every(Number.isFinite))break;pathLimit++}
+ if(Number.isInteger(r.known_prefix_count))pathLimit=Math.min(pathLimit,r.known_prefix_count);
+ pathCursor=0;commandScene({type:'ur7e-path',data:r});E('pathPlay').disabled=pathLimit<2;E('pathProgress').disabled=!pathLimit;E('pathProgress').min=0;E('pathProgress').max=Math.max(0,pathLimit-1);E('pathDownload').disabled=false;
+ const tested=r.collision||{};
+ const stop=Number.isInteger(r.first_failure_index)?'第 '+(r.first_failure_index+1)+' 点停止（'+(rNames[r.reason]||r.reason)+'）。':'';
+ E('pathOut').textContent=origin+' · '+(r.kinematic_passed?'运动学可走完全圈。':'未找到走完全圈的连续构型。')+stop+'可播放 '+pathLimit+' / '+n+' 点。模型采样结果为本体'+stateName(tested.self)+'、工装'+stateName(tested.fixture)+'、已打印件'+stateName(tested.part)+'。';
+ showBranchInfo(r);
+ E('pathOut').className='statusLine '+(!r.kinematic_passed||[tested.self,tested.fixture,tested.part].includes('hit')?'hit':'');if(pathLimit)setPathFrame(0);else{E('pathFrame').textContent='0 / '+n;E('pathState').textContent='没有可回放的合法关节构型。'}
+}
+function runPath(){
+ const a=paramsNow(), record=a&&archiveFor(a);
+ if(!record){syncPathContext();return}
+ stopGrowth();invalidatePath();useResult(record,'已归档仿真');
+}
+E('pathCompute').onclick=runPath;E('pathLayer').oninput=()=>syncPathContext();E('pathProgress').oninput=e=>{stopPath();setPathFrame(+e.target.value)};
+E('pathPlay').onclick=()=>{if(pathClock){stopPath();return}if(!pathData||pathLimit<2)return;stopGrowth();if(pathCursor>=pathLimit-1)setPathFrame(0);E('pathPlay').textContent='暂停路径';pathClock=setInterval(()=>{if(pathCursor>=pathLimit-1){stopPath();return}setPathFrame(pathCursor+1)},55)};
+E('pathExample').onclick=()=>{layout.h=hs[nearest(hs,-650)];layout.d=ds[nearest(ds,300)];layout.mode='down';layout.width=200;layout.x=450;layout.y=0;layout.placement='custom';E('centerX').value=450;E('centerY').value=0;E('width').value=200;E('pathLayer').value=300;setError('');selectedXY=null;render();runPath();location.hash='pathReview'};
+E('pathDownload').onclick=()=>{if(!pathData)return;const url=URL.createObjectURL(new Blob([JSON.stringify(pathData.batch||pathData,null,2)],{type:'application/json'})),a=tag('a');a.href=url;a.download=(pathData.batch?'batch-path-':'contour-')+pathData.id+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),30000)};
+// A wheel over a value edits it without scrolling the page; all other wheel events retain browser behavior.
+function numericDial(id,limits,current,apply,delta=1){
+ const e=E(id);e.classList.add('dial');e.title='悬停滚轮调整，或直接输入后按回车';let remainder=0,last=0;
+ const clamp=v=>{const [lo,hi]=limits();return Math.min(hi,Math.max(lo,v))};
+ function commit(v){if(!Number.isFinite(v))v=current();if(!Number.isFinite(v))return;
+   v=clamp(v);apply(v);e.value=current()}
+ e.addEventListener('wheel',ev=>{
+  if(e.disabled||ev.ctrlKey||!ev.deltaY)return;ev.preventDefault();
+  const now=performance.now();if(now-last>220||Math.sign(remainder)!==Math.sign(ev.deltaY))remainder=0;last=now;
+  remainder+=ev.deltaY*(ev.deltaMode===1?40:ev.deltaMode===2?100:1);if(Math.abs(remainder)<24)return;
+  commit((Number.isFinite(e.valueAsNumber)?e.valueAsNumber:current())-Math.sign(remainder)*delta);remainder=0;
+ },{passive:false});
+ e.addEventListener('keydown',ev=>{if(ev.key==='Enter'){ev.preventDefault();commit(e.valueAsNumber);e.blur()}
+ else if(ev.key==='ArrowUp'||ev.key==='ArrowDown'){ev.preventDefault();commit((Number.isFinite(e.valueAsNumber)?e.valueAsNumber:current())+(ev.key==='ArrowUp'?delta:-delta))}});
+ e.addEventListener('change',()=>commit(e.valueAsNumber));
+}
+for(const [id,key,arr] of [['hEdit','h',hs],['buildEdit','d',ds],['kEdit','k',Array.from({length:25},(_,i)=>i+1)]])
+ numericDial(id,()=>[arr[0],arr.at(-1)],()=>layout[key],v=>choose(key,Math.round(v)),arr[1]-arr[0]);
+for(const [id,limit,get] of [
+ ['width',()=>[1,2*halfMm],()=>layout.width],['bedSize',()=>[1,3000],()=>Number(E('bedSize').value)||200],
+ ...['X','Y'].flatMap((a,i)=>[['center'+a,()=>[-halfMm,halfMm],()=>centre()?.[i]??0],['bed'+a,()=>[-halfMm,halfMm],()=>Number(E('bed'+a).value)||0]]),
+ ['pathLayer',()=>[0,layout.d],()=>Number(E('pathLayer').value)||0]
+])numericDial(id,limit,get,v=>{E(id).value=v;E(id).dispatchEvent(new Event('input',{bubbles:true}))});
+if(linkedPlacement){E('centerX').value=layout.x;E('centerY').value=layout.y;E('width').value=layout.width}
+else setDefaultCenter();
+render();openBatchWitness();new ResizeObserver(()=>{drawCharts();redrawMaps()}).observe(E('assemblyChart'));
+</script></body></html>

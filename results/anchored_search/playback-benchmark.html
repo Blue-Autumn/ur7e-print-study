@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UR7e 地装 · 从指定起姿到打印终点</title>
+<style>
+*{box-sizing:border-box}body{margin:0;color:#18363a;background:#f2f6f4;font:16px/1.5 "Segoe UI","Microsoft YaHei",sans-serif}main{max-width:1550px;margin:auto;padding:18px clamp(15px,3vw,48px) 35px}a{color:#096a62;text-underline-offset:.17em}nav,.actions,.choices{display:flex;gap:7px 13px;align-items:center;flex-wrap:wrap}nav{justify-content:space-between}h1{font-size:clamp(26px,2.6vw,39px);line-height:1.18;margin:.6em 0 .25em}h2{font-size:21px;margin:0 0 9px}h3{font-size:16px;margin:12px 0 3px}p,figure{margin:4px 0 10px}section{background:white;border:1px solid #cbdad3;border-radius:8px;padding:16px 18px;margin:12px 0}.pair{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(315px,.85fr);gap:20px}.pair>div{min-width:0}.choices{margin:0 0 9px}button{font:inherit;color:#20514a;background:white;cursor:pointer;padding:4px 10px;border:1px solid #abc2b8;border-radius:5px}button[aria-pressed=true]{color:white;background:#09665b;border-color:#09665b}button:disabled,input:disabled{opacity:.48;cursor:default}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #398878;outline-offset:2px}input[type=range]{flex:1;min-width:130px;accent-color:#117263}table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}th,td{text-align:right;padding:5px 8px;border-bottom:1px solid #deebe5}th:first-child,td:first-child{text-align:left}th{background:#eff5f2}tr[aria-current=true]{background:#edf6f1}#jointRead{font-variant-numeric:tabular-nums;font-size:14px;color:#33554d}.minor,figcaption{font-size:14px;color:#4e675f}.note{padding:7px 10px;border-left:3px solid #378570;background:#eff6f2}.actions{margin:9px 0}.links{display:flex;flex-wrap:wrap;gap:6px 18px}.evidence{display:grid;grid-template-columns:1fr 1fr;gap:15px 24px}.evidence>div{min-width:0}.evidence img{display:block;width:100%;height:auto}.tablewrap{overflow-x:auto}@media(max-width:850px){.pair,.evidence{grid-template-columns:1fr}}
+</style>
+</head>
+<body><main>
+<nav><strong>UR7e · 打印路径实验</strong><span><a href="mounts/index.html">侧装与吊装起姿回放</a>　<a href="../layout_search/report.html">首轮布局搜索</a>　<a href="../briefing/volume.html">工作空间</a></span></nav>
+<h1>从同一个起姿出发，地装能打多大的方件？</h1>
+<p>固定喷嘴竖直朝下，把进场、五层方形轮廓、四次抬升和三层填充接成一条路。三件都用已打开的 RoboDK 工作站逐点求解，随后用修正后的关节角检查刚体碰撞。</p>
+<section class="pair">
+<div><h2>回放关节实际走过的路线</h2>
+<div class="choices" id="choices" aria-label="工件尺寸"></div>
+<robot-scene anchored id="scene"></robot-scene>
+<div class="actions"><button id="replayPlay" disabled>播放</button><label for="progress">路径进度</label><input id="progress" type="range" min="0" max="0" value="0" disabled><output id="progressRead"></output></div>
+<div class="actions"><button id="start" disabled>起姿</button><button id="seam" disabled>起印角</button><button id="top" disabled>进入顶层</button><button id="peak" disabled>转角最大处</button> <span class="minor" id="stage" role="status">正在载入关节序列…</span></div>
+<p id="jointRead"></p>
+<p class="minor">棕色表示参与检查的喷头外包盒。可拖动、缩放或逐帧查看。播放按节点快进，时间与真实打印速度无关。</p>
+</div>
+<div><h2>同一起姿下的尺寸取舍</h2>
+<div class="tablewrap"><table><thead><tr><th>方形边长</th><th>工件高</th><th>底面面积</th><th>奇异余量¹</th></tr></thead><tbody id="scores"></tbody></table></div>
+<p class="note">390 mm 方案比 405 mm 方案多 30 mm 打印高度，沿刀路的奇异余量也更大。405 mm 方案多出约 7.8% 底面面积。</p>
+<h3 id="selectedTitle">当前方案</h3><p id="placement"></p><p id="detail"></p><p id="motion"></p>
+<p class="minor">¹ 取打印段归一化雅可比最小奇异值下界，本实验门槛为 0.02，数值越高，离门槛越远。最大单轴转角衡量沿这条刀路每移动 1 mm，转动最多的关节需要转多少。</p>
+<h3>这次起姿从哪里来？</h3><p id="anchor"></p><p class="minor">六轴角度保留原始圈数。这个起姿来自仿真站，实际管线的初始状态尚待测量。</p>
+</div></section>
+<section><h2>为什么原来的 430 mm 地装姿势看着别扭？</h2>
+<div class="evidence"><div>
+<p>原位置的顶层起印角保持同一位置和方向，给 RoboDK 不同的起始关节角，能找出 <b id="branchCount"></b> 种构型。固定当前起姿后，试四个起印角、顺逆两个方向和四种喷头滚转，32 个组合均未通过初筛。</p>
+<p>即使把仿真起姿移到起印角上方 75 mm，让它能直接进场，走底层第一条边时仍会发生干涉。在名义装配位置，腕部与喷头组件的原始三角网格有 <b id="hitCount"></b> 个采样帧相交。</p>
+<p>该件的 2 mm 网格中，<b id="poseCount"></b> 个固定喷嘴方向能覆盖所有采样位置，其中包括竖直朝下。点位求解之后仍须检查进场、连续运动和实体干涉。</p>
+<a href="station_branches.png">放大查看同一点的不同构型</a></div>
+<figure><a href="station_branches.png"><img src="station_branches.png" alt="相同喷嘴位置采用不同关节构型的机械臂对照" loading="lazy"></a></figure>
+</div></section>
+<section><h2>换工具或更改布线会怎样？</h2>
+<p>三个通过方案采用历史喷嘴标定。当前站内工具中心与它相差 56.56 mm。在 300 mm 工件上改用站内工具重新求解，喷嘴仍能跟踪刀路，但按同一历史喷头安装，六条候选进场方式均出现几何干涉。实机复核要使用同一套喷头几何和工具标定。</p>
+<p>沿 RoboDK 修正后的三条轨迹核查了 <b id="hoseFrames"></b> 帧。沿臂绑管的假设路线在起姿碰到腕部包络，上方悬管的假设包络覆盖安装板。判断实物需要固定点、管径、每段自由长度和允许弯曲半径。上面的三个方案都需要这项实测。</p>
+<div class="links"><a href="native_hose.json">三条修正轨迹的管线结果</a><a href="hose_measurements.template.json" download>填写实测管线参数</a><a href="native_300_geometry.json">两套工具的进场与碰撞记录</a></div>
+</section>
+<section><h2>检查范围与计算用量</h2>
+<p>局部搜索先筛位置、姿态分支和进场，再精算入选路径。刚体检查包含非相邻连杆、台面与支架、已打印件，以及喷头对连杆、工装和工件。五层轮廓和三层填充是代表刀路。两采样点之间的碰撞、软管动态与实际切片的每层走线仍需要另外验证。</p>
+<p id="cpu"></p>
+<div class="links"><a href="controls.json">原布局与移位对照</a><a href="native_large.json">两件较大工件的原生关节记录</a><a href="orientations.json">整件的 25 方向采样</a><a href="station_anchor.json">仿真起姿与各分支</a><a href="benchmark.json">多核计时</a></div></section>
+</main>
+<script src="../briefing/scene_geometry.js"></script><script src="../briefing/robot_scene.js"></script>
+<script>
+"use strict";
+const study={"cases": [{"side": 300, "mount": "floor", "h_mm": 150.0, "d_mm": 150.0, "side_mm": 300.0, "x_mm": 20.0, "y_mm": 570.0, "nodes": 2637, "native_samples": 10545, "tracking_mm": 0.016403830766525844, "min_sigma": 0.23657034015950434, "route_m": 13.17, "max_gain": 0.24748211107889376, "gain_joint": 3, "gain_xyz_mm": [170.0, 720.0, 300.0], "gain_frame": 3454, "max_j1_deg": 156.7376684274481, "max_j6_deg": 0.39400807404263105, "total_travel_deg": 5031.720994376978, "entry_geometry_samples": 1407, "print_geometry_samples": 5277}, {"side": 390, "mount": "floor", "h_mm": 60.0, "d_mm": 330.0, "side_mm": 390.0, "x_mm": 20.0, "y_mm": 545.0, "nodes": 3954, "native_samples": 15813, "tracking_mm": 0.061931654216172985, "min_sigma": 0.04256532387152197, "route_m": 19.662857142857142, "max_gain": 0.5581887337439803, "gain_joint": 3, "gain_xyz_mm": [215.0, 740.0, 390.0], "gain_frame": 4510, "max_j1_deg": 173.23943758441828, "max_j6_deg": 0.5585895584259504, "total_travel_deg": 8286.926096588799, "entry_geometry_samples": 1489, "print_geometry_samples": 7911}, {"side": 405, "mount": "floor", "h_mm": 80.0, "d_mm": 300.0, "side_mm": 405.0, "x_mm": 5.0, "y_mm": 550.0, "nodes": 4087, "native_samples": 16345, "tracking_mm": 0.11803675312656198, "min_sigma": 0.02413025834236826, "route_m": 20.376428571428573, "max_gain": 0.7788054070396129, "gain_joint": 3, "gain_xyz_mm": [-197.5, 747.5, 380.0], "gain_frame": 4618, "max_j1_deg": 173.10162450027286, "max_j6_deg": 0.5491984823469522, "total_travel_deg": 8700.304771164745, "entry_geometry_samples": 1415, "print_geometry_samples": 8177}], "anchor": [16.113519113712258, -104.11317205858388, 117.70833695584766, -13.63348093151794, 15.964890501125256, 179.763116956514], "trials": ["caf792324f683f93afb88625", "9863b288d0c559e831380320"], "hose_frames": 25676, "flange_from_head": [[-1.0, 0.0, 0.0, 0.0], [0.0, 0.0, -1.0, 0.0], [0.0, -1.0, 0.0, 0.0], [0.0, 0.0, 0.0, 1.0]], "head_boxes": [{"id": "cad_component_00", "vertices": 17635, "triangles": 35294, "center_cad_mm": [1.0707168579101562, -8.854671134613454, -48.77419853210449], "size_mm": [152.38491821289062, 17.740040512755513, 185.1269874572754]}, {"id": "cad_component_01", "vertices": 256, "triangles": 508, "center_cad_mm": [-48.31620407104492, -40.39811897277832, -114.45811462402344], "size_mm": [28.34801483154297, 11.302547454833984, 28.3480224609375]}, {"id": "cad_component_02", "vertices": 8, "triangles": 12, "center_cad_mm": [-48.245492935180664, -11.17127275466919, -105.48287963867188], "size_mm": [20.141422271728516, 41.09154415130615, 38.33331298828125]}, {"id": "cad_component_03", "vertices": 260, "triangles": 516, "center_cad_mm": [-20.513383895158768, -40.39554214477539, -100.76713562011719], "size_mm": [41.81591409444809, 11.30255126953125, 35.59526062011719]}, {"id": "cad_component_04", "vertices": 10917, "triangles": 21830, "center_cad_mm": [-31.13726043701172, 21.33815848827362, -21.166820526123047], "size_mm": [12.0, 45.04024338722229, 239.78504180908203]}, {"id": "cad_component_05", "vertices": 7761, "triangles": 15538, "center_cad_mm": [-5.446672439575195, -21.27469253540039, -112.07156753540039], "size_mm": [59.79999923706055, 22.5, 30.900001525878906]}, {"id": "cad_component_06", "vertices": 8, "triangles": 12, "center_cad_mm": [-7.612712860107422, 14.541767874950892, -117.54577255249023], "size_mm": [40.56901550292969, 29.08257905722712, 19.85028839111328]}, {"id": "cad_component_07", "vertices": 2714, "triangles": 5432, "center_cad_mm": [-18.46296501159668, -20.784286499023438, -154.74267578125], "size_mm": [18.263607025146484, 18.263607025146484, 12.0]}, {"id": "cad_component_08", "vertices": 1626, "triangles": 3316, "center_cad_mm": [-15.398365497589111, -23.170028686523438, -162.8926773071289], "size_mm": [8.66645336151123, 9.898200988769531, 4.3000030517578125]}, {"id": "cad_component_09", "vertices": 2732, "triangles": 5464, "center_cad_mm": [-15.48478078842163, -23.22145652770996, -136.2651481628418], "size_mm": [5.898446083068848, 5.898445129394531, 18.00000762939453]}, {"id": "cad_component_10", "vertices": 8152, "triangles": 16396, "center_cad_mm": [4.792429447174072, -20.02469253540039, -155.1140594482422], "size_mm": [26.598925590515137, 20.0, 16.600006103515625]}, {"id": "cad_component_11", "vertices": 64, "triangles": 124, "center_cad_mm": [-6.508108139038086, -28.02469253540039, -145.52156829833984], "size_mm": [3.479999542236328, 3.479999542236328, 0.5999908447265625]}, {"id": "cad_component_12", "vertices": 64, "triangles": 124, "center_cad_mm": [-6.508108139038086, -28.02469253540039, -127.77156448364258], "size_mm": [3.479999542236328, 3.479999542236328, 0.49999237060546875]}, {"id": "cad_component_13", "vertices": 54, "triangles": 104, "center_cad_mm": [-6.513010501861572, -28.02469253540039, -136.67156600952148], "size_mm": [2.890195846557617, 2.895092010498047, 18.29999542236328]}, {"id": "cad_component_14", "vertices": 2724, "triangles": 5448, "center_cad_mm": [15.491892337799072, -24.224692344665527, -133.32156372070312], "size_mm": [5.90000057220459, 5.899999618530273, 18.0]}], "initial_430": [{"stage": "coarse_path", "state": "done", "n": 32, "passed": 0}], "initial_300": [{"stage": "coarse_path", "state": "done", "n": 32, "passed": 16}, {"stage": "fine_path", "state": "done", "n": 6, "passed": 6}, {"stage": "infill_path", "state": "done", "n": 3, "passed": 3}], "cpu": [{"workers": 1, "warmup_and_startup_s": 3.617202900000848, "wall_s": 8.20607540000492, "aggregate_task_cpu_s": 7.9375, "mean_worker_cores": 0.9672711513222558, "passed": 8, "decision_sha256": "677da42a5cee783c43bc4050d895653a5f2bc6ddde284f66d49cb91e5f36ec4c"}, {"workers": 4, "warmup_and_startup_s": 4.458922399993753, "wall_s": 2.6207534999994095, "aggregate_task_cpu_s": 10.109375, "mean_worker_cores": 3.8574306969359298, "passed": 8, "decision_sha256": "677da42a5cee783c43bc4050d895653a5f2bc6ddde284f66d49cb91e5f36ec4c"}], "same_point": 8, "full_orientations": [19, 25], "min_witness": [227.0, -590.0, -300.0], "hit_frames": 2834, "tested_frames": 8717, "coarse_layouts": 14};
+const el=id=>document.getElementById(id);
+const fmt=(v,n=0)=>v.toLocaleString('zh-CN',{minimumFractionDigits:n,maximumFractionDigits:n});
+const scene=el('scene');
+const command=detail=>scene.dispatchEvent(new CustomEvent('robot-command',{detail}));
+const cases=new Map(study.cases.map(c=>[c.side,c]));
+const pending=new Map();
+window.UR7E_ANCHORED_PATHS={};
+let generation=0,current=null,frames=null,index=0,animation=0;
+function load(side){
+ if(window.UR7E_ANCHORED_PATHS[side])return Promise.resolve(window.UR7E_ANCHORED_PATHS[side]);
+ if(!pending.has(side))pending.set(side,new Promise((resolve,reject)=>{
+  const script=document.createElement('script');
+  script.src='replay-'+side+'.js';
+  script.onload=()=>resolve(window.UR7E_ANCHORED_PATHS[side]);
+  script.onerror=()=>{pending.delete(side);reject(new Error('关节记录载入失败。'));};
+  document.head.append(script);
+ }));
+ return pending.get(side);
+}
+function stop(){cancelAnimationFrame(animation);animation=0;el('replayPlay').textContent='播放';}
+function seek(value){
+ if(!current)return;
+ index=Math.max(0,Math.min(current.q.length-1,Math.round(value)));
+ command({type:'ur7e-playback',target:'path',path_id:current.id,path_index:index});
+ el('progress').value=index;el('progressRead').textContent=fmt(index+1)+' / '+fmt(current.q.length);
+ const frame=frames[index],names={perimeter:'轮廓',infill:'填充',lift:'抬升',infill_entry:'进入填充线',infill_turn:'填充换行',return_to_seam:'回起印角'};
+ el('stage').textContent=index===0?'起始构型':index<current.seam?'从起姿进场':index===current.seam?'到达起印角':(names[frame.kind]||'打印')+' · 距工件底面 '+fmt(frame.layer_mm,1)+' mm';
+ el('jointRead').textContent=current.q[index].map((q,j)=>'J'+(j+1)+'　'+fmt(q*180/Math.PI,1)+'°').join('　');
+}
+const controls=['replayPlay','start','seam','top','peak','progress'];
+async function select(side){
+ stop();const ticket=++generation,c=cases.get(side);controls.forEach(id=>el(id).disabled=true);
+ el('stage').textContent='正在载入关节序列…';
+ try{
+  const w=await load(side);if(ticket!==generation)return;
+  const xy=[c.x_mm,c.y_mm];
+  command({type:'ur7e-layout',mount:c.mount,mode:'down',h:c.h_mm,build:c.d_mm,width_mm:side,center_xy_mm:xy,placement:'custom',target:'path'});
+  const entry={kind:'entry',printed_height_mm:0};
+  const track=w.q.map((q,i)=>i<w.seam?entry:w.segments[w.edges[Math.max(0,i-w.seam-1)]]);
+  const route={schema:1,id:w.id,params:{mount:c.mount,h_mm:c.h_mm,d_mm:c.d_mm,side_mm:side,center_xy_mm:xy},branch:'RoboDK',
+   q_rad:w.q,xyz_mm:w.xyz,model_boxes:w.model_boxes,states:w.q.map(()=>null),known_prefix_count:w.q.length,kinematic_passed:true,
+   batch:{frames:track},anchored:{seam:w.seam,entry_rotations:w.entry_rotations,print_rotation:w.print_rotation,tool_mm:w.tool_mm,
+   head:{flange_from_head:study.flange_from_head.flat(),boxes:study.head_boxes}}};
+  const probe={route};scene.dispatchEvent(new CustomEvent('robot-check-path',{detail:probe}));
+  if(!probe.check?.ok)throw new Error(probe.check?.message||'关节与模型核验失败。');
+  current=w;frames=track;
+  command({type:'ur7e-path',data:route,path_index:0});el('progress').max=w.q.length-1;controls.forEach(id=>el(id).disabled=false);
+  document.querySelectorAll('[data-side]').forEach(node=>{
+   node.setAttribute(node.tagName==='BUTTON'?'aria-pressed':'aria-current',String(+node.dataset.side===side));
+  });
+  el('selectedTitle').textContent=side+' × '+side+' × '+c.d_mm+' mm';
+  el('placement').textContent='中心 (X, Y) = ('+xy.join(', ')+') mm。底面高于基座 '+c.h_mm+' mm，顶面高于基座 '+(c.h_mm+c.d_mm)+' mm。';
+  el('detail').textContent='打印路线长 '+fmt(c.route_m,2)+' m。RoboDK 在 '+fmt(c.native_samples)+' 个位置复算喷嘴，最大偏差 '+fmt(c.tracking_mm,3)+' mm。刚体检查覆盖进场 '+fmt(c.entry_geometry_samples)+' 帧、打印 '+fmt(c.print_geometry_samples)+' 帧。';
+  el('motion').textContent='从进场到完工，基座 J1 相对起姿最多偏转 '+fmt(c.max_j1_deg,1)+'°，末轴 J6 最多偏转 '+fmt(c.max_j6_deg,1)+'°。打印时关节转动最剧烈的一小段在 ('+c.gain_xyz_mm.join(', ')+') mm 附近，J'+c.gain_joint+' 每毫米转 '+fmt(c.max_gain,2)+'°。';
+  seek(0);el('scene').dataset.loadedSide=side;
+ }catch(error){if(ticket===generation){current=null;delete scene.dataset.loadedSide;command({type:'ur7e-path',data:null});el('progressRead').textContent='';el('jointRead').textContent='';el('stage').textContent=error.message;}}
+}
+for(const c of study.cases){
+ const button=document.createElement('button');button.textContent=c.side+' × '+c.side+' × '+c.d_mm+' mm';button.dataset.side=c.side;button.onclick=()=>select(c.side);el('choices').append(button);
+ const row=el('scores').insertRow();row.dataset.side=c.side;
+ for(const cell of [c.side+' mm',c.d_mm+' mm',fmt(c.side*c.side/1e6,3)+' m²',fmt(c.min_sigma,3)])row.insertCell().textContent=cell;
+}
+el('anchor').textContent='仿真站 J1 至 J6 依次为 '+study.anchor.map(q=>fmt(q,2)+'°').join('、')+'。';
+el('branchCount').textContent=study.same_point;el('poseCount').textContent=study.full_orientations[0]+' / 25';
+el('hoseFrames').textContent=fmt(study.hose_frames);
+el('hitCount').textContent=fmt(study.hit_frames)+' / '+fmt(study.tested_frames);
+el('cpu').textContent='本机同一批 16 个粗筛任务，预热后用 1 个进程耗时 '+fmt(study.cpu[0].wall_s,2)+' 秒，4 个进程耗时 '+fmt(study.cpu[1].wall_s,2)+' 秒，两次结果一致。精算和 RoboDK 复核另计。';
+el('progress').oninput=()=>{stop();seek(Number(el('progress').value));};
+el('start').onclick=()=>{stop();seek(0);};el('seam').onclick=()=>{stop();seek(current.seam);};
+el('top').onclick=()=>{stop();seek(frames.findIndex(f=>f.printed_height_mm===current.candidate.d_mm));};
+el('peak').onclick=()=>{stop();seek(current.metrics.gain_frame);};
+el('replayPlay').onclick=()=>{
+ if(animation){stop();return;}if(!current)return;if(index===current.q.length-1)seek(0);
+ const start=performance.now(),from=index;el('replayPlay').textContent='暂停';
+ function tick(now){seek(from+(now-start)*current.q.length/20000);if(index===current.q.length-1){stop();return;}animation=requestAnimationFrame(tick);}
+ animation=requestAnimationFrame(tick);
+};
+for(const id of ['shellOn','cutOn']){const control=scene.shadowRoot.getElementById(id);control.checked=false;control.dispatchEvent(new Event('change'));}
+select(390);
+</script><script src="../briefing/anchored_playback.js"></script><script>let tries=0;const timer=setInterval(()=>{const s=document.querySelector('robot-scene'),c=s?.shadowRoot?.getElementById('view');if(!c||c.dataset.parts!=='7'||!c.dataset.pathId){if(++tries<100)return;clearInterval(timer);document.body.dataset.benchmark='unready';return}clearInterval(timer);const result={baseline:s.benchmarkRendering({frames:16,fast:false}),optimized:s.benchmarkRendering({frames:16,fast:true})};const p=document.createElement('pre');p.id='benchmarkJSON';p.textContent=JSON.stringify(result);document.body.append(p);s.setAttribute('fast-render','')},100)</script></body></html>

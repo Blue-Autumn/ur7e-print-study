@@ -1,0 +1,904 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>安装方式批量比较 · UR7e</title>
+<style>body{font:16px/1.65 system-ui,sans-serif;color:#18322f;max-width:78rem;margin:auto;padding:1rem}main{overflow-x:auto}table{border-collapse:collapse}th,td{text-align:left;padding:.35rem .6rem;border-bottom:1px solid #c6d7cf}a{color:#076653}pre{overflow:auto}</style>
+</head><body><script src="../report_nav.js"></script><main><h1>安装方式批量比较</h1>
+<p>31 个布局逐一计算同一组床面目标。每格检查全部离散姿态，每条路径单独求解。其中 <strong>18 个布局</strong>在每个抽样格都有全部姿态逆解，且全部基准路径通过。关节质量取同一朝下代表构型，覆盖率和下面的关节统计对应本次均匀中心网格。桌面、支柱与梁的尺寸按布局参数绘制。现场几何碰撞、支架刚度和线缆仍待实测。</p>
+<p><a href="index.html?presets=1">三维调参</a> · <a href="comparison.csv">全部数值 CSV</a> · <a href="summary.json">任务参数和逐路径记录</a></p>
+<h2>各布局的覆盖、路径和下探高度</h2>
+<p>竖向高差取床顶中心 Z 减基座安装面中心 Z。法向距离则把同一向量投影到基座 +Z。肘部最低点是各可朝下格所选关节解的 DH 第三轴参考点 O2 的世界高度，桌面为 Z=0。“低于桌面格”表示所选肘或腕参考点低于桌面所在的无限平面；栏内数值不包含连杆实体外形及替代分支。</p>
+<table>
+<thead>
+<tr>
+<th>布局</th>
+<th style="text-align: right;">水平距离 mm</th>
+<th style="text-align: right;">竖向高差 mm</th>
+<th style="text-align: right;">法向距离 mm</th>
+<th style="text-align: right;">朝下格</th>
+<th style="text-align: right;">全姿态面积占比</th>
+<th style="text-align: right;">完整路径</th>
+<th style="text-align: right;">第5百分位余量</th>
+<th style="text-align: right;">第5百分位最小奇异值</th>
+<th style="text-align: right;">肘最低 mm</th>
+<th style="text-align: right;">低于桌面格</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>table_d300 · 同桌地装</td>
+<td style="text-align: right;">300.0</td>
+<td style="text-align: right;">+10.0</td>
+<td style="text-align: right;">+10.0</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">90.75%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">9.0°</td>
+<td style="text-align: right;">0.2590</td>
+<td style="text-align: right;">453.7</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>table_d450 · 同桌地装</td>
+<td style="text-align: right;">450.0</td>
+<td style="text-align: right;">+10.0</td>
+<td style="text-align: right;">+10.0</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">100.00%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">30.1°</td>
+<td style="text-align: right;">0.2830</td>
+<td style="text-align: right;">408.0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>table_d650 · 同桌地装</td>
+<td style="text-align: right;">650.0</td>
+<td style="text-align: right;">+10.0</td>
+<td style="text-align: right;">+10.0</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">95.75%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">64.3°</td>
+<td style="text-align: right;">0.1960</td>
+<td style="text-align: right;">-51.2</td>
+<td style="text-align: right;">148</td>
+</tr>
+<tr>
+<td>robot_column_d450_r210 · 机器人方柱</td>
+<td style="text-align: right;">450.0</td>
+<td style="text-align: right;">-200.0</td>
+<td style="text-align: right;">-200.0</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">100.00%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">41.2°</td>
+<td style="text-align: right;">0.2852</td>
+<td style="text-align: right;">-34.4</td>
+<td style="text-align: right;">70</td>
+</tr>
+<tr>
+<td>robot_column_d450_r360 · 机器人方柱</td>
+<td style="text-align: right;">450.0</td>
+<td style="text-align: right;">-350.0</td>
+<td style="text-align: right;">-350.0</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">100.00%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">46.2°</td>
+<td style="text-align: right;">0.2816</td>
+<td style="text-align: right;">97.5</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>robot_column_d450_r660 · 机器人方柱</td>
+<td style="text-align: right;">450.0</td>
+<td style="text-align: right;">-650.0</td>
+<td style="text-align: right;">-650.0</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">43.50%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">83.5°</td>
+<td style="text-align: right;">0.2402</td>
+<td style="text-align: right;">397.5</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>robot_column_d650_r210 · 机器人方柱</td>
+<td style="text-align: right;">650.0</td>
+<td style="text-align: right;">-200.0</td>
+<td style="text-align: right;">-200.0</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">95.25%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">75.5°</td>
+<td style="text-align: right;">0.1955</td>
+<td style="text-align: right;">28.6</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>robot_column_d650_r360 · 机器人方柱</td>
+<td style="text-align: right;">650.0</td>
+<td style="text-align: right;">-350.0</td>
+<td style="text-align: right;">-350.0</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">77.50%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">79.3°</td>
+<td style="text-align: right;">0.1842</td>
+<td style="text-align: right;">135.6</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>robot_column_d650_r660 · 机器人方柱</td>
+<td style="text-align: right;">650.0</td>
+<td style="text-align: right;">-650.0</td>
+<td style="text-align: right;">-650.0</td>
+<td style="text-align: right;">146/400</td>
+<td style="text-align: right;">0.00%</td>
+<td style="text-align: right;">0/4</td>
+<td style="text-align: right;">117.9°</td>
+<td style="text-align: right;">0.0529</td>
+<td style="text-align: right;">429.6</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>bed_column_d450_b190 · 热床方柱</td>
+<td style="text-align: right;">450.0</td>
+<td style="text-align: right;">+200.0</td>
+<td style="text-align: right;">+200.0</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">100.00%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">36.1°</td>
+<td style="text-align: right;">0.2792</td>
+<td style="text-align: right;">73.3</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>bed_column_d450_b340 · 热床方柱</td>
+<td style="text-align: right;">450.0</td>
+<td style="text-align: right;">+350.0</td>
+<td style="text-align: right;">+350.0</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">100.00%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">50.8°</td>
+<td style="text-align: right;">0.2746</td>
+<td style="text-align: right;">223.3</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>bed_column_d450_b640 · 热床方柱</td>
+<td style="text-align: right;">450.0</td>
+<td style="text-align: right;">+650.0</td>
+<td style="text-align: right;">+650.0</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">86.25%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">84.8°</td>
+<td style="text-align: right;">0.2359</td>
+<td style="text-align: right;">532.4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>bed_column_d650_b190 · 热床方柱</td>
+<td style="text-align: right;">650.0</td>
+<td style="text-align: right;">+200.0</td>
+<td style="text-align: right;">+200.0</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">96.50%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">75.4°</td>
+<td style="text-align: right;">0.1950</td>
+<td style="text-align: right;">87.5</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>bed_column_d650_b340 · 热床方柱</td>
+<td style="text-align: right;">650.0</td>
+<td style="text-align: right;">+350.0</td>
+<td style="text-align: right;">+350.0</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">81.00%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">79.0°</td>
+<td style="text-align: right;">0.1818</td>
+<td style="text-align: right;">237.5</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>bed_column_d650_b640 · 热床方柱</td>
+<td style="text-align: right;">650.0</td>
+<td style="text-align: right;">+650.0</td>
+<td style="text-align: right;">+650.0</td>
+<td style="text-align: right;">134/400</td>
+<td style="text-align: right;">1.25%</td>
+<td style="text-align: right;">0/4</td>
+<td style="text-align: right;">119.5°</td>
+<td style="text-align: right;">0.0566</td>
+<td style="text-align: right;">461.5</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>side_d450_r360 · 侧装竖架</td>
+<td style="text-align: right;">450.0</td>
+<td style="text-align: right;">-350.0</td>
+<td style="text-align: right;">+450.0</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">100.00%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">27.0°</td>
+<td style="text-align: right;">0.2181</td>
+<td style="text-align: right;">385.4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>side_d450_r660 · 侧装竖架</td>
+<td style="text-align: right;">450.0</td>
+<td style="text-align: right;">-650.0</td>
+<td style="text-align: right;">+450.0</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">100.00%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">55.6°</td>
+<td style="text-align: right;">0.2721</td>
+<td style="text-align: right;">258.4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>side_d650_r360 · 侧装竖架</td>
+<td style="text-align: right;">650.0</td>
+<td style="text-align: right;">-350.0</td>
+<td style="text-align: right;">+650.0</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">100.00%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">55.4°</td>
+<td style="text-align: right;">0.2240</td>
+<td style="text-align: right;">381.6</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>side_d650_r660 · 侧装竖架</td>
+<td style="text-align: right;">650.0</td>
+<td style="text-align: right;">-650.0</td>
+<td style="text-align: right;">+650.0</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">100.00%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">67.9°</td>
+<td style="text-align: right;">0.2551</td>
+<td style="text-align: right;">267.0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>gantry_d450_r360 · 吊装横架</td>
+<td style="text-align: right;">450.0</td>
+<td style="text-align: right;">-350.0</td>
+<td style="text-align: right;">+350.0</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">100.00%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">31.7°</td>
+<td style="text-align: right;">0.2841</td>
+<td style="text-align: right;">417.9</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>gantry_d450_r660 · 吊装横架</td>
+<td style="text-align: right;">450.0</td>
+<td style="text-align: right;">-650.0</td>
+<td style="text-align: right;">+650.0</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">100.00%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">44.5°</td>
+<td style="text-align: right;">0.2824</td>
+<td style="text-align: right;">72.6</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>gantry_d650_r360 · 吊装横架</td>
+<td style="text-align: right;">650.0</td>
+<td style="text-align: right;">-350.0</td>
+<td style="text-align: right;">+350.0</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">97.25%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">65.6°</td>
+<td style="text-align: right;">0.1957</td>
+<td style="text-align: right;">-40.5</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td>gantry_d650_r660 · 吊装横架</td>
+<td style="text-align: right;">650.0</td>
+<td style="text-align: right;">-650.0</td>
+<td style="text-align: right;">+650.0</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">81.00%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">78.4°</td>
+<td style="text-align: right;">0.1872</td>
+<td style="text-align: right;">115.8</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>level_450 · 床顶与安装面等高</td>
+<td style="text-align: right;">450.0</td>
+<td style="text-align: right;">+0.0</td>
+<td style="text-align: right;">+0.0</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">100.00%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">30.5°</td>
+<td style="text-align: right;">0.2834</td>
+<td style="text-align: right;">411.0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>side_bed_above · 侧装竖架</td>
+<td style="text-align: right;">450.0</td>
+<td style="text-align: right;">+200.0</td>
+<td style="text-align: right;">+450.0</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">100.00%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">46.0°</td>
+<td style="text-align: right;">0.3548</td>
+<td style="text-align: right;">219.0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>side_negative_plane · 侧装竖架</td>
+<td style="text-align: right;">450.0</td>
+<td style="text-align: right;">-350.0</td>
+<td style="text-align: right;">-450.0</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">100.00%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">57.5°</td>
+<td style="text-align: right;">0.2246</td>
+<td style="text-align: right;">377.6</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>side_yaw90_relocated · 侧装竖架</td>
+<td style="text-align: right;">450.0</td>
+<td style="text-align: right;">-350.0</td>
+<td style="text-align: right;">+450.0</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">100.00%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">27.0°</td>
+<td style="text-align: right;">0.2181</td>
+<td style="text-align: right;">385.4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>bed_tilt12 · 热床方柱</td>
+<td style="text-align: right;">452.1</td>
+<td style="text-align: right;">+199.8</td>
+<td style="text-align: right;">+199.8</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">100.00%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">40.5°</td>
+<td style="text-align: right;">0.2607</td>
+<td style="text-align: right;">72.3</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>oblique_side · 侧装竖架</td>
+<td style="text-align: right;">446.9</td>
+<td style="text-align: right;">-215.1</td>
+<td style="text-align: right;">+385.2</td>
+<td style="text-align: right;">398/400</td>
+<td style="text-align: right;">61.25%</td>
+<td style="text-align: right;">2/4</td>
+<td style="text-align: right;">23.2°</td>
+<td style="text-align: right;">0.1273</td>
+<td style="text-align: right;">207.8</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>equal_raise_150 · 两者同时垫高</td>
+<td style="text-align: right;">450.0</td>
+<td style="text-align: right;">+10.0</td>
+<td style="text-align: right;">+10.0</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">100.00%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">30.1°</td>
+<td style="text-align: right;">0.2830</td>
+<td style="text-align: right;">558.0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>ceiling_bed_above · 吊装横架</td>
+<td style="text-align: right;">450.0</td>
+<td style="text-align: right;">+200.0</td>
+<td style="text-align: right;">-200.0</td>
+<td style="text-align: right;">400/400</td>
+<td style="text-align: right;">100.00%</td>
+<td style="text-align: right;">4/4</td>
+<td style="text-align: right;">65.4°</td>
+<td style="text-align: right;">0.2546</td>
+<td style="text-align: right;">589.0</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<h2>达到整床任务后的取舍</h2>
+<p>先要求全床所有受测姿态和全部路径均能通过。然后比较朝下构型第 5 百分位的关节余量和归一化最小奇异值，只列出在这两项上没有被另一个合格布局同时追平或超过且至少一项严格更优的布局。百分位在朝下可达格内计算；实物载荷、安装难度和安全距离未赋权。</p>
+<table>
+<thead>
+<tr>
+<th>布局</th>
+<th style="text-align: right;">第5百分位关节余量</th>
+<th style="text-align: right;">第5百分位最小奇异值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>robot_column_d450_r360 · 地装 · 机器人方柱 · 水平 450 mm · 床面相对基座 -350 mm</td>
+<td style="text-align: right;">46.2°</td>
+<td style="text-align: right;">0.2816</td>
+</tr>
+<tr>
+<td>bed_column_d450_b340 · 地装 · 热床方柱 · 水平 450 mm · 床面相对基座 +350 mm</td>
+<td style="text-align: right;">50.8°</td>
+<td style="text-align: right;">0.2746</td>
+</tr>
+<tr>
+<td>side_d450_r660 · 侧装 · 竖架 · 水平 450 mm · 床面相对基座 -650 mm</td>
+<td style="text-align: right;">55.6°</td>
+<td style="text-align: right;">0.2721</td>
+</tr>
+<tr>
+<td>side_d650_r660 · 侧装 · 竖架 · 水平 650 mm · 床面相对基座 -650 mm</td>
+<td style="text-align: right;">67.9°</td>
+<td style="text-align: right;">0.2551</td>
+</tr>
+<tr>
+<td>side_bed_above · 侧装 · 床面高于基座 200 mm</td>
+<td style="text-align: right;">46.0°</td>
+<td style="text-align: right;">0.3548</td>
+</tr>
+</tbody>
+</table>
+<h2>同水平距离的同桌地装对照</h2>
+<p>每行与同一批次中相同水平距离、相同床宽和网格的同桌地装比较。相同距离仍允许基座高度、床倾角等参数有差异。表内百分位均在各自能朝下的格中计算，所以边缘布局可能同时表现为覆盖少、余量高。破折号表示该侧没有超过数值容差的差异。</p>
+<table>
+<thead>
+<tr>
+<th>布局</th>
+<th>对照</th>
+<th>增加</th>
+<th>减少</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>robot_column_d450_r210</td>
+<td>table_d450</td>
+<td>朝下解的第5百分位限位余量+11.1°，朝下解的第5百分位最小奇异值+0.0022</td>
+<td>—</td>
+</tr>
+<tr>
+<td>robot_column_d450_r360</td>
+<td>table_d450</td>
+<td>朝下解的第5百分位限位余量+16.1°</td>
+<td>朝下解的第5百分位最小奇异值-0.0014</td>
+</tr>
+<tr>
+<td>robot_column_d450_r660</td>
+<td>table_d450</td>
+<td>朝下解的第5百分位限位余量+53.4°</td>
+<td>全部姿态覆盖-56.50个百分点，朝下解的第5百分位最小奇异值-0.0428</td>
+</tr>
+<tr>
+<td>robot_column_d650_r210</td>
+<td>table_d650</td>
+<td>朝下解的第5百分位限位余量+11.1°</td>
+<td>全部姿态覆盖-0.50个百分点，朝下解的第5百分位最小奇异值-0.0005</td>
+</tr>
+<tr>
+<td>robot_column_d650_r360</td>
+<td>table_d650</td>
+<td>朝下解的第5百分位限位余量+15.0°</td>
+<td>全部姿态覆盖-18.25个百分点，朝下解的第5百分位最小奇异值-0.0118</td>
+</tr>
+<tr>
+<td>robot_column_d650_r660</td>
+<td>table_d650</td>
+<td>朝下解的第5百分位限位余量+53.5°</td>
+<td>全部姿态覆盖-95.75个百分点，完整路径-4条，朝下解的第5百分位最小奇异值-0.1431</td>
+</tr>
+<tr>
+<td>bed_column_d450_b190</td>
+<td>table_d450</td>
+<td>朝下解的第5百分位限位余量+6.0°</td>
+<td>朝下解的第5百分位最小奇异值-0.0038</td>
+</tr>
+<tr>
+<td>bed_column_d450_b340</td>
+<td>table_d450</td>
+<td>朝下解的第5百分位限位余量+20.7°</td>
+<td>朝下解的第5百分位最小奇异值-0.0084</td>
+</tr>
+<tr>
+<td>bed_column_d450_b640</td>
+<td>table_d450</td>
+<td>朝下解的第5百分位限位余量+54.7°</td>
+<td>全部姿态覆盖-13.75个百分点，朝下解的第5百分位最小奇异值-0.0471</td>
+</tr>
+<tr>
+<td>bed_column_d650_b190</td>
+<td>table_d650</td>
+<td>全部姿态覆盖+0.75个百分点，朝下解的第5百分位限位余量+11.0°</td>
+<td>朝下解的第5百分位最小奇异值-0.0010</td>
+</tr>
+<tr>
+<td>bed_column_d650_b340</td>
+<td>table_d650</td>
+<td>朝下解的第5百分位限位余量+14.7°</td>
+<td>全部姿态覆盖-14.75个百分点，朝下解的第5百分位最小奇异值-0.0142</td>
+</tr>
+<tr>
+<td>bed_column_d650_b640</td>
+<td>table_d650</td>
+<td>朝下解的第5百分位限位余量+55.1°</td>
+<td>全部姿态覆盖-94.50个百分点，完整路径-4条，朝下解的第5百分位最小奇异值-0.1394</td>
+</tr>
+<tr>
+<td>side_d450_r360</td>
+<td>table_d450</td>
+<td>—</td>
+<td>朝下解的第5百分位限位余量-3.1°，朝下解的第5百分位最小奇异值-0.0649</td>
+</tr>
+<tr>
+<td>side_d450_r660</td>
+<td>table_d450</td>
+<td>朝下解的第5百分位限位余量+25.5°</td>
+<td>朝下解的第5百分位最小奇异值-0.0109</td>
+</tr>
+<tr>
+<td>side_d650_r360</td>
+<td>table_d650</td>
+<td>全部姿态覆盖+4.25个百分点，朝下解的第5百分位最小奇异值+0.0281</td>
+<td>朝下解的第5百分位限位余量-8.9°</td>
+</tr>
+<tr>
+<td>side_d650_r660</td>
+<td>table_d650</td>
+<td>全部姿态覆盖+4.25个百分点，朝下解的第5百分位限位余量+3.5°，朝下解的第5百分位最小奇异值+0.0591</td>
+<td>—</td>
+</tr>
+<tr>
+<td>gantry_d450_r360</td>
+<td>table_d450</td>
+<td>朝下解的第5百分位限位余量+1.6°，朝下解的第5百分位最小奇异值+0.0012</td>
+<td>—</td>
+</tr>
+<tr>
+<td>gantry_d450_r660</td>
+<td>table_d450</td>
+<td>朝下解的第5百分位限位余量+14.4°</td>
+<td>朝下解的第5百分位最小奇异值-0.0006</td>
+</tr>
+<tr>
+<td>gantry_d650_r360</td>
+<td>table_d650</td>
+<td>全部姿态覆盖+1.50个百分点，朝下解的第5百分位限位余量+1.3°</td>
+<td>朝下解的第5百分位最小奇异值-0.0002</td>
+</tr>
+<tr>
+<td>gantry_d650_r660</td>
+<td>table_d650</td>
+<td>朝下解的第5百分位限位余量+14.0°</td>
+<td>全部姿态覆盖-14.75个百分点，朝下解的第5百分位最小奇异值-0.0088</td>
+</tr>
+<tr>
+<td>level_450</td>
+<td>table_d450</td>
+<td>朝下解的第5百分位限位余量+0.4°，朝下解的第5百分位最小奇异值+0.0004</td>
+<td>—</td>
+</tr>
+<tr>
+<td>side_bed_above</td>
+<td>table_d450</td>
+<td>朝下解的第5百分位限位余量+15.8°，朝下解的第5百分位最小奇异值+0.0718</td>
+<td>—</td>
+</tr>
+<tr>
+<td>side_negative_plane</td>
+<td>table_d450</td>
+<td>朝下解的第5百分位限位余量+27.4°</td>
+<td>朝下解的第5百分位最小奇异值-0.0584</td>
+</tr>
+<tr>
+<td>side_yaw90_relocated</td>
+<td>table_d450</td>
+<td>—</td>
+<td>朝下解的第5百分位限位余量-3.1°，朝下解的第5百分位最小奇异值-0.0649</td>
+</tr>
+<tr>
+<td>equal_raise_150</td>
+<td>table_d450</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>ceiling_bed_above</td>
+<td>table_d450</td>
+<td>朝下解的第5百分位限位余量+35.3°</td>
+<td>朝下解的第5百分位最小奇异值-0.0284</td>
+</tr>
+</tbody>
+</table>
+<p>单一自定义布局或缺少同距离对照时，可直接查看上表中的绝对值。覆盖取样间距与工具记录保存在该批次的 JSON 中。</p>
+<h2>把运动学通过与干涉分开看</h2>
+<p>以下均是被选中的原关节轨迹。‘两者分离’要求每个抽查姿态的 15 对非相邻本体和列入检查的名义设施对都分离。各列可能重叠；未判或缺关节证据不计入两者分离。现场喷头、软管、动态净距与支架实测仍未知。</p>
+<table>
+<thead>
+<tr>
+<th>安装</th>
+<th style="text-align: right;">固定朝下代表自碰 / 有证据的格点</th>
+<th style="text-align: right;">原路径有运动学解</th>
+<th style="text-align: right;">路径本体自碰</th>
+<th style="text-align: right;">路径碰名义设施</th>
+<th style="text-align: right;">路径两者均分离</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>table_d300 · 同桌地装</td>
+<td style="text-align: right;">10 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>table_d450 · 同桌地装</td>
+<td style="text-align: right;">0 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>table_d650 · 同桌地装</td>
+<td style="text-align: right;">0 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>robot_column_d450_r210 · 机器人方柱</td>
+<td style="text-align: right;">0 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>robot_column_d450_r360 · 机器人方柱</td>
+<td style="text-align: right;">0 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>robot_column_d450_r660 · 机器人方柱</td>
+<td style="text-align: right;">3 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>robot_column_d650_r210 · 机器人方柱</td>
+<td style="text-align: right;">0 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>robot_column_d650_r360 · 机器人方柱</td>
+<td style="text-align: right;">0 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>robot_column_d650_r660 · 机器人方柱</td>
+<td style="text-align: right;">0 / 146</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>bed_column_d450_b190 · 热床方柱</td>
+<td style="text-align: right;">0 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>bed_column_d450_b340 · 热床方柱</td>
+<td style="text-align: right;">0 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>bed_column_d450_b640 · 热床方柱</td>
+<td style="text-align: right;">0 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>bed_column_d650_b190 · 热床方柱</td>
+<td style="text-align: right;">0 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>bed_column_d650_b340 · 热床方柱</td>
+<td style="text-align: right;">0 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>bed_column_d650_b640 · 热床方柱</td>
+<td style="text-align: right;">0 / 134</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>side_d450_r360 · 侧装竖架</td>
+<td style="text-align: right;">0 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>side_d450_r660 · 侧装竖架</td>
+<td style="text-align: right;">0 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>side_d650_r360 · 侧装竖架</td>
+<td style="text-align: right;">0 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr>
+<td>side_d650_r660 · 侧装竖架</td>
+<td style="text-align: right;">0 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>gantry_d450_r360 · 吊装横架</td>
+<td style="text-align: right;">0 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>gantry_d450_r660 · 吊装横架</td>
+<td style="text-align: right;">0 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>gantry_d650_r360 · 吊装横架</td>
+<td style="text-align: right;">0 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>gantry_d650_r660 · 吊装横架</td>
+<td style="text-align: right;">0 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>level_450 · 床顶与安装面等高</td>
+<td style="text-align: right;">0 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>side_bed_above · 侧装竖架</td>
+<td style="text-align: right;">0 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>side_negative_plane · 侧装竖架</td>
+<td style="text-align: right;">0 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>side_yaw90_relocated · 侧装竖架</td>
+<td style="text-align: right;">0 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>bed_tilt12 · 热床方柱</td>
+<td style="text-align: right;">0 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>oblique_side · 侧装竖架</td>
+<td style="text-align: right;">0 / 398</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td>equal_raise_150 · 两者同时垫高</td>
+<td style="text-align: right;">0 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td>ceiling_bed_above · 吊装横架</td>
+<td style="text-align: right;">0 / 400</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<p><a href="collision.json">逐对与段内抽查记录</a> · <a href="index.html?presets=1">返回交互页选择路径回放</a></p></main></body></html>

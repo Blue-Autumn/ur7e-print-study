@@ -1,0 +1,74 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>曲面法向采样实验 · UR7e</title>
+<style>body{font:16px/1.65 system-ui,sans-serif;color:#18322f;max-width:78rem;margin:auto;padding:1rem}main{overflow-x:auto}table{border-collapse:collapse}th,td{text-align:left;padding:.35rem .6rem;border-bottom:1px solid #c6d7cf}a{color:#076653}pre{overflow:auto}</style>
+</head><body><script src="../report_nav.js"></script><main><h1>曲面法向采样实验</h1>
+<p>这个工件是<strong>人为定义的数学曲面</strong>，没有使用实物扫描。示例采用 200 × 200 mm 床、地装机器人、水平间距 650 mm、床面中心低于机器人安装中心 650 mm 的已存工况 <code>robot_column_d650_r660</code>。TCP 取 2026-09-21 历史 RTDE 定义。曲面局部系与名义热床系重合。</p>
+<p>双击 <a href="index.html">曲面法向与姿态命中</a> 可离线旋转工件，点选近处样点并查看各个姿态的关节角。所选点的全部姿态可导出 CSV。</p>
+<p>曲面的投影为 168 × 128 mm。以毫米代入公式 <code>z = 12 + 0.0018x² + 0.00055y² + 0.00115xy</code>，取 9 × 7 个顶点，每个矩形拆为两个三角形。以下面积与法向均属于这 96 个三角形。面积合计 21,892.28 mm²。</p>
+<p>每个三角面依据最长边和面积进行等面积细分，每个小三角形取一个重心。12 mm 边长上限和 64 mm² 面积上限产生了 <strong>864 个点</strong>。实际小格最长边为 10.51 mm。正法线由三角形顶点的右手绕序决定。零倾角时喷嘴 +Z 沿负法线指向材料，工具 +X 取曲面坐标 +X 在切平面上的投影。两者近乎平行时改用曲面 +Y 的投影。正方位角从这条切线朝 <code>法线 × 切线</code> 转，正滚转绕倾斜后的工具 +Z 旋转。</p>
+<table>
+<thead>
+<tr>
+<th>床面曲面任务</th>
+<th style="text-align: right;">名义 IK 命中</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>垂直于各自局部面，滚转 0°</td>
+<td style="text-align: right;">581 / 864 点</td>
+</tr>
+<tr>
+<td>垂直于各自局部面，滚转 90°</td>
+<td style="text-align: right;">864 / 864 点</td>
+</tr>
+<tr>
+<td>每点 50 个姿态合计</td>
+<td style="text-align: right;">30,658 / 43,200</td>
+</tr>
+<tr>
+<td>每点至少一个姿态命中</td>
+<td style="text-align: right;">864 / 864 点</td>
+</tr>
+<tr>
+<td>每点全部 50 个姿态命中</td>
+<td style="text-align: right;">0 / 864 点</td>
+</tr>
+</tbody>
+</table>
+<p>50 个姿态由 0°、10°、20°、30° 倾角和 0°、90° 滚转组成。非零倾角各取 8 个方位。按面积加权的姿态命中率为 <strong>70.97%</strong>。每个命中保存了一个关节见证。正运动学回代见证的最大位置误差为 1.17 × 10⁻¹² mm，最大姿态误差为 1.08 × 10⁻¹³°。这份实验核对了孤立位置和姿态的运动学逆解。现场配准、工件碰撞、连续沉积路径与成形质量均待验证。</p>
+<h2>文件</h2>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="synthetic_surface.npz">synthetic_surface.npz</a></td>
+<td>示例的顶点 <code>vertices_mm</code> 与三角形 <code>faces</code></td>
+</tr>
+<tr>
+<td><a href="surface_points.ply">surface_points.ply</a></td>
+<td>桌面世界系点云，单位 mm，含 nx/ny/nz、颜色、命中数、分母和代表面积。色彩从砖红渐变至青绿，命中越多越接近青绿。可用 CloudCompare 等 PLY 查看器打开</td>
+</tr>
+<tr>
+<td><a href="samples.npz">samples.npz</a></td>
+<td>逐点曲面重心坐标、原面编号、局部和世界点、积分面积、全姿态命中、逐命中关节角和关节分支编号</td>
+</tr>
+<tr>
+<td><a href="summary.json">summary.json</a></td>
+<td>曲面来源、单位、矩阵、各姿态命中与加权面积比例、源代码和数据摘要</td>
+</tr>
+</tbody>
+</table>
+<p><code>samples.npz</code> 中，点序号为 i，姿态序号为 j。读取 <code>nominal_reachable[i,j]</code> 和 <code>witness_q_rad[i,j,:]</code> 可取判定与六个名义关节角，角度单位为弧度。世界目标位置为 <code>world_xyz_mm[i,:]</code>，目标旋转矩阵为 <code>face_R_world[face_index[i],j,:,:]</code>。<code>angles_deg[j,:]</code> 给出倾角、方位和滚转。未找到的关节见证取 NaN。<code>raw_ik_slots[i,j]</code> 统计 8 个解析槽中返回有效角度的个数，奇异处可能有多个槽返回同一解。</p>
+<h2>复跑或替换曲面</h2>
+<p>在项目根目录运行。</p>
+<pre><code class="language-powershell">python -m lab.surface_tasks --demo --out results/surface_normals
+python -m lab.surface_tasks --input workpiece.stl --stl-unit mm --source-label &quot;工件设计网格&quot; --bed-T-surface bed_T_surface.json --case robot_column_d450_r360 --spacing-mm 8 --max-area-mm2 32 --out results/custom_surface
+</code></pre>
+<p>本地 STL 同时支持 ASCII 和二进制。STL 不记录长度单位，调用时填写 <code>mm</code>、<code>cm</code>、<code>m</code> 或 <code>inch</code>。也可传入包含毫米顶点和零起始三角索引的 NPZ。程序以顶点绕序重新计算面法线，<code>--flip-normals</code> 可全局反转。局部面绕序有冲突时请查看 <code>summary.json</code> 中的 <code>edge_winding</code>。要改变倾角、方位或滚转，分别用 <code>--tilts</code>、<code>--azimuths</code>、<code>--rolls</code> 指定角度列表。</p>
+<p><code>bed_T_surface.json</code> 存放 4 × 4 刚体矩阵，把曲面局部坐标映到热床坐标。矩阵平移用<strong>米</strong>。未指定时会按两系重合的假设计算并记录。在拿到现场工件定位与机器人基座测量前，结果对应输入的名义布局。</p></main></body></html>

@@ -1,0 +1,1339 @@
+{
+  "schema": 1,
+  "scope": "Fixed historical TCP, nominal joint limits, existence of at least one configuration. No collision, entry, continuity, singularity or hose constraint on the cloud.",
+  "grid": {
+    "section_pitch_xy_mm": 2,
+    "cloud_pitch_xyz_mm": 10,
+    "half_width_mm": 1300,
+    "sections_at_exact_print_heights": true,
+    "centers_not_continuous_membership": true,
+    "max_dist_xy_to_nearest_2mm_cell_mm": 1.4142135623730951
+  },
+  "pose": {
+    "tool": {
+      "id": "rtde_20260921",
+      "translation_mm": [
+        16.16,
+        165.79,
+        22.13
+      ],
+      "rotation_vector_rad": [
+        -1.5708,
+        0.0,
+        0.0
+      ],
+      "source": "2026-09-21 RTDE tcp_offset (controller-reported historical tool)"
+    },
+    "full_flange_T_tcp_m": [
+      [
+        0.9999999999999999,
+        -0.0,
+        0.0,
+        0.01616
+      ],
+      [
+        0.0,
+        -3.673205103305044e-06,
+        0.9999999999932537,
+        0.16579
+      ],
+      [
+        -0.0,
+        -0.9999999999932537,
+        -3.673205103305044e-06,
+        0.02213
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "joint_limits_deg": [
+      [
+        -360.0,
+        360.0
+      ],
+      [
+        -360.0,
+        360.0
+      ],
+      [
+        -160.0,
+        160.0
+      ],
+      [
+        -360.0,
+        360.0
+      ],
+      [
+        -360.0,
+        360.0
+      ],
+      [
+        -360.0,
+        360.0
+      ]
+    ],
+    "roll_convention": "world_R_tcp = diag(1,-1,-1) @ Rz(tool_local_roll); world position = world_T_base @ base_T_flange(q) @ flange_T_tcp."
+  },
+  "original_reports": {
+    "floor": "results/anchored_search/index.html (three floor replays)",
+    "side_and_overhead": "results/anchored_search/mounts/index.html (nine published replays prior to unification)",
+    "shared_geometry": "results/briefing/scene_geometry.js; down bit from 25-orientation sweep, solely vertical roll=0",
+    "old_raw_xy_mm": 2,
+    "old_height_spacing_mm": 10,
+    "old_drawn_xy_mm": 20,
+    "old_drawn_z_mm": 10,
+    "old_tile_rule": ">=50 of 100 original fine cell centres",
+    "old_shell_rule": "Boundary isosurface point set only, then roughly <=27000 dots in renderer. A projected point shell does not indicate every internal reachable point.",
+    "frame": "Both old geometry and replay paths use mounting centre, +Z up and the historical tool. Mounted report sent the same mode=down as floor while print_rotation could be 90 or 180 deg.",
+    "entry": "Only the printing phase fixes roll AND world-down. Intermediate entry poses use their actual FK orientations; they can lie outside any fixed-print-pose cloud."
+  },
+  "alias_count": 24,
+  "cohorts": {
+    "two_original_reports": {
+      "cases": 12,
+      "first_layer_targets": 48264,
+      "outside_matching_pose": 0,
+      "outside_matching_2mm_cell": 0,
+      "outside_legacy_zero_roll_pose": 12460,
+      "outside_legacy_zero_roll_display_tile": 12282
+    },
+    "unified_primary": {
+      "cases": 10,
+      "first_layer_targets": 39410,
+      "outside_matching_pose": 0,
+      "outside_matching_2mm_cell": 0,
+      "outside_legacy_zero_roll_pose": 9061,
+      "outside_legacy_zero_roll_display_tile": 8968
+    }
+  },
+  "cases": [
+    {
+      "cloud_id": "floor_r0",
+      "source_result_id": "c8f5ee465578aa74a4446e0b",
+      "native_print_sha256": "3725f4b835c052c4f75866bd70a99c46ae2c6553c40546e8e706ae47fa23c70d",
+      "replay_provenance": "published_replay",
+      "replay_id": "3725f4b835c052c4f75866bd70a99c46ae2c6553c40546e8e706ae47fa23c70d",
+      "mount": "floor",
+      "roll_deg": 0.0,
+      "candidate": {
+        "mount": "floor",
+        "h_mm": 150.0,
+        "d_mm": 150.0,
+        "side_mm": 300.0,
+        "x_mm": 20.0,
+        "y_mm": 570.0
+      },
+      "first_z_mm": 150.0,
+      "layer_z_mm": [
+        150.0,
+        187.5,
+        225.0,
+        262.5,
+        300.0
+      ],
+      "first_layer": {
+        "target_pose": {
+          "samples": 2833,
+          "inside": 2833,
+          "outside": 0
+        },
+        "nearest_2mm_cell": {
+          "samples": 2833,
+          "inside": 2833,
+          "outside": 0
+        },
+        "legacy_zero_roll_exact": {
+          "samples": 2833,
+          "inside": 2833,
+          "outside": 0
+        },
+        "legacy_zero_roll_2mm_cell": {
+          "samples": 2833,
+          "inside": 2833,
+          "outside": 0
+        },
+        "legacy_zero_roll_20mm_drawn_tile": {
+          "samples": 2833,
+          "inside": 2833,
+          "outside": 0
+        },
+        "rendered_knots_at_matching_fixed_orientation": {
+          "samples": 709,
+          "inside": 709,
+          "outside": 0
+        },
+        "target_knots": 709,
+        "target_edges": 708,
+        "xyz_spacing_max_mm": 1.2500000000000142,
+        "target_xy_extent_mm": [
+          [
+            -130.0,
+            420.0
+          ],
+          [
+            170.0,
+            720.0
+          ]
+        ],
+        "min_max_legal_ik_representatives": [
+          8,
+          8
+        ],
+        "nominal_full_FK_error": {
+          "max_translation_mm": 1.2734524574646131e-12,
+          "max_orientation_deg": 1.3491561442636086e-13
+        },
+        "old_layer_z_mm": 150.0,
+        "legacy_slice_bitwise_same_as_own_zero_roll": true,
+        "roll_changes_xy_sampled_area_m2": 0.0,
+        "matching_only_xy_area_m2": 0.0,
+        "zero_only_xy_area_m2": 0.0,
+        "rendered_vs_target_max_mm": 0.9301980188196493,
+        "rendered_vs_first_layer_max_abs_z_mm": 0.33473299999999995,
+        "first_matching_inside_but_zero_outside": null,
+        "subset": "First-layer perimeter, raster, lateral connections and return to seam; includes both ends, excludes all entry and lift edges."
+      }
+    },
+    {
+      "cloud_id": "floor_r0",
+      "source_result_id": "e03d983b8b887558f2d42887",
+      "native_print_sha256": "1435b8b8383799d4dbab38a992d18d53d85415caf716650e923843865ec53bad",
+      "replay_provenance": "published_replay",
+      "replay_id": "1435b8b8383799d4dbab38a992d18d53d85415caf716650e923843865ec53bad",
+      "mount": "floor",
+      "roll_deg": 0.0,
+      "candidate": {
+        "mount": "floor",
+        "h_mm": 60.0,
+        "d_mm": 330.0,
+        "side_mm": 390.0,
+        "x_mm": 20.0,
+        "y_mm": 545.0
+      },
+      "first_z_mm": 60.0,
+      "layer_z_mm": [
+        60.0,
+        142.5,
+        225.0,
+        307.5,
+        390.0
+      ],
+      "first_layer": {
+        "target_pose": {
+          "samples": 4349,
+          "inside": 4349,
+          "outside": 0
+        },
+        "nearest_2mm_cell": {
+          "samples": 4349,
+          "inside": 4349,
+          "outside": 0
+        },
+        "legacy_zero_roll_exact": {
+          "samples": 4349,
+          "inside": 4349,
+          "outside": 0
+        },
+        "legacy_zero_roll_2mm_cell": {
+          "samples": 4349,
+          "inside": 4349,
+          "outside": 0
+        },
+        "legacy_zero_roll_20mm_drawn_tile": {
+          "samples": 4349,
+          "inside": 4349,
+          "outside": 0
+        },
+        "rendered_knots_at_matching_fixed_orientation": {
+          "samples": 1088,
+          "inside": 1088,
+          "outside": 0
+        },
+        "target_knots": 1088,
+        "target_edges": 1087,
+        "xyz_spacing_max_mm": 1.2500000000000142,
+        "target_xy_extent_mm": [
+          [
+            -175.0,
+            350.0
+          ],
+          [
+            215.0,
+            740.0
+          ]
+        ],
+        "min_max_legal_ik_representatives": [
+          8,
+          8
+        ],
+        "nominal_full_FK_error": {
+          "max_translation_mm": 1.3755821205440478e-12,
+          "max_orientation_deg": 1.3473955726176534e-13
+        },
+        "old_layer_z_mm": 60.0,
+        "legacy_slice_bitwise_same_as_own_zero_roll": true,
+        "roll_changes_xy_sampled_area_m2": 0.0,
+        "matching_only_xy_area_m2": 0.0,
+        "zero_only_xy_area_m2": 0.0,
+        "rendered_vs_target_max_mm": 1.0675137684423606,
+        "rendered_vs_first_layer_max_abs_z_mm": 0.44125100000000117,
+        "first_matching_inside_but_zero_outside": null,
+        "subset": "First-layer perimeter, raster, lateral connections and return to seam; includes both ends, excludes all entry and lift edges."
+      }
+    },
+    {
+      "cloud_id": "floor_r0",
+      "source_result_id": "fe82aeb6e49b2a1751b76ff6",
+      "native_print_sha256": "bb54ac78064dbf1241556da5eb5a2800755a50e356994800e036bcc1bf69a62d",
+      "replay_provenance": "published_replay",
+      "replay_id": "bb54ac78064dbf1241556da5eb5a2800755a50e356994800e036bcc1bf69a62d",
+      "mount": "floor",
+      "roll_deg": 0.0,
+      "candidate": {
+        "mount": "floor",
+        "h_mm": 80.0,
+        "d_mm": 300.0,
+        "side_mm": 405.0,
+        "x_mm": 5.0,
+        "y_mm": 550.0
+      },
+      "first_z_mm": 80.0,
+      "layer_z_mm": [
+        80.0,
+        155.0,
+        230.0,
+        305.0,
+        380.0
+      ],
+      "first_layer": {
+        "target_pose": {
+          "samples": 4505,
+          "inside": 4505,
+          "outside": 0
+        },
+        "nearest_2mm_cell": {
+          "samples": 4505,
+          "inside": 4505,
+          "outside": 0
+        },
+        "legacy_zero_roll_exact": {
+          "samples": 4505,
+          "inside": 4505,
+          "outside": 0
+        },
+        "legacy_zero_roll_2mm_cell": {
+          "samples": 4505,
+          "inside": 4505,
+          "outside": 0
+        },
+        "legacy_zero_roll_20mm_drawn_tile": {
+          "samples": 4505,
+          "inside": 4505,
+          "outside": 0
+        },
+        "rendered_knots_at_matching_fixed_orientation": {
+          "samples": 1127,
+          "inside": 1127,
+          "outside": 0
+        },
+        "target_knots": 1127,
+        "target_edges": 1126,
+        "xyz_spacing_max_mm": 1.25,
+        "target_xy_extent_mm": [
+          [
+            -197.5,
+            347.5
+          ],
+          [
+            207.5,
+            752.5
+          ]
+        ],
+        "min_max_legal_ik_representatives": [
+          8,
+          8
+        ],
+        "nominal_full_FK_error": {
+          "max_translation_mm": 1.3649000092335605e-12,
+          "max_orientation_deg": 1.3657254332594912e-13
+        },
+        "old_layer_z_mm": 80.0,
+        "legacy_slice_bitwise_same_as_own_zero_roll": true,
+        "roll_changes_xy_sampled_area_m2": 0.0,
+        "matching_only_xy_area_m2": 0.0,
+        "zero_only_xy_area_m2": 0.0,
+        "rendered_vs_target_max_mm": 1.0676509178088243,
+        "rendered_vs_first_layer_max_abs_z_mm": 0.4190719999999999,
+        "first_matching_inside_but_zero_outside": null,
+        "subset": "First-layer perimeter, raster, lateral connections and return to seam; includes both ends, excludes all entry and lift edges."
+      }
+    },
+    {
+      "cloud_id": "overhead_r180",
+      "source_result_id": "e26cf0148fde0768b1318eee",
+      "native_print_sha256": "b5de6816320d4e611e71739205c6540a77ddf8de8196f807fa4bc953686a2f18",
+      "replay_provenance": "published_replay",
+      "replay_id": "b5de6816320d4e611e71739205c6540a77ddf8de8196f807fa4bc953686a2f18",
+      "mount": "overhead",
+      "roll_deg": 180.0,
+      "candidate": {
+        "d_mm": 150.0,
+        "h_mm": -750.0,
+        "mount": "overhead",
+        "side_mm": 300.0,
+        "x_mm": -110.0,
+        "y_mm": -550.0
+      },
+      "first_z_mm": -750.0,
+      "layer_z_mm": [
+        -750.0,
+        -712.5,
+        -675.0,
+        -637.5,
+        -600.0
+      ],
+      "first_layer": {
+        "target_pose": {
+          "samples": 2833,
+          "inside": 2833,
+          "outside": 0
+        },
+        "nearest_2mm_cell": {
+          "samples": 2833,
+          "inside": 2833,
+          "outside": 0
+        },
+        "legacy_zero_roll_exact": {
+          "samples": 2833,
+          "inside": 1800,
+          "outside": 1033
+        },
+        "legacy_zero_roll_2mm_cell": {
+          "samples": 2833,
+          "inside": 1802,
+          "outside": 1031
+        },
+        "legacy_zero_roll_20mm_drawn_tile": {
+          "samples": 2833,
+          "inside": 1821,
+          "outside": 1012
+        },
+        "rendered_knots_at_matching_fixed_orientation": {
+          "samples": 709,
+          "inside": 709,
+          "outside": 0
+        },
+        "target_knots": 709,
+        "target_edges": 708,
+        "xyz_spacing_max_mm": 1.25,
+        "target_xy_extent_mm": [
+          [
+            -260.0,
+            -700.0
+          ],
+          [
+            40.0,
+            -400.0
+          ]
+        ],
+        "min_max_legal_ik_representatives": [
+          8,
+          8
+        ],
+        "nominal_full_FK_error": {
+          "max_translation_mm": 1.5469220910896388e-12,
+          "max_orientation_deg": 1.8421910646747914e-13
+        },
+        "old_layer_z_mm": -750.0,
+        "legacy_slice_bitwise_same_as_own_zero_roll": true,
+        "roll_changes_xy_sampled_area_m2": 0.854744,
+        "matching_only_xy_area_m2": 0.427372,
+        "zero_only_xy_area_m2": 0.427372,
+        "rendered_vs_target_max_mm": 0.8161156690671886,
+        "rendered_vs_first_layer_max_abs_z_mm": 0.08650699999998324,
+        "first_matching_inside_but_zero_outside": {
+          "probe": 193,
+          "edge": 48,
+          "fraction": 0.25,
+          "segment_kind": "perimeter",
+          "world_xyz_mm": [
+            40.0,
+            -641.25,
+            -750.0
+          ],
+          "matching_full_ik_branches": 8,
+          "zero_roll_full_ik_branches": 0
+        },
+        "subset": "First-layer perimeter, raster, lateral connections and return to seam; includes both ends, excludes all entry and lift edges."
+      }
+    },
+    {
+      "cloud_id": "overhead_r180",
+      "source_result_id": "9a034c82c5d1bcb97ccdeb22",
+      "native_print_sha256": "7621bb1f7c50b1bf4e329ab9a1582344f26e21ebec056f09673f41ab7d591469",
+      "replay_provenance": "published_replay",
+      "replay_id": "7621bb1f7c50b1bf4e329ab9a1582344f26e21ebec056f09673f41ab7d591469",
+      "mount": "overhead",
+      "roll_deg": 180.0,
+      "candidate": {
+        "d_mm": 150.0,
+        "h_mm": -750.0,
+        "mount": "overhead",
+        "side_mm": 390.0,
+        "x_mm": -50.0,
+        "y_mm": -490.0
+      },
+      "first_z_mm": -750.0,
+      "layer_z_mm": [
+        -750.0,
+        -712.5,
+        -675.0,
+        -637.5,
+        -600.0
+      ],
+      "first_layer": {
+        "target_pose": {
+          "samples": 4349,
+          "inside": 4349,
+          "outside": 0
+        },
+        "nearest_2mm_cell": {
+          "samples": 4349,
+          "inside": 4349,
+          "outside": 0
+        },
+        "legacy_zero_roll_exact": {
+          "samples": 4349,
+          "inside": 3133,
+          "outside": 1216
+        },
+        "legacy_zero_roll_2mm_cell": {
+          "samples": 4349,
+          "inside": 3135,
+          "outside": 1214
+        },
+        "legacy_zero_roll_20mm_drawn_tile": {
+          "samples": 4349,
+          "inside": 3134,
+          "outside": 1215
+        },
+        "rendered_knots_at_matching_fixed_orientation": {
+          "samples": 1088,
+          "inside": 1088,
+          "outside": 0
+        },
+        "target_knots": 1088,
+        "target_edges": 1087,
+        "xyz_spacing_max_mm": 1.25,
+        "target_xy_extent_mm": [
+          [
+            -245.0,
+            -685.0
+          ],
+          [
+            145.0,
+            -295.0
+          ]
+        ],
+        "min_max_legal_ik_representatives": [
+          8,
+          8
+        ],
+        "nominal_full_FK_error": {
+          "max_translation_mm": 1.6208519479393017e-12,
+          "max_orientation_deg": 1.7760749855048195e-13
+        },
+        "old_layer_z_mm": -750.0,
+        "legacy_slice_bitwise_same_as_own_zero_roll": true,
+        "roll_changes_xy_sampled_area_m2": 0.854744,
+        "matching_only_xy_area_m2": 0.427372,
+        "zero_only_xy_area_m2": 0.427372,
+        "rendered_vs_target_max_mm": 0.9443543603891467,
+        "rendered_vs_first_layer_max_abs_z_mm": 0.2316080000000511,
+        "first_matching_inside_but_zero_outside": {
+          "probe": 269,
+          "edge": 67,
+          "fraction": 0.25,
+          "segment_kind": "perimeter",
+          "world_xyz_mm": [
+            145.0,
+            -631.25,
+            -750.0
+          ],
+          "matching_full_ik_branches": 8,
+          "zero_roll_full_ik_branches": 0
+        },
+        "subset": "First-layer perimeter, raster, lateral connections and return to seam; includes both ends, excludes all entry and lift edges."
+      }
+    },
+    {
+      "cloud_id": "side_r90",
+      "source_result_id": "ec1f96e6a2fb7b5b188cbf8c",
+      "native_print_sha256": "e901cfcebcfd6b8cde24231c97f0253ee90686458290762505d60f6a7e38abfa",
+      "replay_provenance": "published_replay",
+      "replay_id": "e901cfcebcfd6b8cde24231c97f0253ee90686458290762505d60f6a7e38abfa",
+      "mount": "side",
+      "roll_deg": 90.0,
+      "candidate": {
+        "mount": "side",
+        "h_mm": -500.0,
+        "d_mm": 300.0,
+        "side_mm": 405.0,
+        "x_mm": 220.0,
+        "y_mm": -550.0
+      },
+      "first_z_mm": -500.0,
+      "layer_z_mm": [
+        -500.0,
+        -425.0,
+        -350.0,
+        -275.0,
+        -200.0
+      ],
+      "first_layer": {
+        "target_pose": {
+          "samples": 4505,
+          "inside": 4505,
+          "outside": 0
+        },
+        "nearest_2mm_cell": {
+          "samples": 4505,
+          "inside": 4505,
+          "outside": 0
+        },
+        "legacy_zero_roll_exact": {
+          "samples": 4505,
+          "inside": 3038,
+          "outside": 1467
+        },
+        "legacy_zero_roll_2mm_cell": {
+          "samples": 4505,
+          "inside": 3043,
+          "outside": 1462
+        },
+        "legacy_zero_roll_20mm_drawn_tile": {
+          "samples": 4505,
+          "inside": 3069,
+          "outside": 1436
+        },
+        "rendered_knots_at_matching_fixed_orientation": {
+          "samples": 1127,
+          "inside": 1127,
+          "outside": 0
+        },
+        "target_knots": 1127,
+        "target_edges": 1126,
+        "xyz_spacing_max_mm": 1.25,
+        "target_xy_extent_mm": [
+          [
+            17.5,
+            -752.5
+          ],
+          [
+            422.5,
+            -347.5
+          ]
+        ],
+        "min_max_legal_ik_representatives": [
+          4,
+          8
+        ],
+        "nominal_full_FK_error": {
+          "max_translation_mm": 1.5059797815742444e-12,
+          "max_orientation_deg": 1.3637771087193454e-13
+        },
+        "old_layer_z_mm": -500.0,
+        "legacy_slice_bitwise_same_as_own_zero_roll": true,
+        "roll_changes_xy_sampled_area_m2": 0.576588,
+        "matching_only_xy_area_m2": 0.32248,
+        "zero_only_xy_area_m2": 0.254108,
+        "rendered_vs_target_max_mm": 2.14741576851478,
+        "rendered_vs_first_layer_max_abs_z_mm": 1.8149589999999876,
+        "first_matching_inside_but_zero_outside": {
+          "probe": 0,
+          "edge": 0,
+          "fraction": 0.0,
+          "segment_kind": "perimeter",
+          "world_xyz_mm": [
+            422.5,
+            -752.5,
+            -500.0
+          ],
+          "matching_full_ik_branches": 4,
+          "zero_roll_full_ik_branches": 0
+        },
+        "subset": "First-layer perimeter, raster, lateral connections and return to seam; includes both ends, excludes all entry and lift edges."
+      }
+    },
+    {
+      "cloud_id": "side_r90",
+      "source_result_id": "0fb1fd96e3392c397c7e9ac3",
+      "native_print_sha256": "d5d3335eabd9c0c3068f9bcfef2cfb6e62e36b08dd49018e1584642f6c62afab",
+      "replay_provenance": "published_replay",
+      "replay_id": "d5d3335eabd9c0c3068f9bcfef2cfb6e62e36b08dd49018e1584642f6c62afab",
+      "mount": "side",
+      "roll_deg": 90.0,
+      "candidate": {
+        "mount": "side",
+        "h_mm": -500.0,
+        "d_mm": 300.0,
+        "side_mm": 405.0,
+        "x_mm": 330.0,
+        "y_mm": -550.0
+      },
+      "first_z_mm": -500.0,
+      "layer_z_mm": [
+        -500.0,
+        -425.0,
+        -350.0,
+        -275.0,
+        -200.0
+      ],
+      "first_layer": {
+        "target_pose": {
+          "samples": 4505,
+          "inside": 4505,
+          "outside": 0
+        },
+        "nearest_2mm_cell": {
+          "samples": 4505,
+          "inside": 4505,
+          "outside": 0
+        },
+        "legacy_zero_roll_exact": {
+          "samples": 4505,
+          "inside": 3067,
+          "outside": 1438
+        },
+        "legacy_zero_roll_2mm_cell": {
+          "samples": 4505,
+          "inside": 3070,
+          "outside": 1435
+        },
+        "legacy_zero_roll_20mm_drawn_tile": {
+          "samples": 4505,
+          "inside": 3084,
+          "outside": 1421
+        },
+        "rendered_knots_at_matching_fixed_orientation": {
+          "samples": 1127,
+          "inside": 1127,
+          "outside": 0
+        },
+        "target_knots": 1127,
+        "target_edges": 1126,
+        "xyz_spacing_max_mm": 1.25,
+        "target_xy_extent_mm": [
+          [
+            127.5,
+            -752.5
+          ],
+          [
+            532.5,
+            -347.5
+          ]
+        ],
+        "min_max_legal_ik_representatives": [
+          4,
+          8
+        ],
+        "nominal_full_FK_error": {
+          "max_translation_mm": 1.6736404963781188e-12,
+          "max_orientation_deg": 1.4345458229383587e-13
+        },
+        "old_layer_z_mm": -500.0,
+        "legacy_slice_bitwise_same_as_own_zero_roll": true,
+        "roll_changes_xy_sampled_area_m2": 0.576588,
+        "matching_only_xy_area_m2": 0.32248,
+        "zero_only_xy_area_m2": 0.254108,
+        "rendered_vs_target_max_mm": 1.9578119778676377,
+        "rendered_vs_first_layer_max_abs_z_mm": 1.625772999999981,
+        "first_matching_inside_but_zero_outside": {
+          "probe": 520,
+          "edge": 129,
+          "fraction": 1.0,
+          "segment_kind": "perimeter",
+          "world_xyz_mm": [
+            532.5,
+            -592.5,
+            -500.0
+          ],
+          "matching_full_ik_branches": 8,
+          "zero_roll_full_ik_branches": 0
+        },
+        "subset": "First-layer perimeter, raster, lateral connections and return to seam; includes both ends, excludes all entry and lift edges."
+      }
+    },
+    {
+      "cloud_id": "side_r180",
+      "source_result_id": "ffc82e4979147ef60cbc8634",
+      "native_print_sha256": "c68ffc5c33b82651b8abdb40c3e0819fa59a1c2d0420c53074df38f3e4cb03b0",
+      "replay_provenance": "published_replay",
+      "replay_id": "c68ffc5c33b82651b8abdb40c3e0819fa59a1c2d0420c53074df38f3e4cb03b0",
+      "mount": "side",
+      "roll_deg": 180.0,
+      "candidate": {
+        "d_mm": 150.0,
+        "h_mm": -350.0,
+        "mount": "side",
+        "side_mm": 300.0,
+        "x_mm": 110.0,
+        "y_mm": -660.0
+      },
+      "first_z_mm": -350.0,
+      "layer_z_mm": [
+        -350.0,
+        -312.5,
+        -275.0,
+        -237.5,
+        -200.0
+      ],
+      "first_layer": {
+        "target_pose": {
+          "samples": 2833,
+          "inside": 2833,
+          "outside": 0
+        },
+        "nearest_2mm_cell": {
+          "samples": 2833,
+          "inside": 2833,
+          "outside": 0
+        },
+        "legacy_zero_roll_exact": {
+          "samples": 2833,
+          "inside": 1467,
+          "outside": 1366
+        },
+        "legacy_zero_roll_2mm_cell": {
+          "samples": 2833,
+          "inside": 1467,
+          "outside": 1366
+        },
+        "legacy_zero_roll_20mm_drawn_tile": {
+          "samples": 2833,
+          "inside": 1453,
+          "outside": 1380
+        },
+        "rendered_knots_at_matching_fixed_orientation": {
+          "samples": 709,
+          "inside": 709,
+          "outside": 0
+        },
+        "target_knots": 709,
+        "target_edges": 708,
+        "xyz_spacing_max_mm": 1.25,
+        "target_xy_extent_mm": [
+          [
+            -40.0,
+            -810.0
+          ],
+          [
+            260.0,
+            -510.0
+          ]
+        ],
+        "min_max_legal_ik_representatives": [
+          8,
+          8
+        ],
+        "nominal_full_FK_error": {
+          "max_translation_mm": 1.3668035872266427e-12,
+          "max_orientation_deg": 1.2036444544392453e-13
+        },
+        "old_layer_z_mm": -350.0,
+        "legacy_slice_bitwise_same_as_own_zero_roll": true,
+        "roll_changes_xy_sampled_area_m2": 0.8868199999999999,
+        "matching_only_xy_area_m2": 0.44340399999999996,
+        "zero_only_xy_area_m2": 0.443416,
+        "rendered_vs_target_max_mm": 1.129985423495813,
+        "rendered_vs_first_layer_max_abs_z_mm": 1.0494860000000017,
+        "first_matching_inside_but_zero_outside": {
+          "probe": 141,
+          "edge": 35,
+          "fraction": 0.25,
+          "segment_kind": "perimeter",
+          "world_xyz_mm": [
+            260.0,
+            -686.25,
+            -350.0
+          ],
+          "matching_full_ik_branches": 8,
+          "zero_roll_full_ik_branches": 0
+        },
+        "subset": "First-layer perimeter, raster, lateral connections and return to seam; includes both ends, excludes all entry and lift edges."
+      }
+    },
+    {
+      "cloud_id": "side_r180",
+      "source_result_id": "02424b753c13f3407509d037",
+      "native_print_sha256": "e0cbe3e939ed0c6b47c89c00180bc00bfb7f1b1751d89e264f740a02ba952b45",
+      "replay_provenance": "published_replay",
+      "replay_id": "e0cbe3e939ed0c6b47c89c00180bc00bfb7f1b1751d89e264f740a02ba952b45",
+      "mount": "side",
+      "roll_deg": 180.0,
+      "candidate": {
+        "d_mm": 330.0,
+        "h_mm": -350.0,
+        "mount": "side",
+        "side_mm": 390.0,
+        "x_mm": 0.0,
+        "y_mm": -550.0
+      },
+      "first_z_mm": -350.0,
+      "layer_z_mm": [
+        -350.0,
+        -267.5,
+        -185.0,
+        -102.5,
+        -20.0
+      ],
+      "first_layer": {
+        "target_pose": {
+          "samples": 4349,
+          "inside": 4349,
+          "outside": 0
+        },
+        "nearest_2mm_cell": {
+          "samples": 4349,
+          "inside": 4349,
+          "outside": 0
+        },
+        "legacy_zero_roll_exact": {
+          "samples": 4349,
+          "inside": 3281,
+          "outside": 1068
+        },
+        "legacy_zero_roll_2mm_cell": {
+          "samples": 4349,
+          "inside": 3283,
+          "outside": 1066
+        },
+        "legacy_zero_roll_20mm_drawn_tile": {
+          "samples": 4349,
+          "inside": 3273,
+          "outside": 1076
+        },
+        "rendered_knots_at_matching_fixed_orientation": {
+          "samples": 1088,
+          "inside": 1088,
+          "outside": 0
+        },
+        "target_knots": 1088,
+        "target_edges": 1087,
+        "xyz_spacing_max_mm": 1.25,
+        "target_xy_extent_mm": [
+          [
+            -195.0,
+            -745.0
+          ],
+          [
+            195.0,
+            -355.0
+          ]
+        ],
+        "min_max_legal_ik_representatives": [
+          8,
+          8
+        ],
+        "nominal_full_FK_error": {
+          "max_translation_mm": 1.2854757455060162e-12,
+          "max_orientation_deg": 1.2046452140313328e-13
+        },
+        "old_layer_z_mm": -350.0,
+        "legacy_slice_bitwise_same_as_own_zero_roll": true,
+        "roll_changes_xy_sampled_area_m2": 0.8868199999999999,
+        "matching_only_xy_area_m2": 0.44340399999999996,
+        "zero_only_xy_area_m2": 0.443416,
+        "rendered_vs_target_max_mm": 1.373710099882083,
+        "rendered_vs_first_layer_max_abs_z_mm": 1.242682000000002,
+        "first_matching_inside_but_zero_outside": {
+          "probe": 0,
+          "edge": 0,
+          "fraction": 0.0,
+          "segment_kind": "perimeter",
+          "world_xyz_mm": [
+            195.0,
+            -745.0,
+            -350.0
+          ],
+          "matching_full_ik_branches": 8,
+          "zero_roll_full_ik_branches": 0
+        },
+        "subset": "First-layer perimeter, raster, lateral connections and return to seam; includes both ends, excludes all entry and lift edges."
+      }
+    },
+    {
+      "cloud_id": "side_r180",
+      "source_result_id": "d7feb657d00a556ea13ce69d",
+      "native_print_sha256": "9cd31162778d2970d43fc6e71cd0974e10723cefa4b9bb58c257c38453be665b",
+      "replay_provenance": "published_replay",
+      "replay_id": "9cd31162778d2970d43fc6e71cd0974e10723cefa4b9bb58c257c38453be665b",
+      "mount": "side",
+      "roll_deg": 180.0,
+      "candidate": {
+        "d_mm": 330.0,
+        "h_mm": -500.0,
+        "mount": "side",
+        "side_mm": 390.0,
+        "x_mm": 0.0,
+        "y_mm": -550.0
+      },
+      "first_z_mm": -500.0,
+      "layer_z_mm": [
+        -500.0,
+        -417.5,
+        -335.0,
+        -252.5,
+        -170.0
+      ],
+      "first_layer": {
+        "target_pose": {
+          "samples": 4349,
+          "inside": 4349,
+          "outside": 0
+        },
+        "nearest_2mm_cell": {
+          "samples": 4349,
+          "inside": 4349,
+          "outside": 0
+        },
+        "legacy_zero_roll_exact": {
+          "samples": 4349,
+          "inside": 2876,
+          "outside": 1473
+        },
+        "legacy_zero_roll_2mm_cell": {
+          "samples": 4349,
+          "inside": 2878,
+          "outside": 1471
+        },
+        "legacy_zero_roll_20mm_drawn_tile": {
+          "samples": 4349,
+          "inside": 2921,
+          "outside": 1428
+        },
+        "rendered_knots_at_matching_fixed_orientation": {
+          "samples": 1088,
+          "inside": 1088,
+          "outside": 0
+        },
+        "target_knots": 1088,
+        "target_edges": 1087,
+        "xyz_spacing_max_mm": 1.25,
+        "target_xy_extent_mm": [
+          [
+            -195.0,
+            -745.0
+          ],
+          [
+            195.0,
+            -355.0
+          ]
+        ],
+        "min_max_legal_ik_representatives": [
+          4,
+          8
+        ],
+        "nominal_full_FK_error": {
+          "max_translation_mm": 1.4220500840710912e-12,
+          "max_orientation_deg": 1.2515494676697905e-13
+        },
+        "old_layer_z_mm": -500.0,
+        "legacy_slice_bitwise_same_as_own_zero_roll": true,
+        "roll_changes_xy_sampled_area_m2": 0.8380759999999999,
+        "matching_only_xy_area_m2": 0.419016,
+        "zero_only_xy_area_m2": 0.41906,
+        "rendered_vs_target_max_mm": 1.5805647517333699,
+        "rendered_vs_first_layer_max_abs_z_mm": 1.4243260000000078,
+        "first_matching_inside_but_zero_outside": {
+          "probe": 0,
+          "edge": 0,
+          "fraction": 0.0,
+          "segment_kind": "perimeter",
+          "world_xyz_mm": [
+            195.0,
+            -745.0,
+            -500.0
+          ],
+          "matching_full_ik_branches": 8,
+          "zero_roll_full_ik_branches": 0
+        },
+        "subset": "First-layer perimeter, raster, lateral connections and return to seam; includes both ends, excludes all entry and lift edges."
+      }
+    },
+    {
+      "cloud_id": "side_r180",
+      "source_result_id": "3f73777f451386ae770e6e40",
+      "native_print_sha256": "eb3153ddad1a9513e0f0367a2f6ce179d23582ce6d83748470ad8b1e791ba5d9",
+      "replay_provenance": "original_nominal_report_goal_reconstructed_from_hash_checked_finalist",
+      "replay_id": "3f73777f451386ae770e6e40",
+      "mount": "side",
+      "roll_deg": 180.0,
+      "candidate": {
+        "d_mm": 300.0,
+        "h_mm": -500.0,
+        "mount": "side",
+        "side_mm": 405.0,
+        "x_mm": 110.0,
+        "y_mm": -550.0
+      },
+      "first_z_mm": -500.0,
+      "layer_z_mm": [
+        -500.0,
+        -425.0,
+        -350.0,
+        -275.0,
+        -200.0
+      ],
+      "first_layer": {
+        "target_pose": {
+          "samples": 4505,
+          "inside": 4505,
+          "outside": 0
+        },
+        "nearest_2mm_cell": {
+          "samples": 4505,
+          "inside": 4505,
+          "outside": 0
+        },
+        "legacy_zero_roll_exact": {
+          "samples": 4505,
+          "inside": 2762,
+          "outside": 1743
+        },
+        "legacy_zero_roll_2mm_cell": {
+          "samples": 4505,
+          "inside": 2763,
+          "outside": 1742
+        },
+        "legacy_zero_roll_20mm_drawn_tile": {
+          "samples": 4505,
+          "inside": 2806,
+          "outside": 1699
+        },
+        "rendered_knots_at_matching_fixed_orientation": {
+          "samples": 1127,
+          "inside": 1127,
+          "outside": 0
+        },
+        "target_knots": 1127,
+        "target_edges": 1126,
+        "xyz_spacing_max_mm": 1.25,
+        "target_xy_extent_mm": [
+          [
+            -92.5,
+            -752.5
+          ],
+          [
+            312.5,
+            -347.5
+          ]
+        ],
+        "min_max_legal_ik_representatives": [
+          8,
+          8
+        ],
+        "nominal_full_FK_error": {
+          "max_translation_mm": 1.607189236341558e-12,
+          "max_orientation_deg": 1.2502867506105086e-13
+        },
+        "old_layer_z_mm": -500.0,
+        "legacy_slice_bitwise_same_as_own_zero_roll": true,
+        "roll_changes_xy_sampled_area_m2": 0.8380759999999999,
+        "matching_only_xy_area_m2": 0.419016,
+        "zero_only_xy_area_m2": 0.41906,
+        "rendered_vs_target_max_mm": 0.0,
+        "rendered_vs_first_layer_max_abs_z_mm": 0.0,
+        "first_matching_inside_but_zero_outside": {
+          "probe": 231,
+          "edge": 57,
+          "fraction": 0.75,
+          "segment_kind": "perimeter",
+          "world_xyz_mm": [
+            312.5,
+            -636.25,
+            -500.0
+          ],
+          "matching_full_ik_branches": 8,
+          "zero_roll_full_ik_branches": 0
+        },
+        "subset": "First-layer perimeter, raster, lateral connections and return to seam; includes both ends, excludes all entry and lift edges."
+      }
+    },
+    {
+      "cloud_id": "side_r180",
+      "source_result_id": "640ed636fd7873b84fe1b31e",
+      "native_print_sha256": "ed9ccadeb857511387d241f5d70174d06d4b82b4ed5bba5a463e0bee41b4112f",
+      "replay_provenance": "original_nominal_report_goal_reconstructed_from_hash_checked_finalist",
+      "replay_id": "640ed636fd7873b84fe1b31e",
+      "mount": "side",
+      "roll_deg": 180.0,
+      "candidate": {
+        "d_mm": 330.0,
+        "h_mm": -500.0,
+        "mount": "side",
+        "side_mm": 390.0,
+        "x_mm": 110.0,
+        "y_mm": -550.0
+      },
+      "first_z_mm": -500.0,
+      "layer_z_mm": [
+        -500.0,
+        -417.5,
+        -335.0,
+        -252.5,
+        -170.0
+      ],
+      "first_layer": {
+        "target_pose": {
+          "samples": 4349,
+          "inside": 4349,
+          "outside": 0
+        },
+        "nearest_2mm_cell": {
+          "samples": 4349,
+          "inside": 4349,
+          "outside": 0
+        },
+        "legacy_zero_roll_exact": {
+          "samples": 4349,
+          "inside": 2693,
+          "outside": 1656
+        },
+        "legacy_zero_roll_2mm_cell": {
+          "samples": 4349,
+          "inside": 2695,
+          "outside": 1654
+        },
+        "legacy_zero_roll_20mm_drawn_tile": {
+          "samples": 4349,
+          "inside": 2734,
+          "outside": 1615
+        },
+        "rendered_knots_at_matching_fixed_orientation": {
+          "samples": 1088,
+          "inside": 1088,
+          "outside": 0
+        },
+        "target_knots": 1088,
+        "target_edges": 1087,
+        "xyz_spacing_max_mm": 1.25,
+        "target_xy_extent_mm": [
+          [
+            -85.0,
+            -745.0
+          ],
+          [
+            305.0,
+            -355.0
+          ]
+        ],
+        "min_max_legal_ik_representatives": [
+          8,
+          8
+        ],
+        "nominal_full_FK_error": {
+          "max_translation_mm": 1.4561099806593966e-12,
+          "max_orientation_deg": 1.2727941115456552e-13
+        },
+        "old_layer_z_mm": -500.0,
+        "legacy_slice_bitwise_same_as_own_zero_roll": true,
+        "roll_changes_xy_sampled_area_m2": 0.8380759999999999,
+        "matching_only_xy_area_m2": 0.419016,
+        "zero_only_xy_area_m2": 0.41906,
+        "rendered_vs_target_max_mm": 0.0,
+        "rendered_vs_first_layer_max_abs_z_mm": 0.0,
+        "first_matching_inside_but_zero_outside": {
+          "probe": 225,
+          "edge": 56,
+          "fraction": 0.25,
+          "segment_kind": "perimeter",
+          "world_xyz_mm": [
+            305.0,
+            -636.25,
+            -500.0
+          ],
+          "matching_full_ik_branches": 8,
+          "zero_roll_full_ik_branches": 0
+        },
+        "subset": "First-layer perimeter, raster, lateral connections and return to seam; includes both ends, excludes all entry and lift edges."
+      }
+    }
+  ],
+  "group_validation": {
+    "floor_r0": {
+      "random_uniform": 1200,
+      "drawn_real_boundary": 280,
+      "full_ik_differences": 0,
+      "independently_checked_reachable": 451,
+      "full_fk_residual": {
+        "max_translation_mm": 1.3755121145835178e-12,
+        "max_orientation_deg": 1.2743935577758326e-13
+      }
+    },
+    "overhead_r180": {
+      "random_uniform": 1200,
+      "drawn_real_boundary": 280,
+      "full_ik_differences": 0,
+      "independently_checked_reachable": 475,
+      "full_fk_residual": {
+        "max_translation_mm": 1.5263043145882804e-12,
+        "max_orientation_deg": 1.4524538938575288e-13
+      }
+    },
+    "side_r90": {
+      "random_uniform": 1200,
+      "drawn_real_boundary": 280,
+      "full_ik_differences": 0,
+      "independently_checked_reachable": 494,
+      "full_fk_residual": {
+        "max_translation_mm": 1.3183167987305029e-12,
+        "max_orientation_deg": 1.3540206287819914e-13
+      }
+    },
+    "side_r180": {
+      "random_uniform": 1200,
+      "drawn_real_boundary": 280,
+      "full_ik_differences": 0,
+      "independently_checked_reachable": 465,
+      "full_fk_residual": {
+        "max_translation_mm": 1.4087150935148695e-12,
+        "max_orientation_deg": 1.5895422479246492e-13
+      }
+    }
+  },
+  "asset": {
+    "file": "cloud_data.js",
+    "sha256": "1c2df4e91cd901704698ab014dc29745444a4a3c2785004a8e05e2302583f078",
+    "bytes": 1766192
+  },
+  "source_sha256": {
+    "lab/anchored_reach_overlay.py": "619cbaad02689fca1490778baca83941f7f20ad0a000514007b9285f8b6499ca",
+    "lab/plane_sweep.py": "e8f71bcbae88d365cbf0af71dfd3d44854df1ee7c731825f205f8a82341911e3",
+    "lab/volume_shape.py": "c6c2346a49b5dc08f96a7effe8c9f7158e53777373ecde3b12a58a4ce335a3c2",
+    "lab/ur7e_kinematics.py": "98e8d5d8e49b0e416f31743e59adcff5b4574bdcbc943e3d05e3d2cc047ff17c",
+    "configs/baseline.json": "cc230453848c1c8cef5e88301a91fc9f98433378a2c0e5e5d58393c3415a28e0",
+    "results/briefing/plane_study.json": "c11fb7779e6b0caebc41cc926212439800c3a019cac409ca24f5c6379b28b61d",
+    "results/briefing/scene_geometry.js": "3d8a77a12e48ba61d1ddaf07adaec04fdacb39f745d114599626d78eb9a1fe0a",
+    "lab/anchored_report.html": "37bd3cfaea349b1577deee71d908eea9ecca4b1834abd93a2500123cb2feca45",
+    "lab/anchored_mount_report.html": "0f66a7df20f6218ae754120a288d5f948cf60fcefc5960116f013ff9cfaebcac",
+    "lab/robot_scene.js": "61751c957a0d9e990fba313e846b84fd8dfa8708c849c4d1f712513f6076f68b"
+  },
+  "witness_sha256": {
+    "results/anchored_search/mounts/replay-0.js": "00ecc55f8bfbe6088c540eb651344bbb444341af6f28ce7abbe5c2f5ddde9194",
+    "results/anchored_search/mounts/replay-1.js": "bfb0a0d6f1db0a9aa727a7aba4a6de7830d73f6a10022a44ae7eb0abdfdaea20",
+    "results/anchored_search/mounts/replay-2.js": "f57de8c5d509140f8be24de2bb183790286974ea50ca3f0fbfb24b25b3158416",
+    "results/anchored_search/mounts/replay-3.js": "75a67a01d1b4fec74e890320f1537bf4c32b0c40fc5a01f442535b96d40fdb86",
+    "results/anchored_search/mounts/replay-4.js": "31327916c92f3c5b11f2a97119704f82f55cf06e6434ee2c40a7275b94b6ae6f",
+    "results/anchored_search/mounts/replay-5.js": "06834a878995a54feb8e4d3b678ce08c536ca830be6e2920e6486998576dc004",
+    "results/anchored_search/mounts/replay-6.js": "e64716bf12378671bd0129625a2a88e2a50d5c6e48d6f75a56cab1ef3ac49652",
+    "results/anchored_search/mounts/replay-7.js": "56bad7d172299f669649ff4e23bbc4b8aa1f9c39585c1998e800c659a1f9fae8",
+    "results/anchored_search/mounts/replay-8.js": "26ad6f977e0eb75882aa9a34664f637e441cee37deb116ba051d6c3c7505fa7e",
+    "results/anchored_search/mounts/replay-9.js": "a6c57c49700f6723fb6323403f52f070a0fcf6c1dbc8bcb44ad94be18f2eece6",
+    "results/anchored_search/mounts/finalists.json": "0614cfc88ce851a3083e909a1132178e2fe3f9e7eb67388b128242bf562aa763"
+  }
+}

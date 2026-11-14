@@ -1,0 +1,450 @@
+{
+  "scope": "Historical TCP; exact nominal IK sampled at cell centres. Unclipped plane horizontal, fixed minus-Z and roll=0. No collision/print/stiffness filters. Finite-grid estimates, not certified area bounds.",
+  "bed_mm": 200,
+  "bound_mm": 1480.3393007602683,
+  "plane_half_width_mm": 1500,
+  "tool": {
+    "id": "rtde_20260921",
+    "translation_mm": [
+      16.16,
+      165.79,
+      22.13
+    ],
+    "rotation_vector_rad": [
+      -1.5708,
+      0.0,
+      0.0
+    ],
+    "source": "2026-09-21 RTDE tcp_offset (controller-reported historical tool)"
+  },
+  "inputs": {
+    "summary": "25cd514384b3a248568981651196286779b10dbde1bffdd032441c06b57df071",
+    "collision": "dc4deb7c3b61e832766693a4f7dac9c20424ec115e71ebb5adc74e1aa70585c2",
+    "solver": "98e8d5d8e49b0e416f31743e59adcff5b4574bdcbc943e3d05e3d2cc047ff17c",
+    "study": "15d734b552f3df989dec913638c51ae9102b11713399a9170baaf73679cd01cf"
+  },
+  "cases": {
+    "reference_floor": {
+      "case_id": "robot_column_d450_r360",
+      "x_offset_mm": 450.0,
+      "bed_minus_base_z_mm": -350.0,
+      "bed": [
+        {
+          "pitch_mm": 10,
+          "centres": 400,
+          "down_mm2": 40000.0,
+          "all25_mm2": 40000.0
+        },
+        {
+          "pitch_mm": 5,
+          "centres": 1600,
+          "down_mm2": 40000.0,
+          "all25_mm2": 40000.0
+        },
+        {
+          "pitch_mm": 2.5,
+          "centres": 6400,
+          "down_mm2": 40000.0,
+          "all25_mm2": 40000.0
+        },
+        {
+          "pitch_mm": 1.25,
+          "centres": 25600,
+          "down_mm2": 40000.0,
+          "all25_mm2": 40000.0
+        }
+      ],
+      "plane": [
+        {
+          "pitch_mm": 10,
+          "down_mm2": 1905500,
+          "largest_4conn_mm2": 1905500,
+          "centres": 90000
+        },
+        {
+          "pitch_mm": 5,
+          "down_mm2": 1906100,
+          "largest_4conn_mm2": 1906100,
+          "centres": 360000
+        }
+      ],
+      "archive_sha256": "91869cc6f2cf6fbe97664eb7fdb53f3330a72a9f950c454d16d581bcfd8897d1",
+      "tree": {
+        "down_mm2": 40000.0,
+        "all25_mm2": 40000.0,
+        "leaves": 400,
+        "sha256": "ea83a374732180c179c4c5116e2f593152ef491d526506efbf0fe50c9379e572"
+      },
+      "original_paths": {
+        "total": 4,
+        "ik": 4,
+        "sampled_clear_both": 4
+      },
+      "base_in_bed_xy_mm": [
+        -450.0,
+        0.0
+      ]
+    },
+    "reference_side": {
+      "case_id": "side_d450_r360",
+      "x_offset_mm": 450.0,
+      "bed_minus_base_z_mm": -350.0,
+      "bed": [
+        {
+          "pitch_mm": 10,
+          "centres": 400,
+          "down_mm2": 40000.0,
+          "all25_mm2": 40000.0
+        },
+        {
+          "pitch_mm": 5,
+          "centres": 1600,
+          "down_mm2": 40000.0,
+          "all25_mm2": 40000.0
+        },
+        {
+          "pitch_mm": 2.5,
+          "centres": 6400,
+          "down_mm2": 40000.0,
+          "all25_mm2": 40000.0
+        },
+        {
+          "pitch_mm": 1.25,
+          "centres": 25600,
+          "down_mm2": 40000.0,
+          "all25_mm2": 40000.0
+        }
+      ],
+      "plane": [
+        {
+          "pitch_mm": 10,
+          "down_mm2": 2368800,
+          "largest_4conn_mm2": 2368800,
+          "centres": 90000
+        },
+        {
+          "pitch_mm": 5,
+          "down_mm2": 2368650,
+          "largest_4conn_mm2": 2368650,
+          "centres": 360000
+        }
+      ],
+      "archive_sha256": "735c7fba7fce1529e84da9e59a960e2b6eff169020522ee8be04ec9501848bbb",
+      "tree": {
+        "down_mm2": 40000.0,
+        "all25_mm2": 40000.0,
+        "leaves": 400,
+        "sha256": "e8654a89aad7c3a5e8da445977461fdb0bc24f1d6931ff712653304b0c44ad07"
+      },
+      "original_paths": {
+        "total": 4,
+        "ik": 4,
+        "sampled_clear_both": 4
+      },
+      "base_in_bed_xy_mm": [
+        -450.0,
+        0.0
+      ]
+    },
+    "reference_ceiling": {
+      "case_id": "gantry_d450_r360",
+      "x_offset_mm": 450.0,
+      "bed_minus_base_z_mm": -350.0,
+      "bed": [
+        {
+          "pitch_mm": 10,
+          "centres": 400,
+          "down_mm2": 40000.0,
+          "all25_mm2": 40000.0
+        },
+        {
+          "pitch_mm": 5,
+          "centres": 1600,
+          "down_mm2": 40000.0,
+          "all25_mm2": 40000.0
+        },
+        {
+          "pitch_mm": 2.5,
+          "centres": 6400,
+          "down_mm2": 40000.0,
+          "all25_mm2": 40000.0
+        },
+        {
+          "pitch_mm": 1.25,
+          "centres": 25600,
+          "down_mm2": 40000.0,
+          "all25_mm2": 40000.0
+        }
+      ],
+      "plane": [
+        {
+          "pitch_mm": 10,
+          "down_mm2": 2058700,
+          "largest_4conn_mm2": 2058700,
+          "centres": 90000
+        },
+        {
+          "pitch_mm": 5,
+          "down_mm2": 2058700,
+          "largest_4conn_mm2": 2058700,
+          "centres": 360000
+        }
+      ],
+      "archive_sha256": "5b7370ed996b65273c452ebaa27cc9e3b29732b3d25a43eb0bd36bf94ba5f395",
+      "tree": {
+        "down_mm2": 40000.0,
+        "all25_mm2": 40000.0,
+        "leaves": 400,
+        "sha256": "f28a0a8aa6f73667d9c58a3899d1d2957074cda7eafe779e724f8cce25e34375"
+      },
+      "original_paths": {
+        "total": 4,
+        "ik": 4,
+        "sampled_clear_both": 4
+      },
+      "base_in_bed_xy_mm": [
+        -450.0,
+        0.0
+      ]
+    },
+    "outer_floor": {
+      "case_id": "robot_column_d650_r660",
+      "x_offset_mm": 650.0,
+      "bed_minus_base_z_mm": -650.0,
+      "bed": [
+        {
+          "pitch_mm": 10,
+          "centres": 400,
+          "down_mm2": 14600.0,
+          "all25_mm2": 0.0
+        },
+        {
+          "pitch_mm": 5,
+          "centres": 1600,
+          "down_mm2": 14550.0,
+          "all25_mm2": 0.0
+        },
+        {
+          "pitch_mm": 2.5,
+          "centres": 6400,
+          "down_mm2": 14568.75,
+          "all25_mm2": 0.0
+        },
+        {
+          "pitch_mm": 1.25,
+          "centres": 25600,
+          "down_mm2": 14571.875,
+          "all25_mm2": 0.0
+        }
+      ],
+      "plane": [
+        {
+          "pitch_mm": 10,
+          "down_mm2": 1158100,
+          "largest_4conn_mm2": 1158100,
+          "centres": 90000
+        },
+        {
+          "pitch_mm": 5,
+          "down_mm2": 1158125,
+          "largest_4conn_mm2": 1158125,
+          "centres": 360000
+        }
+      ],
+      "archive_sha256": "a408774ae442ac2ba2c13260e27ec8bd2e4b1e02003efdd5106c5173c10b8ea2",
+      "tree": {
+        "down_mm2": 14568.75,
+        "all25_mm2": 0,
+        "leaves": 3499,
+        "sha256": "d4a44b33edde75cfd859143efe7169d00c18702eb244c2e0dca8e16e483b808f"
+      },
+      "original_paths": {
+        "total": 4,
+        "ik": 0,
+        "sampled_clear_both": 0
+      },
+      "base_in_bed_xy_mm": [
+        -650.0,
+        0.0
+      ]
+    },
+    "outer_side": {
+      "case_id": "side_d650_r660",
+      "x_offset_mm": 650.0,
+      "bed_minus_base_z_mm": -650.0,
+      "bed": [
+        {
+          "pitch_mm": 10,
+          "centres": 400,
+          "down_mm2": 40000.0,
+          "all25_mm2": 40000.0
+        },
+        {
+          "pitch_mm": 5,
+          "centres": 1600,
+          "down_mm2": 40000.0,
+          "all25_mm2": 40000.0
+        },
+        {
+          "pitch_mm": 2.5,
+          "centres": 6400,
+          "down_mm2": 40000.0,
+          "all25_mm2": 40000.0
+        },
+        {
+          "pitch_mm": 1.25,
+          "centres": 25600,
+          "down_mm2": 40000.0,
+          "all25_mm2": 40000.0
+        }
+      ],
+      "plane": [
+        {
+          "pitch_mm": 10,
+          "down_mm2": 1683300,
+          "largest_4conn_mm2": 1683300,
+          "centres": 90000
+        },
+        {
+          "pitch_mm": 5,
+          "down_mm2": 1684300,
+          "largest_4conn_mm2": 1684300,
+          "centres": 360000
+        }
+      ],
+      "archive_sha256": "d56f85439919b7ca0c4521a4b42520969ca613f604a9271da9b90fb27651a4d5",
+      "tree": {
+        "down_mm2": 40000.0,
+        "all25_mm2": 40000.0,
+        "leaves": 400,
+        "sha256": "63720a8ea2c70cde75551994a2923d2900190aa70165b6a0aaf202831bc1bfbb"
+      },
+      "original_paths": {
+        "total": 4,
+        "ik": 4,
+        "sampled_clear_both": 4
+      },
+      "base_in_bed_xy_mm": [
+        -650.0,
+        0.0
+      ]
+    },
+    "outer_ceiling": {
+      "case_id": "gantry_d650_r660",
+      "x_offset_mm": 650.0,
+      "bed_minus_base_z_mm": -650.0,
+      "bed": [
+        {
+          "pitch_mm": 10,
+          "centres": 400,
+          "down_mm2": 40000.0,
+          "all25_mm2": 32400.0
+        },
+        {
+          "pitch_mm": 5,
+          "centres": 1600,
+          "down_mm2": 40000.0,
+          "all25_mm2": 32675.0
+        },
+        {
+          "pitch_mm": 2.5,
+          "centres": 6400,
+          "down_mm2": 40000.0,
+          "all25_mm2": 32650.0
+        },
+        {
+          "pitch_mm": 1.25,
+          "centres": 25600,
+          "down_mm2": 40000.0,
+          "all25_mm2": 32626.5625
+        }
+      ],
+      "plane": [
+        {
+          "pitch_mm": 10,
+          "down_mm2": 1943100,
+          "largest_4conn_mm2": 1943100,
+          "centres": 90000
+        },
+        {
+          "pitch_mm": 5,
+          "down_mm2": 1943400,
+          "largest_4conn_mm2": 1943400,
+          "centres": 360000
+        }
+      ],
+      "archive_sha256": "2bf8d268e9cd33a155eda1a8d6ae6d9c4ffba0df1119ca848a643df58514f8d9",
+      "tree": {
+        "down_mm2": 40000.0,
+        "all25_mm2": 32650.0,
+        "leaves": 802,
+        "sha256": "b7a567cce8d3019eeb5f87919b362107b10ad9bba2ec8728403ddab2897a3fbf"
+      },
+      "original_paths": {
+        "total": 4,
+        "ik": 4,
+        "sampled_clear_both": 4
+      },
+      "base_in_bed_xy_mm": [
+        -650.0,
+        0.0
+      ]
+    },
+    "same_table": {
+      "case_id": "table_d450",
+      "x_offset_mm": 450.0,
+      "bed_minus_base_z_mm": 10.0,
+      "bed": [
+        {
+          "pitch_mm": 10,
+          "centres": 400,
+          "down_mm2": 40000.0,
+          "all25_mm2": 40000.0
+        },
+        {
+          "pitch_mm": 5,
+          "centres": 1600,
+          "down_mm2": 40000.0,
+          "all25_mm2": 40000.0
+        },
+        {
+          "pitch_mm": 2.5,
+          "centres": 6400,
+          "down_mm2": 40000.0,
+          "all25_mm2": 40000.0
+        },
+        {
+          "pitch_mm": 1.25,
+          "centres": 25600,
+          "down_mm2": 40000.0,
+          "all25_mm2": 40000.0
+        }
+      ],
+      "plane": [
+        {
+          "pitch_mm": 10,
+          "down_mm2": 2048600,
+          "largest_4conn_mm2": 2048600,
+          "centres": 90000
+        },
+        {
+          "pitch_mm": 5,
+          "down_mm2": 2047750,
+          "largest_4conn_mm2": 2047750,
+          "centres": 360000
+        }
+      ],
+      "archive_sha256": "14123516a069c48222df84fdaa20022c95d0838280a6b7fd839db636e1029946",
+      "original_paths": {
+        "total": 4,
+        "ik": 4,
+        "sampled_clear_both": 4
+      },
+      "base_in_bed_xy_mm": [
+        -450.0,
+        0.0
+      ]
+    }
+  },
+  "maps_sha256": "3e67175c2304de0e4d25b20725cf1daf4cc628531d401c240c03df9ac82ad32b"
+}
