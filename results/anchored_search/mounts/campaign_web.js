@@ -6,9 +6,29 @@
  function syncSelection(){const id=scene.dataset.shownShape;for(const b of document.querySelectorAll('[data-placement],[data-selected-id]'))b.setAttribute('aria-pressed',String(!!id&&(b.dataset.placement===id||b.dataset.selectedId===id)))}
  new MutationObserver(syncSelection).observe(scene,{attributes:true,attributeFilter:['data-shown-shape','data-loaded-case']});
  function campaignButton(s,b){b.dataset.selectedId=s.spec_id||s.id;b.setAttribute('aria-pressed','false');b.onclick=()=>surface(s);return b}
+ function growthSection(data){
+  const g=data.area_growth;if(!g?.replays?.length)return;
+  const section=document.createElement('section');section.id='areaGrowth';
+  section.innerHTML='<h3>面积增长 · 已验证路线</h3><p>下表可直接在左侧同一三维图回放。单层与高度补测分别列出：单床包含跨行连接，分块包含跨块转移、六轴接缝与整路复算；均含 30 × 120 mm 喷头上方预留。</p><p class="small">面积为实体床板投影。指定栅格通过不等于满面填充或任意曲面认证，也未证明全局最大；进场与真实软管未验证。</p>';
+  for(const [kind,title] of [['growth_single','单块曲面床 · 三安装、两种长宽比'],['growth_tiled','环绕分块曲面床 · 真跟面稠密复验'],['growth_height','150 mm高度补测 · 底 / 中 / 顶']]){
+   if(!g.replays.some(s=>s.kind===kind))continue;
+   const heading=document.createElement('h4');heading.textContent=title;section.append(heading);
+   const table=document.createElement('table');table.setAttribute('aria-label',title);table.innerHTML='<thead><tr><th>安装 / 床形</th><th>实体尺寸 / '+(kind==='growth_height'?'采样高度':'单层')+'</th><th>床板投影</th><th>同页回放</th></tr></thead><tbody></tbody>';
+   for(const s of g.replays.filter(s=>s.kind===kind)){
+    const height=s.kind==='growth_height',tr=table.tBodies[0].insertRow();tr.insertCell().textContent=names[s.mount]+' · '+s.shape_label;tr.insertCell().textContent=s.label+(height?' · H150 mm':' · 单层');tr.insertCell().textContent=format(s.area_m2,4)+' m²';const b=document.createElement('button');b.textContent='回放已验证路线';b.setAttribute('aria-label',names[s.mount]+' '+s.label+(height?' 150mm高度路线':' 单层路线'));campaignButton(s,b);tr.insertCell().append(b);
+   }
+   section.append(table);
+  }
+  const details=document.createElement('details');details.innerHTML='<summary>路线参数与实验明细</summary>';
+  for(const s of g.replays){const p=document.createElement('p');p.textContent=names[s.mount]+' · '+s.label+'：底高 '+s.h+' mm，行距 ≤ '+s.row_pitch_mm+' mm，'+(s.slope_deg!=null?'满曲面最大坡度 '+s.slope_deg+'°；':'轨迹法向倾角 '+s.tilt_deg.map(v=>format(v,1)).join('–')+'°；')+(s.kind==='growth_height'?'底/中/顶偏移0/75/150mm及真实跨高度连接；原XY2.5mm、碰撞2.5mm/2°；':'单层；')+s.nodes+' 个已存关节节点。';details.append(p)}
+  const note=document.createElement('p');note.textContent='初批单床 '+g.single_completed+' 工况；分块含复验 '+g.tiled_completed+' 工况。粗筛、失败和未定保留在实验明细，不放入上方成功表。'+(g.height_scope||'');details.append(note);
+  const a=document.createElement('a');a.href=g.details_url;a.textContent='查看分组统计与限制';details.append(a);
+  for(const update of g.report_updates||[]){const p=document.createElement('p');p.textContent=update.text||String(update);details.append(p)}
+  section.append(details);panel.querySelector('h3').before(section);
+ }
  const style=document.createElement('style');style.textContent='@media(min-width:901px){.workspace>.panel:first-child{position:sticky;top:12px}.workspace>.panel:nth-child(2){max-height:calc(100dvh - 160px);overflow:auto;scrollbar-gutter:stable}}#campaign20261115 h2{font-size:20px}#campaign20261115 button{font-size:14px;margin:3px}#campaignSurfaces>div{margin:5px 0}';document.head.append(style);
  try{
-  const res=await fetch('../../campaign_web/manifest.json');if(!res.ok)throw Error(res.status);const data=await res.json();
+  const res=await fetch('../../campaign_web/manifest.json',{cache:'no-cache'});if(!res.ok)throw Error(res.status);const data=await res.json();growthSection(data);
   if(data.ring_cloud_url){
    const cloudResponse=await fetch(data.ring_cloud_url);
    if(!cloudResponse.ok)throw Error('整环点云 '+cloudResponse.status);
@@ -49,7 +69,7 @@
   if(data.entry_extension){const p=document.createElement('p');p.textContent='最大尺寸补充进场：地装与侧装从共同起姿到选中的另一条打印分支通过；吊装需已处于床边世界朝下待机姿势才能接续打印，共同起姿到床边待机之前的运动未验证。';panel.append(p);for(const s of data.entry_replays||[]){const b=document.createElement('button');b.textContent=names[s.mount]+' '+(s.is_size?'最大尺寸':s.is_roll?'起伏×2/自转270°':'基准')+' · '+(s.start_kind==='original_common'?'共同待机':'床边待机')+'进场接打印';campaignButton(s,b);panel.append(b)}}
   const entry=document.createElement('p');entry.textContent='共同起姿进场：'+(data.entries?data.entries.map(e=>names[e.mount]+' '+(e.passed?'通过':'未通过')+'（'+(e.samples||0)+' 姿势）').join('；')+'。只检查选中打印分支的进场，不代表尺寸扩展的进场。':'独立检查尚未导出；当前曲面通过数仅表示打印段。');panel.append(entry);
   panel.querySelector('#campaignSurfaceScope').textContent=data.surface_available?'展示各安装本轮已导出的代表性通过轨迹；搜索范围和失败记录以完整报告为准。':'本轮曲面仍在计算，暂不提供回放。';
-  const params=new URLSearchParams(location.search),id=params.get('campaign')||params.get('shape');if(id){const ring=data.rings.find(s=>s.id===id),curved=[...data.surfaces,...data.size_replays,...(data.roll_replays||[]),...(data.entry_replays||[])].find(s=>s.id===id);if(ring)selectShape(ring);else if(curved)surface(curved)}
+  const params=new URLSearchParams(location.search),id=params.get('campaign')||params.get('shape');if(id){const ring=data.rings.find(s=>s.id===id),curved=[...data.surfaces,...data.size_replays,...(data.roll_replays||[]),...(data.entry_replays||[]),...(data.area_growth?.replays||[])].find(s=>s.id===id);if(ring)selectShape(ring);else if(curved)surface(curved)}
  }catch(e){panel.append('本轮数据加载失败：'+e.message)}
  async function surface(s){
   const active=++ticket;stopShapeMotion();el('shapeTransport').hidden=true;playback?.pause();current=null;frames=[];delete scene.dataset.shownShape;delete scene.dataset.loadedCase;el('shapeSeek').max=0;el('shapeSeek').value=0;el('shapeStage').textContent='';el('shapeClock').value='—';scene.setFootprint(null);scene.setReachOverlay(null);scene.style.visibility='hidden';
@@ -57,15 +77,28 @@
   el('auditStatus').textContent='正在加载本轮曲面轨迹…';
   try{const r=await fetch(s.url);if(!r.ok)throw Error(r.status);const c=await r.json();if(active!==ticket)return;
    if(c.spec.id!==(s.spec_id||s.scale+'-'+s.id)||!c.motion?.q?.length)throw Error('轨迹身份或帧不匹配');
-   const f=c.motion.q.map((q,i)=>({q_rad:q,xyz_mm:c.motion.xyz[i],phase:i<(c.entry_frames||0)?'entry':'print',kind:i<(c.entry_frames||0)?'entry':'perimeter',surface_layer:i<(c.entry_frames||0)?null:(c.motion.levels?.[i]??Math.min(2,Math.floor((i-(c.entry_frames||0))*3/(c.motion.q.length-(c.entry_frames||0)))))+1}));
+   const f=c.motion.q.map((q,i)=>({q_rad:q,xyz_mm:c.motion.xyz[i],phase:i<(c.entry_frames||0)?'entry':'print',kind:i<(c.entry_frames||0)?'entry':(c.motion.kinds?.[i]||'perimeter'),continuous:!!c.motion.continuous,height_offset_mm:c.motion.height_offsets_mm?.[i],surface_layers:c.layers,surface_layer:s.kind==='growth_height'||i<(c.entry_frames||0)?null:(c.motion.levels?.[i]??Math.min(2,Math.floor((i-(c.entry_frames||0))*3/(c.motion.q.length-(c.entry_frames||0)))))+1}));
    if(!scene.setFootprint({...c.spec,head:{flange_from_head:study.flange_from_head.flat(),boxes:study.head_boxes},tool_mm:c.tool_mm.flat()}))throw Error('曲面摆位无效');
    scene.setFootprintPlan(c.plan);if(!scene.setFootprintMotion(c.motion))throw Error('运动无效');
-   scene.framePlacement({mount:s.mount,x_mm:s.center[0],y_mm:s.center[1],h_mm:s.h});scene.style.visibility='';scene.dataset.shownShape=c.spec.id;
+   if(!s.kind.startsWith('growth_'))scene.framePlacement({mount:s.mount,x_mm:s.center[0],y_mm:s.center[1],h_mm:s.h});scene.style.visibility='';scene.dataset.shownShape=c.spec.id;
    shapeFrames=f;el('shapeSeek').max=f.length-1;el('shapeSeek').disabled=el('shapePlay').disabled=false;el('shapeTransport').hidden=false;seekShape(0);
    el('title').textContent=names[s.mount]+' · 六轴曲面法向'+(s.kind==='entry'?' · 进场接打印':'')+(s.is_size?' · 尺寸扩展':s.is_roll?' · 起伏×2/局部+270°':'');el('position').textContent='床中心 ('+s.center.join(', ')+') mm；床高 '+s.h+' mm；'+(s.kind==='size'||s.is_size?'基材与路径尺寸同比 × ':'起伏 × ')+s.scale+'；三圈，竖直层间距 1 mm。';
    el('orientation').textContent='喷嘴随曲面法向，倾角 '+c.tilt.map(v=>format(v,1)).join('–')+'°。'+(s.kind==='roll'||s.is_roll?'工具自转角 '+s.roll_deg+'°（相对基准局部+270°）。':'');el('takeaway').textContent=s.kind==='entry'?(s.start_kind==='original_common'?'共同待机起姿进场与三圈打印已精确接续。':'以前置床边世界朝下待机为起点，进场与三圈打印已精确接续；共同待机到此床边起姿的运动未验证。'):'三圈打印通过；本回放从首圈起点开始，未包含共同起姿进场。';
    if(location.protocol!=='file:'){const url=new URL(location.href);for(const key of ['shape','layout','case','frame'])url.searchParams.delete(key);url.searchParams.set('campaign',s.id);history.replaceState(null,'',url)}
    el('auditStatus').textContent='本轮真实关节轨迹 · 打印模型检查通过';el('tip').textContent='';el('loadingNote').hidden=true;el('staticCaption').hidden=false;el('staticCaption').textContent='金色为真实曲面基材模型；用同一进度条查看实际计算的六轴姿态。';
+   if(s.kind.startsWith('growth_')){
+    el('title').textContent=names[s.mount]+' · '+s.shape_label+' · '+s.label+' · 单层';
+    el('position').textContent=s.label+'；床板投影 '+format(s.area_m2,4)+' m²；单层栅格，行距 ≤ '+s.row_pitch_mm+' mm。';
+    el('orientation').textContent='喷嘴随解析曲面法向；实际保存姿态倾角 '+c.tilt.map(v=>format(v,1)).join('–')+'°。';
+    el('takeaway').textContent=s.description;el('auditStatus').textContent='指定单层路线 · 连续关节 / 刚性碰撞 / 预留检查通过';
+    el('staticCaption').textContent='金色为实际尺寸曲面实体；各块床板按独立轮廓绘制。未画成跨越基座的整板。播放保存的实际六轴关节轨迹。';
+    if(s.kind==='growth_height'){
+     el('title').textContent=names[s.mount]+' · '+s.label+' · 150 mm高度补测';
+     el('position').textContent=s.label+'；床板投影 '+format(s.area_m2,4)+' m²；底/中/顶相对曲面偏移 0 / 75 / 150 mm。';
+     el('takeaway').textContent=s.description;el('auditStatus').textContent='底/中/顶及跨高度完整连接 · 刚性碰撞 / 预留检查通过';
+     el('staticCaption').textContent='金色仅画初始曲面基体；路径包含0/75/150mm栅格及真实跨高度抬升、转移、下降。碰撞使用保守全占地占据体积；不是完整切片，进场与真实软管未验证。';
+    }
+   }
   }catch(e){if(active!==ticket)return;el('auditStatus').textContent='本轮曲面未加载：'+e.message;el('shapeTransport').hidden=true;scene.style.visibility='hidden'}
  }
 })();

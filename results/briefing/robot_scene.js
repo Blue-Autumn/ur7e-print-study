@@ -168,11 +168,12 @@ function updatePose(reset=false){
   witness=null;articulation=q?frames(q,state.mount):[D.poses[state.mount].base];
   E('routeChip').hidden=true;E('routeLegend').hidden=true;
   canvas.dataset.ik=q?'stored-pose':'no-solved-pose';canvas.dataset.q=JSON.stringify(q);
-  canvas.dataset.validatedNode='false';canvas.dataset.displayInterpolation='false';
+  canvas.dataset.validatedNode=String(!!footprint.motion?.continuous&&!footprint.fraction);canvas.dataset.displayInterpolation=String(!!footprint.fraction);
   E('noPose').hidden=!!q;
-  const target=footprint.motion?.xyz[footprint.index]??null;
+  const target=footprint.interpolatedTarget??footprint.motion?.xyz[footprint.index]??null;
   const tool=footprint.tool_mm?.flat(),tcp=q&&vecOK(tool,16)?posXYZ(mult(articulation[6],tool)):null;
   canvas.dataset.tcp=JSON.stringify(tcp);
+  footprint.displayTCP=tcp;
   if(tcp&&target)canvas.dataset.footprintFkErrorMm=Math.hypot(...target.map((v,i)=>v-tcp[i]));
   else delete canvas.dataset.footprintFkErrorMm;
   canvas.dataset.target=JSON.stringify(target);canvas.dataset.branch='';E('qRead').textContent=q?q.map(v=>fmt(v/rad)+'°').join('、'):'没有已求出的机械臂姿态。';
@@ -230,7 +231,7 @@ function setPathPose(){const p=poseTarget(),q=displayPose?displayPose.q_rad:path
 function publishState(){const c=canvas.dataset,p=poseTarget();canvas.dataset.pathId=route?.id||'';canvas.dataset.pathIndex=pathActive()?routeIndex:-1;canvas.dataset.collision=JSON.stringify(activeCollision);if(!embedded)return;
  if(footprint){
   const data={type:'ur7e-scene-state',target:'footprint',mount:state.mount,h_mm:state.h,d_mm:state.build,
-   ik:c.ik,footprint_id:footprint.id,target_xyz_mm:footprint.motion?.xyz[footprint.index]??null,
+   ik:c.ik,footprint_id:footprint.id,target_xyz_mm:footprint.interpolatedTarget??footprint.motion?.xyz[footprint.index]??null,
    q_rad:footprint.q_rad,tcp_xyz_mm:JSON.parse(c.tcp),collision:activeCollision,
    path_id:footprint.motion?footprint.id:null,path_index:footprint.motion?footprint.index:null,
    path_length:footprint.motion?.q.length??0,reference_tcp_xyz_mm:null};
@@ -362,7 +363,16 @@ function draw(){queue=false;if(host.hasAttribute('anchored')&&host.hasAttribute(
 function drawFootprint(){
  if(footprint.surface){
   const {points,faces}=footprint.surface;
-  drawPolys(boxFaces(block(...state.center,state.h-1,state.side,state.side,2),[189,190,164],.78));
+  // Surface cases can have a rectangular plate or separate tiles around an open gap.
+  // Draw their registered bed loops instead of a spanning bounding square.
+  const slabs=[];
+  for(const loop of footprint.loops){
+   const bottom=loop.map(p=>project([...p,state.h-2])),top=loop.map(p=>project([...p,state.h]));
+   const face=p=>({p,d:p.reduce((sum,v)=>sum+v[2],0)/p.length,c:'rgba(189,190,164,.78)'});
+   slabs.push(face(bottom),face(top));
+   for(let i=0;i<loop.length;i++){const j=(i+1)%loop.length;slabs.push(face([bottom[i],bottom[j],top[j],top[i]]))}
+  }
+  drawPolys(slabs);
   const projected=points.map(project);
   drawPolys(faces.map(ids=>{
    const p=ids.map(i=>projected[i]);
@@ -493,7 +503,7 @@ function drawFootprintPath(){
 }
 function drawFootprintMarker(){
  if(footprint.motion){
-  const [u,v]=project(footprint.motion.xyz[footprint.index]);
+  const [u,v]=project(footprint.displayTCP??footprint.motion.xyz[footprint.index]);
   ctx.save();ctx.setLineDash([]);ctx.fillStyle='#00678a';ctx.strokeStyle='white';ctx.lineWidth=2;
   ctx.beginPath();ctx.arc(u,v,4.3,0,2*Math.PI);ctx.fill();ctx.stroke();ctx.restore();
  }
@@ -533,16 +543,23 @@ host.setFootprintMotion=motion=>{
  return host.seekFootprintFrame(0);
 };
 host.seekFootprintFrame=index=>{
- if(!footprint?.motion||!Number.isInteger(index)||index<0||index>=footprint.motion.q.length)return false;
- footprint.index=index;footprint.q_rad=footprint.motion.q[index];
+ if(!footprint?.motion||!Number.isFinite(index)||(!footprint.motion.continuous&&!Number.isInteger(index))||index<0||index>=footprint.motion.q.length)return false;
+ const node=Math.floor(index),next=Math.min(node+1,footprint.motion.q.length-1),fraction=index-node;
+ footprint.index=node;footprint.fraction=fraction;
+ footprint.q_rad=fraction?footprint.motion.q[node].map((v,j)=>v+fraction*(footprint.motion.q[next][j]-v)):footprint.motion.q[node];
+ footprint.interpolatedTarget=fraction?footprint.motion.xyz[node].map((v,j)=>v+fraction*(footprint.motion.xyz[next][j]-v)):footprint.motion.xyz[node];
  canvas.dataset.footprintFrame=index;
  updatePose();
  return true;
 };
+let surfaceReferenceState=null;
 host.setFootprint=spec=>{
  canvas.parentElement.querySelector('canvas[data-transition]')?.remove();
  if(spec&&(!names[spec.mount]||!Number.isFinite(spec.h)||!(spec.d>0)||!spec.loops?.length||
   !spec.loops.every(loop=>loop.length>=3&&loop.every(p=>vecOK(p,2)))||(spec.q_rad!=null&&!vecOK(spec.q_rad,6))))return false;
+ const isSurface=!!spec?.surface;host.toggleAttribute('surface-review',isSurface);
+ if(isSurface&&!surfaceReferenceState){surfaceReferenceState=[E('shellOn').checked,E('cutOn').checked];E('shellOn').checked=E('cutOn').checked=false}
+ else if(!isSurface&&surfaceReferenceState){[E('shellOn').checked,E('cutOn').checked]=surfaceReferenceState;surfaceReferenceState=null}
  const legend=root.querySelectorAll('.legend>span');
  const layerLabel=E('cutOn').parentNode.lastChild;
  if(footprint){articulation=null;activeCollision=null;witness=null}
