@@ -11,10 +11,18 @@ class RobotScene extends HTMLElement {
 :host(:not([standalone])) .shell {width:100%;max-width:none;padding:0}
 :host(:not([standalone])) .scene canvas {width:100%;height:clamp(180px,51dvh,1080px)}
 .pathKey i{height:3px;vertical-align:3px}
-:host([surface-review]) .bar label:has(#shellOn),:host([surface-review]) .bar label:has(#cutOn),:host([surface-review]) .legend{display:none}
+:host([surface-review]) .bar label:has(#cutOn){display:none}
 :host([anchored][fast-render]) #routeChip{display:none!important}
 :host([anchored]) #fitChip,:host([anchored]) #scopeChip,:host([anchored]) .detailsRead {display:none}
 .chip.hit{background:#fff1ec;color:#8a231e}.chip.unknown{background:#fff8e7;color:#795214}
+
+:host([report-layout]){height:100%;min-height:0}
+:host([report-layout]) .shell{height:100%;display:flex;flex-direction:column;gap:5px}
+:host([report-layout]) .bar{flex:none;margin:0;font-size:12px;gap:5px 8px}
+:host([report-layout]) .bar button{font-size:12px;min-height:27px}
+:host([report-layout]) .scene{flex:1;min-height:0}
+:host([report-layout]) .scene canvas{height:100%;width:100%;position:absolute;inset:0}
+:host([report-layout]) .legend{flex:none;font-size:11px}
 </style><div class="shell" aria-label="机械臂与打印工件三维场景">
 <div class="bar"><label class="solo">安装 <select id="mount"><option value="floor">地装</option><option value="side" selected>侧装</option><option value="overhead">吊装</option></select></label><label class="solo">姿态 <select id="layer"><option value="free">姿态不限</option><option value="down">竖直朝下</option><option value="all25" selected>全部 25 种姿态</option><option value="threshold">至少指定个数</option></select></label><label class="solo" id="thresholdControl" hidden>至少 <input id="minPoses" type="range" min="1" max="25" value="25" style="width:95px"><output id="kOut">25</output> 种</label><label class="solo">点云范围 <select id="cloudScope"><option value="full">看整片空间</option><option value="slab">看当前打印高度</option></select></label><label><input type="checkbox" id="shellOn" checked>点云</label><label><input type="checkbox" id="cutOn" checked>剖面</label><label><input type="checkbox" id="fixtureOn" checked>支架</label><button type="button" id="overview" class="right">全景</button><button type="button" id="focus">放大当前</button><button type="button" id="reset">复位视角</button></div>
 <div class="bar" id="layoutsolo"><label>底面 H / mm <select id="baseHeight"></select></label><label>零件高 / mm <select id="buildHeight"></select></label><label>方形边长 / mm <input id="workWidth" type="number" min="1" max="3000" value="500" style="width:75px"></label></div>
@@ -94,6 +102,13 @@ const defaultCamera=reachExplicit?{center:[0,0,-45],verticalSpan:2350,az:.78,ele
 let shell=null,robot=null,witness=null,articulation=null,requested=0,queue=false,pointer=null,clock=null,az=defaultCamera.az,elevation=defaultCamera.elevation;
 let centerWorld=defaultCamera.center.slice(),verticalSpan=defaultCamera.verticalSpan,cameraAction='默认固定镜头';
 let placementView=null,cameraMove=null;
+host.beginPlacementTransition=()=>{
+ if(!canvas.width||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ canvas.parentElement.querySelector('canvas[data-transition]')?.remove();
+ const prior=document.createElement('canvas');prior.width=canvas.width;prior.height=canvas.height;
+ prior.getContext('2d').drawImage(canvas,0,0);prior.dataset.transition='';
+ prior.style.cssText='position:absolute;inset:0;width:100%;height:100%;pointer-events:none';canvas.after(prior);
+};
 if(host.hasAttribute('fixed-print-pose')){
  host.framePlacement=({mount,x_mm,y_mm,h_mm})=>{
   const base=posXYZ(D.poses[mount].base);
@@ -103,22 +118,19 @@ if(host.hasAttribute('fixed-print-pose')){
   // table to the left and a little nearer to the viewer than the base.
   const heading=Math.hypot(dx,dy)>1e-6?Math.atan2(dy,dx)+.91:az;
   const first=placementView===null;
-  if(!footprint && !first && canvas.width && !matchMedia('(prefers-reduced-motion: reduce)').matches){
-   const previousFrame=document.createElement('canvas');
-   previousFrame.width=canvas.width;
-   previousFrame.height=canvas.height;
-   previousFrame.getContext('2d').drawImage(canvas,0,0);
-   previousFrame.style.cssText='position:absolute;inset:0;width:100%;height:100%;pointer-events:none';
-   canvas.parentElement.querySelector('canvas[data-transition]')?.remove();
-   previousFrame.dataset.transition='';
-   canvas.after(previousFrame);
-   previousFrame.animate([{opacity:1},{opacity:0}],{duration:90,fill:'forwards'}).onfinish=()=>previousFrame.remove();
+  if(!first && canvas.width && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+   if(!canvas.parentElement.querySelector('canvas[data-transition]'))host.beginPlacementTransition();
+   const previousFrame=canvas.parentElement.querySelector('canvas[data-transition]');
+   previousFrame?.animate([{opacity:1},{opacity:0}],{duration:130,fill:'forwards'}).addEventListener('finish',()=>previousFrame.remove());
   }
   placementView={center:base.map((v,i)=>(v+table[i])/2),az:heading,elevation:.54};
   // Cut directly to the new composition. Only the final few degrees ease in.
   centerWorld=placementView.center.slice();
   az=heading-range(-.038,.038,wrap(heading-az));
   elevation=placementView.elevation;
+  if(host.hasAttribute('report-layout')&&footprint){
+   const r=canvas.getBoundingClientRect();aim(r.width,r.height);focusCurrent();
+  }
   alignPlacement(first,verticalSpan,120);
  };
 }
@@ -554,13 +566,14 @@ host.seekFootprintFrame=index=>{
 };
 let surfaceReferenceState=null;
 host.setFootprint=spec=>{
- canvas.parentElement.querySelector('canvas[data-transition]')?.remove();
  if(spec&&(!names[spec.mount]||!Number.isFinite(spec.h)||!(spec.d>0)||!spec.loops?.length||
   !spec.loops.every(loop=>loop.length>=3&&loop.every(p=>vecOK(p,2)))||(spec.q_rad!=null&&!vecOK(spec.q_rad,6))))return false;
  const isSurface=!!spec?.surface;host.toggleAttribute('surface-review',isSurface);
- if(isSurface&&!surfaceReferenceState){surfaceReferenceState=[E('shellOn').checked,E('cutOn').checked];E('shellOn').checked=E('cutOn').checked=false}
+ if(isSurface&&!surfaceReferenceState){surfaceReferenceState=[E('shellOn').checked,E('cutOn').checked];E('cutOn').checked=false}
  else if(!isSurface&&surfaceReferenceState){[E('shellOn').checked,E('cutOn').checked]=surfaceReferenceState;surfaceReferenceState=null}
  const legend=root.querySelectorAll('.legend>span');
+ E('shellOn').parentNode.lastChild.textContent=isSurface?'方向参考点云':'点云';
+ legend[2].lastChild.textContent=isSurface?'方向并集参考':'可达边界';
  const layerLabel=E('cutOn').parentNode.lastChild;
  if(footprint){articulation=null;activeCollision=null;witness=null}
  footprint=null;
@@ -594,7 +607,7 @@ host.setFootprint=spec=>{
  return true;
 };
 // Explicit overlays never fall back to a different dataset, including while loading.
-host.setReachOverlay=data=>{reachExplicit=true;reachOverlay=data&&Array.isArray(data.points)?data:null;reachCache=null;reachSliceTiles=new WeakMap();requestDraw()};
+host.setReachOverlay=data=>{reachExplicit=true;reachOverlay=data&&Array.isArray(data.points)?data:null;canvas.dataset.overlayId=reachOverlay?.id||'';reachCache=null;reachSliceTiles=new WeakMap();requestDraw()};
 host.setReplayPose=f=>{if(!pathActive()||!vecOK(f?.q_rad,6))return false;const q=f.q_rad;if(q.some((v,j)=>v<limits[j][0]||v>limits[j][1]))return false;routeIndex=range(0,route.q_rad.length-1,Math.floor(f.left_index)||0);const tcp=mult(frames(q,state.mount)[6],route.anchored?.tool_mm??D.tool);displayPose={q_rad:q.slice(),xyz_mm:posXYZ(tcp),alpha:range(0,1,Number(f.alpha)||0)};state.percent=100*(routeIndex+displayPose.alpha)/Math.max(1,route.q_rad.length-1);f.tcp_xyz_mm=displayPose.xyz_mm.slice();setPathPose();return true};
 host.getReplayPath=()=>route;
 host.seekReplay=index=>{if(!pathActive())return false;seek({path_index:index});updatePose();return true};

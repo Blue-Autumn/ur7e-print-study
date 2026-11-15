@@ -1,0 +1,569 @@
+{
+  "schema": 1,
+  "sections": {
+    "single_square": [
+      {
+        "label": "300 × 300",
+        "options": [
+          {
+            "id": "floor-300",
+            "source": "case",
+            "mount": "floor",
+            "record_ids": [
+              "floor-300"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "side-300-original",
+            "source": "case",
+            "mount": "side",
+            "record_ids": [
+              "side-300-original"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "overhead-300-original",
+            "source": "case",
+            "mount": "overhead",
+            "record_ids": [
+              "overhead-300-original"
+            ],
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "label": "390 × 390",
+        "options": [
+          {
+            "id": "floor-390",
+            "source": "case",
+            "mount": "floor",
+            "record_ids": [
+              "floor-390"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "side-390-z-350",
+            "source": "case",
+            "mount": "side",
+            "record_ids": [
+              "side-390-z-350",
+              "side-390-z-500"
+            ],
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "label": "405 × 405",
+        "options": [
+          {
+            "id": "floor-405",
+            "source": "case",
+            "mount": "floor",
+            "record_ids": [
+              "floor-405"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "side-405-r90-x220",
+            "source": "case",
+            "mount": "side",
+            "record_ids": [
+              "side-405-r90-x220",
+              "side-405-r90-x330"
+            ],
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "label": "390 × 390",
+        "options": [
+          {
+            "id": "overhead-390",
+            "source": "case",
+            "mount": "overhead",
+            "record_ids": [
+              "overhead-390"
+            ],
+            "enabled": true
+          }
+        ]
+      }
+    ],
+    "single_rectangle": [
+      {
+        "label": "270 × 190",
+        "options": [
+          {
+            "id": "300-overhead_-520_300_r0-rectangle-270x190-x-360-y560-c2",
+            "source": "shape",
+            "mount": "overhead",
+            "record_ids": [
+              "300-overhead_-520_300_r0-rectangle-270x190-x-360-y560-c2"
+            ],
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "label": "200 × 150",
+        "options": [
+          {
+            "id": "300-overhead_-520_300_r0-rectangle-200x150-x-120-y640-c1",
+            "source": "shape",
+            "mount": "overhead",
+            "record_ids": [
+              "300-overhead_-520_300_r0-rectangle-200x150-x-120-y640-c1"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "300-overhead_-520_300_r0-rectangle-200x150-x-200-y560-c2",
+            "source": "shape",
+            "mount": "overhead",
+            "record_ids": [
+              "300-overhead_-520_300_r0-rectangle-200x150-x-200-y560-c2"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "300-overhead_-520_300_r0-rectangle-200x150-x-200-y640-c1",
+            "source": "shape",
+            "mount": "overhead",
+            "record_ids": [
+              "300-overhead_-520_300_r0-rectangle-200x150-x-200-y640-c1"
+            ],
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "label": "450 × 380",
+        "options": [
+          {
+            "id": "path-floor_80_300_r0-450x380-x5-y550",
+            "source": "shape",
+            "mount": "floor",
+            "record_ids": [
+              "path-floor_80_300_r0-450x380-x5-y550"
+            ],
+            "enabled": true
+          }
+        ]
+      }
+    ],
+    "surround": [
+      {
+        "label": "整环",
+        "options": [
+          {
+            "id": "axis-floor-h40-d400-i320-o720-radial90-s180-ccw",
+            "source": "shape",
+            "mount": "floor",
+            "record_ids": [
+              "axis-floor-h40-d400-i320-o720-radial90-s180-ccw"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "axis-floor-h40-d360-i320-o760-radial90-s180-ccw",
+            "source": "shape",
+            "mount": "floor",
+            "record_ids": [
+              "axis-floor-h40-d360-i320-o760-radial90-s180-ccw"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "axis-floor-h30-d300-i315-o820-radial90-s180-ccw",
+            "source": "shape",
+            "mount": "floor",
+            "record_ids": [
+              "axis-floor-h30-d300-i315-o820-radial90-s180-ccw"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "axis-floor-h80-d300-i280-o760-radial90-s180-ccw",
+            "source": "shape",
+            "mount": "floor",
+            "record_ids": [
+              "axis-floor-h80-d300-i280-o760-radial90-s180-ccw"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "axis-floor-h35-d150-i295-o895-radial90-s180-ccw",
+            "source": "shape",
+            "mount": "floor",
+            "record_ids": [
+              "axis-floor-h35-d150-i295-o895-radial90-s180-ccw"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "axis-floor-h40-d150-i300-o880-radial90-s180-ccw",
+            "source": "shape",
+            "mount": "floor",
+            "record_ids": [
+              "axis-floor-h40-d150-i300-o880-radial90-s180-ccw"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "axis-floor-h120-d100-i270-o880-radial90-s270-cw",
+            "source": "shape",
+            "mount": "floor",
+            "record_ids": [
+              "axis-floor-h120-d100-i270-o880-radial90-s270-cw"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "axis-overhead-h-940-d300-i200-o630-radial165-s90-cw",
+            "source": "shape",
+            "mount": "overhead",
+            "record_ids": [
+              "axis-overhead-h-940-d300-i200-o630-radial165-s90-cw"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "axis-overhead-h-820-d300-i380-o620-radial180-s90-cw",
+            "source": "shape",
+            "mount": "overhead",
+            "record_ids": [
+              "axis-overhead-h-820-d300-i380-o620-radial180-s90-cw"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "axis-overhead-h-820-d200-i270-o620-radial180-s90-cw",
+            "source": "shape",
+            "mount": "overhead",
+            "record_ids": [
+              "axis-overhead-h-820-d200-i270-o620-radial180-s90-cw"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "axis-overhead-h-900-d150-i80-o625-radial180-s90-cw",
+            "source": "shape",
+            "mount": "overhead",
+            "record_ids": [
+              "axis-overhead-h-900-d150-i80-o625-radial180-s90-cw"
+            ],
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "label": "分块方床",
+        "options": [
+          {
+            "id": "surround-floor-h120-d300-r90-tiles200-n10-rho450-a30-o0-x0-y0-radial-s5-v1-c3",
+            "source": "shape",
+            "mount": "floor",
+            "record_ids": [
+              "surround-floor-h120-d300-r90-tiles200-n10-rho450-a30-o0-x0-y0-radial-s5-v1-c3"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "surround-overhead-h-780-d300-r180-tiles200-n10-rho510-a0-o0-x0-y0-radial-s9-v1-c0",
+            "source": "shape",
+            "mount": "overhead",
+            "record_ids": [
+              "surround-overhead-h-780-d300-r180-tiles200-n10-rho510-a0-o0-x0-y0-radial-s9-v1-c0"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "surround-side-h-720-d300-r90-tiles200-n3-rho510-a-15-o0-x234-y-40-irregular-0_0_0.-40_0_0.40_0_0-s2-v1-c3",
+            "source": "shape",
+            "mount": "side",
+            "record_ids": [
+              "surround-side-h-720-d300-r90-tiles200-n3-rho510-a-15-o0-x234-y-40-irregular-0_0_0.-40_0_0.40_0_0-s2-v1-c3"
+            ],
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "label": "分块长方床",
+        "options": [
+          {
+            "id": "surround-floor-h120-d300-r90-tiles300-n10-rho510-a30-o0-x0-y0-radial-s5-v1-c3",
+            "source": "shape",
+            "mount": "floor",
+            "record_ids": [
+              "surround-floor-h120-d300-r90-tiles300-n10-rho510-a30-o0-x0-y0-radial-s5-v1-c3"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "surround-overhead-h-780-d100-r180-tiles300-n8-rho450-a15-o0-x0-y0-radial-s6-v1-c3",
+            "source": "shape",
+            "mount": "overhead",
+            "record_ids": [
+              "surround-overhead-h-780-d100-r180-tiles300-n8-rho450-a15-o0-x0-y0-radial-s6-v1-c3"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "surround-side-h-720-d220-r90-tiles300-n3-rho510-a-15-o0-x234-y-40-irregular-0_0_0.-40_0_0.40_-40_315-s2-v1-c3",
+            "source": "shape",
+            "mount": "side",
+            "record_ids": [
+              "surround-side-h-720-d220-r90-tiles300-n3-rho510-a-15-o0-x234-y-40-irregular-0_0_0.-40_0_0.40_-40_315-s2-v1-c3"
+            ],
+            "enabled": true
+          }
+        ]
+      }
+    ],
+    "surface": [
+      {
+        "label": "单层方床",
+        "options": [
+          {
+            "id": "growth-single-2b2f572c906ab70f318c",
+            "source": "curve",
+            "mount": "floor",
+            "record_ids": [
+              "growth-single-2b2f572c906ab70f318c"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "growth-single-240e7af99b338992ebb5",
+            "source": "curve",
+            "mount": "side",
+            "record_ids": [
+              "growth-single-240e7af99b338992ebb5"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "growth-single-80609eb72e6ed8c31531",
+            "source": "curve",
+            "mount": "overhead",
+            "record_ids": [
+              "growth-single-80609eb72e6ed8c31531"
+            ],
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "label": "单层长方床",
+        "options": [
+          {
+            "id": "growth-single-092ebf06b2e114a5b4fd",
+            "source": "curve",
+            "mount": "floor",
+            "record_ids": [
+              "growth-single-092ebf06b2e114a5b4fd"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "growth-single-c32331812e0a8477a962",
+            "source": "curve",
+            "mount": "side",
+            "record_ids": [
+              "growth-single-c32331812e0a8477a962"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "growth-single-1c96c3afa2d0b15f086c",
+            "source": "curve",
+            "mount": "overhead",
+            "record_ids": [
+              "growth-single-1c96c3afa2d0b15f086c"
+            ],
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "label": "长方床 · 底/中/顶",
+        "options": [
+          {
+            "id": "growth-height-ab175755e48a6e688cd2",
+            "source": "curve",
+            "mount": "floor",
+            "record_ids": [
+              "growth-height-ab175755e48a6e688cd2"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "growth-height-523c14c7d7242352c145",
+            "source": "curve",
+            "mount": "side",
+            "record_ids": [
+              "growth-height-523c14c7d7242352c145"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "growth-height-7591444a435dd93dd820",
+            "source": "curve",
+            "mount": "overhead",
+            "record_ids": [
+              "growth-height-7591444a435dd93dd820"
+            ],
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "label": "4块 150 mm · 坡度 30°",
+        "options": [
+          {
+            "id": "growth-tiled-49881fc9732aa7a539",
+            "source": "curve",
+            "mount": "floor",
+            "record_ids": [
+              "growth-tiled-49881fc9732aa7a539"
+            ],
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "label": "4块 200 mm · 坡度 30°",
+        "options": [
+          {
+            "id": "growth-tiled-b8b67fe2012831638e",
+            "source": "curve",
+            "mount": "floor",
+            "record_ids": [
+              "growth-tiled-b8b67fe2012831638e"
+            ],
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "label": "4块 200 mm · 坡度 15°",
+        "options": [
+          {
+            "id": "growth-tiled-b13e2a29b3214827c1",
+            "source": "curve",
+            "mount": "floor",
+            "record_ids": [
+              "growth-tiled-b13e2a29b3214827c1"
+            ],
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "label": "曲面三圈",
+        "options": [
+          {
+            "id": "floor-x+0-y+0-z+0-s1-surface_normal",
+            "source": "curve",
+            "mount": "floor",
+            "record_ids": [
+              "floor-x+0-y+0-z+0-s1-surface_normal"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "side-x+0-y+0-z+0-s1-surface_normal",
+            "source": "curve",
+            "mount": "side",
+            "record_ids": [
+              "side-x+0-y+0-z+0-s1-surface_normal"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "overhead-x+0-y+0-z+0-s1-surface_normal-bed_edge_vertical-b0-a0",
+            "source": "curve",
+            "mount": "overhead",
+            "record_ids": [
+              "overhead-x+0-y+0-z+0-s1-surface_normal-bed_edge_vertical-b0-a0"
+            ],
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "label": "放大曲面三圈",
+        "options": [
+          {
+            "id": "floor-size1.785714-x0-y0-z0-surface_normal-original_common-b4-a0",
+            "source": "curve",
+            "mount": "floor",
+            "record_ids": [
+              "floor-size1.785714-x0-y0-z0-surface_normal-original_common-b4-a0"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "side-size1.785714-x0-y0-z0-surface_normal-original_common-b4-a0",
+            "source": "curve",
+            "mount": "side",
+            "record_ids": [
+              "side-size1.785714-x0-y0-z0-surface_normal-original_common-b4-a0"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "overhead-size1.785714-x0-y0-z0-surface_normal-bed_edge_vertical-b0-a0",
+            "source": "curve",
+            "mount": "overhead",
+            "record_ids": [
+              "overhead-size1.785714-x0-y0-z0-surface_normal-bed_edge_vertical-b0-a0"
+            ],
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "label": "较大倾角三圈",
+        "options": [
+          {
+            "id": "floor-s2-spin270-bed_edge_vertical-a0",
+            "source": "curve",
+            "mount": "floor",
+            "record_ids": [
+              "floor-s2-spin270-bed_edge_vertical-a0"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "side-s2-spin270-bed_edge_vertical-a0",
+            "source": "curve",
+            "mount": "side",
+            "record_ids": [
+              "side-s2-spin270-bed_edge_vertical-a0"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "overhead-s2-spin270-bed_edge_vertical-a0",
+            "source": "curve",
+            "mount": "overhead",
+            "record_ids": [
+              "overhead-s2-spin270-bed_edge_vertical-a0"
+            ],
+            "enabled": true
+          }
+        ]
+      }
+    ]
+  }
+}
