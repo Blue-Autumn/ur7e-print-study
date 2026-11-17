@@ -1,0 +1,100 @@
+{
+  "schema": "six-r-dh-v1",
+  "id": "ur7e-nominal-demo",
+  "revision": "1",
+  "units": {
+    "length": "mm",
+    "angle": "rad"
+  },
+  "description": "UR7e nominal standard-DH example; kinematic skeleton",
+  "sources": [
+    {
+      "title": "Universal Robots DH parameters, UR5e / UR7e",
+      "url": "https://www.universal-robots.com/articles/ur/application-installation/dh-parameters-for-calculations-of-kinematics-and-dynamics/"
+    },
+    {
+      "title": "UR7e PolyScope 5.25 manual joint ranges",
+      "url": "https://www.universal-robots.com/manuals/EN/HTML/SW5_25/Content/prod-usr-man/complianceUR7e/H_g5_sections/appendix_g5/tech_spec_data_7e.htm"
+    }
+  ],
+  "joints": [
+    {
+      "name": "J1",
+      "type": "revolute",
+      "a_mm": 0,
+      "d_mm": 162.5,
+      "alpha_rad": 1.5707963267948966,
+      "offset_rad": 0,
+      "sign": 1,
+      "limits_rad": [
+        -6.283185307179586,
+        6.283185307179586
+      ]
+    },
+    {
+      "name": "J2",
+      "type": "revolute",
+      "a_mm": -425,
+      "d_mm": 0,
+      "alpha_rad": 0.0,
+      "offset_rad": 0,
+      "sign": 1,
+      "limits_rad": [
+        -6.283185307179586,
+        6.283185307179586
+      ]
+    },
+    {
+      "name": "J3",
+      "type": "revolute",
+      "a_mm": -392.2,
+      "d_mm": 0,
+      "alpha_rad": 0.0,
+      "offset_rad": 0,
+      "sign": 1,
+      "limits_rad": [
+        -2.792526803190927,
+        2.792526803190927
+      ]
+    },
+    {
+      "name": "J4",
+      "type": "revolute",
+      "a_mm": 0,
+      "d_mm": 133.3,
+      "alpha_rad": 1.5707963267948966,
+      "offset_rad": 0,
+      "sign": 1,
+      "limits_rad": [
+        -6.283185307179586,
+        6.283185307179586
+      ]
+    },
+    {
+      "name": "J5",
+      "type": "revolute",
+      "a_mm": 0,
+      "d_mm": 99.7,
+      "alpha_rad": -1.5707963267948966,
+      "offset_rad": 0,
+      "sign": 1,
+      "limits_rad": [
+        -6.283185307179586,
+        6.283185307179586
+      ]
+    },
+    {
+      "name": "J6",
+      "type": "revolute",
+      "a_mm": 0,
+      "d_mm": 99.6,
+      "alpha_rad": 0.0,
+      "offset_rad": 0,
+      "sign": 1,
+      "limits_rad": [
+        -6.283185307179586,
+        6.283185307179586
+      ]
+    }
+  ]
+}
