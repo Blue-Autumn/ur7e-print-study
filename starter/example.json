@@ -177,7 +177,7 @@
   "scene_sha256": "057513258e77f0498243f6edde594a721ebcdab46353c17fdef8a6ae48b8df1d",
   "solver": {
     "name": "dh-position-dls-1.0",
-    "source_sha256": "ebc4f20fc8092df47faad9aad6832f0c4baaecda2271f6c52e58a4fa5583749c",
+    "source_sha256": "0b959b58d19a69648674974a33f288ce20a8c7081c2a647f25379cb19d11e3ab",
     "task": "position_only",
     "orientation": "unconstrained"
   },

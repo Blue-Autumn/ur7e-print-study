@@ -5,7 +5,7 @@
 ## 先跑通
 
 1. 阅读 README，执行 `python run.py compute --out reproduced.json`，再执行 `python run.py serve --result reproduced.json`。
-2. 浏览器打开终端 URL，检查六轴骨架、关节表、TCP、播放/暂停、拖动、三处定位、旋转和缩放。
+2. 执行 `python run.py serve`，检查左侧连杆外形、右侧四个方案按钮、工件、关节表、TCP、播放/暂停、拖动、三处定位、旋转和缩放。地装、侧装、吊装为已存打印回放，短直线示例可由内置求解器复算。
 3. 保留原输入副本，换一个臂长、基座或 TCP 后重算。确认模型身份变化，逐节点 FK 核对通过，显示与输出均变化。任何改变都要重新计算对应轨迹、点云和面积。
 
 ## 集中索取的资料
@@ -47,6 +47,18 @@
 | `assessment.geometry` | 当前查看器固定为 `kinematic_skeleton` |
 | `samples[]` | 各节点的 `q_rad` 六维绝对角、`world_T_tcp`、要求可达时的 `target_xyz_mm`；首节点须匹配 `scene.start_q_rad` |
 | `collision_evidence` | 碰撞已检查时必须提供几何版本/哈希、算法、采样间距、对象对和出处；导入器只核对字段存在，不独立证明碰撞结论 |
+
+`assessment.geometry` 表示结果的求解/检查模型范围，查看器另按外形文件的机器人身份加载已配准网格。显示外形不改变碰撞检查状态。`scene.workpiece` 可选，含 `center_xy_mm`、`width_mm`、`depth_mm`、`height_mm`、`bottom_z_mm`。`samples[].printed_height_mm` 驱动当前已打印工件的轮廓高度，`samples[].stage` 显示阶段。`label` 可作为导入后的方案名称。
+
+## 连杆模型与方案接入
+
+查看器分为 `viewer.html`、`viewer.css`、`viewer.js`、`kinematics.js`、`mesh.js`。普通接入只改机器人、场景、结果、模型和 `catalog.json`。`catalog.json` 的 `plans[]` 使用唯一 `id`、`label`、`result` 相对路径，可附 `subtitle` 与 `description`。`visuals[]` 含相对 `url`、匹配的 `robot_sha256` 和文件原始字节 SHA-256 `sha256`。多个方案可以共用模型，机器人身份不匹配时显示骨架。导入新结果会新增按钮，切换时同步更新模型、轨迹、工件和结果表。
+
+模型接口为 `six-r-visual-v1`。顶层 `units` 固定 `mm`，`robot_sha256` 由 `run.fingerprint(robot)` 产生。`parts[]` 每项包含 `name`、`link_index`、`link_T_mesh`、`vertices_mm`、`triangles`、`color_rgb` 或逐面 `colors_rgb`。顶点为 N×3 数组，面为 M×3 零起始整数索引。`link_index=0` 为静态基座，1…6 分别随 DH 第1…6轴之后的坐标系运动。网格世界变换为 `world_T_link(q) × link_T_mesh`，网格顶点位于 mesh 局部系。多个几何可以绑定同一连杆。URDF 的 link/visual 原点要先换算到此标准 DH 约定。
+
+可用 `python run.py visual --parts my-parts.json --robot robot.json --out my-visual.json` 打包。`my-parts.json` 顶层含 `units: "mm"`、`sources` 和 `parts[]`，每项给出 `name`、`file`、`link_index`、`link_T_mesh`、可选 `color_rgb`。`file` 相对清单目录，可为 ASCII/二进制 STL 或含 `vertices_mm`、`triangles` 的 JSON。附带的 `mesh-packing/` 是可实际运行的打包示例。STL 没有单位字段，必须先确认尺寸并换算。显示网格限制总计 500,000 三角面，可在转换时简化。该过程不生成碰撞结论。
+
+用 `python run.py catalog result-a.json result-b.json --visual my-visual.json` 生成自己的清单，随后 `python run.py serve` 打开。外部求解器写好约定结果即可沿用整个界面。原 UR7e 三个打印示例只展示原归档角度，以名义模型复核 FK，未在共享版重跑原生碰撞。保留其 `provenance` 和来源说明。
 
 哈希由 `run.fingerprint` 产生。递归排序对象键，数值变为 `{"$number":"尾数e指数"}`，尾数采用 12 位小数的科学计数法，指数为带可选负号的十进制整数，其余保留，UTF-8 紧凑 JSON 后取 SHA-256。Python 与浏览器均实现此规则。它用于防止误配数据，不构成签名或真实性证明。
 

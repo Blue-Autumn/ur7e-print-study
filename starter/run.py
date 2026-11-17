@@ -3,6 +3,7 @@ import argparse
 import hashlib
 import json
 import math
+import os
 from pathlib import Path
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from functools import partial
@@ -223,8 +224,16 @@ def main():
     ingest = sub.add_parser('import')
     ingest.add_argument('input', type=Path)
     ingest.add_argument('--out', type=Path, default=ROOT/'imported.json')
+    visual = sub.add_parser('visual')
+    visual.add_argument('--parts', type=Path, required=True)
+    visual.add_argument('--robot', type=Path, default=ROOT/'robot.json')
+    visual.add_argument('--out', type=Path, default=ROOT/'visual.json')
+    catalog = sub.add_parser('catalog')
+    catalog.add_argument('results', type=Path, nargs='+')
+    catalog.add_argument('--visual', type=Path, action='append', default=[])
+    catalog.add_argument('--out', type=Path, default=ROOT/'catalog.json')
     server = sub.add_parser('serve')
-    server.add_argument('--result', type=Path, default=ROOT/'example.json')
+    server.add_argument('--result', type=Path)
     server.add_argument('--port', type=int, default=8766)
     args = parser.parse_args()
     if args.command == 'compute':
@@ -235,14 +244,47 @@ def main():
         result = read(args.input)
         print(validate_result(result))
         save(args.out, result)
+    elif args.command == 'visual':
+        from visual import build_visual
+        robot = read(args.robot)
+        scene = dict(schema='six-r-scene-v1', world_T_base=identity(), flange_T_tcp=identity(),
+                     start_q_rad=[sum(j['limits_rad'])/2 for j in robot['joints']])
+        validate_inputs(robot, scene)
+        result = build_visual(args.parts, fingerprint(robot), rigid)
+        save(args.out, result)
+        print(args.out, len(result['parts']), 'link meshes')
+    elif args.command == 'catalog':
+        plans = []
+        for index, path in enumerate(args.results):
+            result = read(path)
+            validate_result(result)
+            relative = Path(os.path.relpath(path.resolve(), args.out.parent.resolve())).as_posix()
+            plans.append(dict(id=f'plan-{index}', label=result.get('label', path.stem), result=relative))
+        visuals = []
+        for path in args.visual:
+            visual = read(path)
+            if visual['schema'] != 'six-r-visual-v1':
+                raise ValueError('Unknown visual schema.')
+            relative = Path(os.path.relpath(path.resolve(), args.out.parent.resolve())).as_posix()
+            visuals.append(dict(url=relative, robot_sha256=visual['robot_sha256'],
+                                sha256=hashlib.sha256(path.read_bytes()).hexdigest()))
+        save(args.out, dict(schema='six-r-catalog-v1', plans=plans, visuals=visuals))
+        print(args.out, len(plans), 'plans')
     else:
-        result = read(args.result)
-        print(validate_result(result), flush=True)
-        payload = json.dumps(result, ensure_ascii=False, allow_nan=False).encode('utf-8')
+        routes = {}
+        if args.result:
+            result = read(args.result)
+            print(validate_result(result), flush=True)
+            existing = read(ROOT/'catalog.json')
+            single = dict(schema='six-r-catalog-v1', plans=[dict(id='selected', label=result.get('label',args.result.stem), result='example.json')],
+                          visuals=[v for v in existing.get('visuals',[]) if v['robot_sha256']==result['robot_sha256']])
+            routes = {'/example.json': result, '/catalog.json': single}
 
         class Handler(SimpleHTTPRequestHandler):
             def do_GET(self):
-                if self.path.split('?')[0] == '/example.json':
+                path = self.path.split('?')[0]
+                if path in routes:
+                    payload = json.dumps(routes[path], ensure_ascii=False, allow_nan=False).encode('utf-8')
                     self.send_response(200)
                     self.send_header('Content-Type', 'application/json; charset=utf-8')
                     self.send_header('Content-Length', str(len(payload)))

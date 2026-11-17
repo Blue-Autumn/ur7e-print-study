@@ -1,113 +1,15 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>六轴机械臂 · 最小共享版</title>
-<style>
-*{box-sizing:border-box}body{margin:0;color:#193b38;background:#f2f5f3;font:15px/1.5 system-ui,"Microsoft YaHei",sans-serif}main{max-width:1500px;margin:auto;padding:20px}h1{font-size:26px;margin:0 0 5px}p{margin:5px 0 14px}a{color:#006956}section{background:white;border:1px solid #c9d8d1;border-radius:8px;padding:16px;min-width:0}.workspace{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(300px,1fr);gap:16px}canvas{display:block;width:100%;height:540px;touch-action:none;cursor:grab}button,input{font:inherit}button{padding:6px 12px;background:white;color:inherit;border:1px solid #a2b9ae;border-radius:5px;cursor:pointer}button:disabled{opacity:.5}.controls{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.controls input{flex:1;min-width:80px}table{width:100%;border-collapse:collapse;margin:8px 0 20px;font-variant-numeric:tabular-nums}td,th{text-align:left;border-bottom:1px solid #dde5e0;padding:6px;overflow-wrap:anywhere}th{font-weight:600}output{min-width:60px}#status{padding:9px;background:#e8f2ec}#error{color:#8c251e;white-space:pre-wrap}small{color:#526d64}code{overflow-wrap:anywhere}.key{display:flex;gap:18px;color:#50675e}.key span:first-child{color:#087a69}.key span:last-child{color:#cf7724}@media(max-width:850px){.workspace{grid-template-columns:1fr}canvas{height:420px}main{padding:10px}}
-</style></head><body><main><header><h1>六轴机械臂 · 参数与轨迹</h1><p>拖动旋转视角，滚轮缩放。模型以运动学骨架显示。<a href="README.md">使用说明</a> · <a href="AGENTS.md">AI 接入说明</a></p></header>
-<p id="error" role="alert"></p><div class="workspace"><section><canvas id="view" aria-label="可旋转的机械臂运动学骨架与 TCP 路径"></canvas><p class="key"><span>机械臂与工具坐标轴</span><span>TCP 路径</span></p>
+<title>机械臂方案比较与轨迹回放</title><link rel="stylesheet" href="viewer.css"></head>
+<body><main><header><h1>机械臂方案比较与轨迹回放</h1><nav><a href="https://github.com/Blue-Autumn/ur7e-print-study/tree/main/starter">接入与使用说明</a></nav></header>
+<p id="error" role="alert" hidden></p>
+<div class="workspace"><section class="scenePanel" aria-label="三维视图与回放">
+<div class="toolbar"><button id="fit">适合视图</button><button id="front">正视</button><button id="topview">俯视</button><label><input type="checkbox" id="showPath" checked>轨迹</label><label><input type="checkbox" id="showSkeleton">关节骨架</label><span id="geometryNote"></span></div>
+<div class="viewport"><canvas id="mesh" aria-label="机械臂连杆外形"></canvas><canvas id="view" aria-label="拖动旋转、滚轮缩放的三维视图"></canvas><p id="loading" role="status">正在载入方案…</p></div>
 <div class="controls"><button id="play" disabled>播放</button><input id="progress" aria-label="轨迹节点" type="range" min="0" value="0" step="1" disabled><output id="frame"></output></div>
-<div class="controls" style="margin-top:10px"><button id="first" disabled>起点</button><button id="middle" disabled>中点</button><button id="last" disabled>终点</button><button id="fit" disabled>适合视图</button><label>导入结果 <input id="file" type="file" accept=".json,application/json"></label></div></section>
-<section><p id="status" role="status">正在核对模型和关节轨迹…</p><table aria-label="模型与结果"><tbody id="facts"></tbody></table><table aria-label="关节角"><thead><tr><th>关节</th><th>绝对角度 / °</th></tr></thead><tbody id="joints"></tbody></table><p id="tcp"></p><small>显示插值用于播放。连续关节差仅检查已存相邻节点；碰撞状态与求解来源见上表。</small><details><summary>模型与求解身份</summary><p id="identity"></p></details></section></div></main>
-<script>
-'use strict';
-const el=id=>document.getElementById(id),canvas=el('view'),ctx=canvas.getContext('2d');
-const mul=(a,b)=>a.map(row=>b[0].map((_,j)=>row.reduce((sum,v,k)=>sum+v*b[k][j],0)));
-const pos=t=>[t[0][3],t[1][3],t[2][3]];
-function fk(robot,scene,q){
- let t=scene.world_T_base,chain=[t];
- robot.joints.forEach((j,i)=>{
-  const angle=j.sign*q[i]+j.offset_rad,c=Math.cos(angle),s=Math.sin(angle),ca=Math.cos(j.alpha_rad),sa=Math.sin(j.alpha_rad);
-  t=mul(t,[[c,-s*ca,s*sa,j.a_mm*c],[s,c*ca,-c*sa,j.a_mm*s],[0,sa,ca,j.d_mm],[0,0,0,1]]);chain.push(t);
- });return {chain,tcp:mul(t,scene.flange_T_tcp)};
-}
-function canonical(value){
- if(typeof value==='number'){if(!Number.isFinite(value))throw Error('数值必须有限');const [m,e]=value.toExponential(12).split('e');return {$number:m+'e'+Number(e)}}
- if(Array.isArray(value))return value.map(canonical);
- if(value&&typeof value==='object')return Object.fromEntries(Object.keys(value).sort().map(k=>[k,canonical(value[k])]));
- return value;
-}
-async function hash(value){const bytes=new TextEncoder().encode(JSON.stringify(canonical(value)));const result=await crypto.subtle.digest('SHA-256',bytes);return Array.from(new Uint8Array(result),x=>x.toString(16).padStart(2,'0')).join('')}
-function rigid(t){
- if(!Array.isArray(t)||t.length!==4||t.some(row=>!Array.isArray(row)||row.length!==4||row.some(x=>!Number.isFinite(x))))throw Error('变换矩阵格式错误');
- if(t[3].some((x,i)=>Math.abs(x-[0,0,0,1][i])>1e-8))throw Error('矩阵末行错误');
- for(let i=0;i<3;i++)for(let j=0;j<3;j++)if(Math.abs(t.reduce((s,row,k)=>s+(k<3?row[i]*row[j]:0),0)-(i===j?1:0))>1e-6)throw Error('旋转矩阵错误');
- const det=t[0].slice(0,3).reduce((s,x,j)=>s+x*(t[1][(j+1)%3]*t[2][(j+2)%3]-t[1][(j+2)%3]*t[2][(j+1)%3]),0);if(Math.abs(det-1)>1e-6)throw Error('坐标系必须右手');
-}
-async function validate(data){
- if(data.schema!=='six-r-result-v1'||data.robot.schema!=='six-r-dh-v1'||data.scene.schema!=='six-r-scene-v1')throw Error('结果接口版本不匹配');
- if(data.robot.units.length!=='mm'||data.robot.units.angle!=='rad'||data.robot.joints.length!==6)throw Error('需要六轴、毫米和弧度');
- for(const j of data.robot.joints){if(j.type!=='revolute'||![1,-1].includes(j.sign)||!['a_mm','d_mm','alpha_rad','offset_rad'].every(k=>Number.isFinite(j[k]))||j.limits_rad.length!==2||!j.limits_rad.every(Number.isFinite)||j.limits_rad[0]>=j.limits_rad[1])throw Error('DH 或限位错误')}
- rigid(data.scene.world_T_base);rigid(data.scene.flange_T_tcp);
- if(await hash(data.robot)!==data.robot_sha256||await hash(data.scene)!==data.scene_sha256)throw Error('模型或工具/场景身份不匹配，请重新计算');
- if(!data.solver.name||!data.solver.source_sha256)throw Error('缺少求解器版本');
- const assessment=data.assessment;
- if(!['sampled_pass','not_checked'].includes(assessment.reachability)||!['sampled_continuity_pass','not_checked'].includes(assessment.path)||!['not_checked','sampled_clear','hit'].includes(assessment.collision)||assessment.geometry!=='kinematic_skeleton')throw Error('判定状态错误');
- if(assessment.collision!=='not_checked'&&!data.collision_evidence)throw Error('缺少碰撞检查出处');
- if(!Array.isArray(data.samples)||data.samples.length<2||data.samples.length>100000)throw Error('节点数量错误');
- let maximum=0,previous=null;
- for(const sample of data.samples){
-  const q=sample.q_rad;if(q.length!==6||!q.every((x,i)=>Number.isFinite(x)&&x>=data.robot.joints[i].limits_rad[0]&&x<=data.robot.joints[i].limits_rad[1]))throw Error('关节角越限或格式错误');
-  rigid(sample.world_T_tcp);const actual=fk(data.robot,data.scene,q).tcp;
-  if(actual.some((row,i)=>row.some((x,j)=>Math.abs(x-sample.world_T_tcp[i][j])>1e-5)))throw Error('FK 与轨迹/模型不一致');
-  if(assessment.reachability==='sampled_pass'){
-   if(sample.target_xyz_mm.length!==3||!sample.target_xyz_mm.every(Number.isFinite))throw Error('目标坐标错误');
-   const error=Math.hypot(...pos(actual).map((x,i)=>x-sample.target_xyz_mm[i]));maximum=Math.max(maximum,error);if(error>.05)throw Error('目标误差超过 0.05 mm');
-  }
-  if(previous&&assessment.path==='sampled_continuity_pass'&&q.some((x,i)=>Math.abs(x-previous[i])>.1))throw Error('相邻绝对关节角变化超过 0.1 rad');previous=q;
- }
- if(data.samples[0].q_rad.some((x,i)=>Math.abs(x-data.scene.start_q_rad[i])>1e-8))throw Error('首节点与场景初姿不一致');
- return maximum;
-}
-let data=null,index=0,playing=false,last=0,az=.8,elev=.45,zoom=1,center=[0,0,0],radius=600,loadId=0;
-function pause(){playing=false;el('play').textContent='播放'}
-function fit(){
- const lo=[Infinity,Infinity,Infinity],hi=[-Infinity,-Infinity,-Infinity];
- for(const sample of data.samples){
-  const f=fk(data.robot,data.scene,sample.q_rad);
-  for(const point of [...f.chain.map(pos),pos(f.tcp)]){
-   point.forEach((x,i)=>{lo[i]=Math.min(lo[i],x);hi[i]=Math.max(hi[i],x)});
-  }
- }
- center=lo.map((x,i)=>(x+hi[i])/2);radius=Math.max(100,Math.hypot(...hi.map((x,i)=>x-lo[i]))/2);zoom=1;draw();
-}
-function draw(){
- if(!data)return;const width=canvas.clientWidth,height=canvas.clientHeight,dpr=Math.min(devicePixelRatio,2);canvas.width=width*dpr;canvas.height=height*dpr;ctx.scale(dpr,dpr);ctx.fillStyle='#fafcfb';ctx.fillRect(0,0,width,height);
- const scale=Math.min(width,height)*.35/radius*zoom;
- function project(point){const [x,y,z]=point.map((x,i)=>x-center[i]),r=x*Math.cos(az)+y*Math.sin(az);return [width/2+(-x*Math.sin(az)+y*Math.cos(az))*scale,height*.53-(-r*Math.sin(elev)+z*Math.cos(elev))*scale]}
- function line(points,color,size){ctx.strokeStyle=color;ctx.lineWidth=size;ctx.lineCap='round';ctx.beginPath();points.forEach((p,i)=>{const [x,y]=project(p);if(i)ctx.lineTo(x,y);else ctx.moveTo(x,y)});ctx.stroke()}
- const robot=data.robot,scene=data.scene,a=Math.floor(index),b=Math.min(data.samples.length-1,a+1),u=index-a,q=data.samples[a].q_rad.map((v,j)=>v+(data.samples[b].q_rad[j]-v)*u),f=fk(robot,scene,q);
- const floor=scene.world_T_base[2][3],span=radius*1.2;
- for(let n=-5;n<=5;n++){const d=n*span/5;line([[center[0]-span,center[1]+d,floor],[center[0]+span,center[1]+d,floor]],'#dfe7e2',1);line([[center[0]+d,center[1]-span,floor],[center[0]+d,center[1]+span,floor]],'#dfe7e2',1)}
- line(data.samples.map(s=>pos(s.world_T_tcp)),'#d38436',2);
- const joints=f.chain.map(pos);line(joints,'#167d72',8);line([joints.at(-1),pos(f.tcp)],'#415d68',5);
- joints.forEach(p=>{const [x,y]=project(p);ctx.beginPath();ctx.arc(x,y,5,0,2*Math.PI);ctx.fillStyle='#244d49';ctx.fill()});
- for(const [j,color] of ['#b64d42','#39854b','#386cbe'].entries()){const p=pos(f.tcp);line([p,p.map((v,i)=>v+f.tcp[i][j]*radius*.18)],color,2)}
- el('frame').textContent=(Math.floor(index)+1)+' / '+data.samples.length;el('progress').value=Math.floor(index);
- const rows=el('joints').rows;q.forEach((v,j)=>rows[j].cells[1].textContent=(v*180/Math.PI).toFixed(2));
- el('tcp').textContent='TCP 世界坐标 ('+pos(f.tcp).map(x=>x.toFixed(2)).join(', ')+') mm';
- canvas.dataset.robot=data.robot_sha256;canvas.dataset.node=String(Math.floor(index));canvas.dataset.tcp=JSON.stringify(pos(f.tcp));canvas.dataset.links='6';
-}
-function fact(label,value){const row=el('facts').insertRow();row.insertCell().textContent=label;row.insertCell().textContent=value}
-async function load(value){
- const ticket=++loadId;pause();data=null;ctx.clearRect(0,0,canvas.width,canvas.height);canvas.dataset.ready='false';el('facts').replaceChildren();el('joints').replaceChildren();el('identity').textContent='';el('tcp').textContent='';el('error').textContent='';
- for(const id of ['play','progress','first','middle','last','fit'])el(id).disabled=true;
- try{
-  const maximum=await validate(value);if(ticket!==loadId)return;data=value;index=0;
-  el('status').textContent='模型身份与逐节点 FK 核对通过';
-  fact('机械臂',data.robot.id+' · '+data.robot.revision);fact('求解器',data.solver.name);fact('任务',data.solver.task+' · '+data.solver.orientation);
-  fact('点位可达',data.assessment.reachability==='sampled_pass'?'已存节点通过':'未检查');fact('路径连续性',data.assessment.path==='sampled_continuity_pass'?'相邻节点关节差通过':'未检查');fact('碰撞',{not_checked:'未检查',sampled_clear:'采样未见碰撞（导入者提供）',hit:'检出碰撞（导入者提供）'}[data.assessment.collision]);fact('几何','运动学骨架');fact('最大目标误差',maximum.toFixed(5)+' mm');
-  for(const joint of data.robot.joints){const row=el('joints').insertRow();row.insertCell().textContent=joint.name;row.insertCell()}
-  el('identity').textContent='robot '+data.robot_sha256+' · scene '+data.scene_sha256+' · solver '+data.solver.source_sha256;
-  el('progress').max=data.samples.length-1;for(const id of ['play','progress','first','middle','last','fit'])el(id).disabled=false;
-  fit();canvas.dataset.ready='true';
- }catch(error){if(ticket===loadId){el('error').textContent=error.message;el('status').textContent='结果校验未通过'}}
-}
-el('play').onclick=()=>{playing=!playing;if(index>=data.samples.length-1)index=0;el('play').textContent=playing?'暂停':'播放';last=performance.now()};
-el('progress').oninput=e=>{pause();index=+e.target.value;draw()};
-for(const [id,part] of [['first',0],['middle',.5],['last',1]])el(id).onclick=()=>{pause();index=Math.round(part*(data.samples.length-1));draw()};el('fit').onclick=fit;
-el('file').onchange=async e=>{if(e.target.files[0]){try{await load(JSON.parse(await e.target.files[0].text()))}catch(error){await load({})}}};
-let drag=null;canvas.onpointerdown=e=>{drag=[e.clientX,e.clientY];canvas.setPointerCapture(e.pointerId)};canvas.onpointerup=()=>drag=null;canvas.onpointermove=e=>{if(drag){az+=(e.clientX-drag[0])*.008;elev=Math.max(-1.4,Math.min(1.4,elev+(e.clientY-drag[1])*.008));drag=[e.clientX,e.clientY];draw()}};
-canvas.addEventListener('wheel',e=>{e.preventDefault();zoom=Math.max(.2,Math.min(5,zoom*Math.exp(-e.deltaY*.001)));draw()},{passive:false});new ResizeObserver(draw).observe(canvas);
-function animate(now){if(playing&&data){index=Math.min(data.samples.length-1,index+(now-last)*.008);draw();if(index>=data.samples.length-1)pause()}last=now;requestAnimationFrame(animate)}requestAnimationFrame(animate);
-fetch('example.json').then(r=>{if(!r.ok)throw Error('样例读取失败');return r.json()}).then(load).catch(e=>{el('error').textContent=e.message+'；请按 README 启动本机网页服务。'});
-</script></body></html>
+<div class="controls jumps"><button id="first" disabled>起点</button><button id="middle" disabled>中点</button><button id="last" disabled>终点</button><span id="stage"></span></div><p id="tcp"></p>
+</section>
+<aside><section><h2>选择方案</h2><div id="plans" role="group" aria-label="可用方案"></div><p id="planDescription"></p></section>
+<section><h2 id="planTitle">当前方案</h2><p id="status" role="status"></p><table aria-label="方案参数与结果"><tbody id="facts"></tbody></table><details><summary>六轴关节角</summary><table aria-label="关节角"><thead><tr><th>关节</th><th>绝对角度 / °</th></tr></thead><tbody id="joints"></tbody></table></details></section>
+<section class="imports"><details><summary>接入自己的结果与模型</summary><p>可一次选择多条结果 JSON，新增方案按钮；外形网格使用独立的 visual JSON。</p><label>结果 <input id="file" type="file" multiple accept=".json,application/json"></label><label>外形 <input id="visualFile" type="file" accept=".json,application/json"></label><p id="importStatus" role="status"></p><details><summary>模型与求解身份</summary><p id="identity"></p></details></details></section>
+</aside></div></main><script type="module" src="viewer.js"></script></body></html>

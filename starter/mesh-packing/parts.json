@@ -1,0 +1,44 @@
+{
+  "units": "mm",
+  "sources": [
+    "Procedural 20 mm cube for validating the mesh import interface"
+  ],
+  "parts": [
+    {
+      "name": "flange_test_cube",
+      "file": "flange-cube.stl",
+      "link_index": 6,
+      "link_T_mesh": [
+        [
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          1
+        ]
+      ],
+      "color_rgb": [
+        57,
+        139,
+        156
+      ]
+    }
+  ]
+}
